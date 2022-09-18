@@ -10,12 +10,12 @@ const app = express();
 const port = 3000;
 
 
-app.use('/',admin_login);
 app.use('/',user_register);
 app.use('/',user_list);
 app.use('/',delete_user);
 app.use('/',update_user);
 app.use('/',user_login);
+app.use('/',admin_login);
 
 app.listen(port,() =>{
     console.log(`Server started on port ${port}`);

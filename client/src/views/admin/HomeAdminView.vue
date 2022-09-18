@@ -91,7 +91,7 @@ export default{
     },
     created(){
        if(getCookie("adminToken") == ""){
-        this.$router.push('/adm-login');
+        this.$router.push('/login');
        }
        else{
 
@@ -127,7 +127,7 @@ export default{
     methods: {
         logout(){
             delete_cookie("adminToken");
-            this.$router.push('/adm-login');
+            this.$router.push('/login');
         }  
     },
     

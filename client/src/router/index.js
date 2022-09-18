@@ -1,20 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeAdminView from '../views/admin/HomeAdminView.vue'
-import LoginAdminView from '../views/admin/LoginAdminView.vue'
 import ApprovedAdminView from '../views/admin/ApprovedAdminView.vue'
 import PendingAdminView from '../views/admin/PendingAdminView.vue'
 import RegisterUserView from '../views/user/RegisterUserView.vue'
-import LoginUserView from '../views/user/LoginUserView.vue'
+import LoginView from '../views/user/LoginView.vue'
 import HomeUserView from '../views/user/HomeUserView.vue'
 
 
 
 const routes = [
-  {
-    path : '/adm-login',
-    name : 'adm-login',
-    component : LoginAdminView
-  },
   {
     path :'/adm-home',
     name : 'adm-home',
@@ -38,7 +32,7 @@ const routes = [
   {
     path:'/login',
     name :'login',
-    component : LoginUserView
+    component : LoginView
   },{
     path:'/home',
     name :'home',

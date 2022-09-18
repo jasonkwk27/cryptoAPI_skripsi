@@ -40,7 +40,7 @@
                 });
                 axios({
                 method: 'post',
-                url: 'http://localhost:3000/api/user/login',
+                url: 'http://localhost:3000/api/admin/login',
                 data: data,
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -48,13 +48,31 @@
                 })
                 .then((res)=>{
                     if(res.data.status == 1){
-                        document.cookie = `userToken=${res.data.token}`;
-                        this.$router.push('/home');
+                        document.cookie = `adminToken=${res.data.token}`;
+                        this.$router.push('/adm-home');
+
                     }
                     else{
-                        this.credential_status = true;
+                        axios({
+                        method: 'post',
+                        url: 'http://localhost:3000/api/user/login',
+                        data: data,
+                        headers: {
+                            'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                        }
+                        })
+                        .then((res)=>{
+                            if(res.data.status == 1){
+                                document.cookie = `userToken=${res.data.token}`;
+                                this.$router.push('/home');
+
+                            }
+                            else{
+                                this.credential_status = true;
+                            }
+
+                        })
                     }
-                    console.log(res);
 
                 })
                     

@@ -37,10 +37,6 @@ router.post('',urlencodedParser,(req,res)=>{
                 status : 0
             };
         }
-        console.log(apiResponse);
-        console.log(process.env.TOKEN_SECRET);
-
-        console.log(token);
         res.send(JSON.stringify(apiResponse));
     })
 

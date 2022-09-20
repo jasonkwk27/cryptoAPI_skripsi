@@ -16,7 +16,6 @@ router.post('',urlencodedParser,(req,res)=>{
         }
         if(result.length == 1){
             message = "Username already taken!";
-            console.log(message);
             res.send(message);
         }
         else {
@@ -28,7 +27,6 @@ router.post('',urlencodedParser,(req,res)=>{
                         console.log(err);
                     }
                     message = "Registration form has been submitted! Please wait for admin approval";
-                    console.log(message);
                     res.send(message);
             })
         }

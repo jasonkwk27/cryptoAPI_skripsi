@@ -11,8 +11,7 @@ app.use(cors());
 dotenv.config();
 
 var router = express.Router();
-
-router.get('/',urlencodedParser,(req,res)=>{
+router.post('/',urlencodedParser,(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !");
     }
@@ -23,7 +22,7 @@ router.get('/',urlencodedParser,(req,res)=>{
                 return res.send(err.message);
             }
             else{
-                sql.query(`SELECT * FROM user WHERE username = ? AND password = ?`,[jwt.username,jwt.password],(err,result)=>{
+                sql.query(`INSERT INTO api_info (iduser_api,apiKey,apiSecretKey) VALUES (?,?,?)`,[jwt.iduser,req.body.apiKey,req.body.apiSecretKey],(err,result)=>{
                     if(err){
                         console.log(err);
                     }
@@ -32,11 +31,14 @@ router.get('/',urlencodedParser,(req,res)=>{
                 })
             }
         
+
         });
     }
 
+    
 });
 
-app.use('/api/user/user-info',router);
+
+app.use('/api/user/add-api',router);
 
 export default app;

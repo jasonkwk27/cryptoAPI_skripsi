@@ -21,6 +21,7 @@ router.post('/',urlencodedParser,(req,res)=>{
         }
 
         loginInput = {
+            iduser : result[0].iduser,
             username:req.body.username,
             password:req.body.password
         }

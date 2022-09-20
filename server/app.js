@@ -6,6 +6,9 @@ import delete_user from './user/delete-user.js'
 import update_user from './user/update-user.js'
 import user_login from './user/login.js'
 import user_info from './user/user-info.js'
+import api_info from './user/api-info.js'
+import add_api from './user/add-api.js'
+import delete_api from './user/delete-api.js'
 
 const app = express();
 const port = 3000;
@@ -17,7 +20,11 @@ app.use('/',delete_user);
 app.use('/',update_user);
 app.use('/',user_login);
 app.use('/',admin_login);
-app.use('/',user_info)
+app.use('/',user_info);
+app.use('/',api_info);
+app.use('/',add_api);
+app.use('/',delete_api);
+
 
 app.listen(port,() =>{
     console.log(`Server started on port ${port}`);

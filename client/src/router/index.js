@@ -5,6 +5,9 @@ import PendingAdminView from '../views/admin/PendingAdminView.vue'
 import RegisterUserView from '../views/user/RegisterUserView.vue'
 import LoginView from '../views/user/LoginView.vue'
 import HomeUserView from '../views/user/HomeUserView.vue'
+import PersonalInfoView from '../views/user/PersonalInfoView.vue'
+import AddApiView from '../views/user/AddApiView.vue'
+import ApiInfoView from '../views/user/ApiInfoView.vue'
 
 
 
@@ -33,10 +36,26 @@ const routes = [
     path:'/login',
     name :'login',
     component : LoginView
-  },{
+  },
+  {
     path:'/home',
     name :'home',
     component : HomeUserView
+  },
+  {
+    path:'/personal-info',
+    name :'personal-info',
+    component : PersonalInfoView
+  },
+  {
+    path:'/add-api',
+    name :'add-api',
+    component : AddApiView
+  },
+  {
+    path:'/api-info',
+    name :'api-info',
+    component : ApiInfoView
   }
 ]
 

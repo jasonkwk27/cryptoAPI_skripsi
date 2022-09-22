@@ -46,7 +46,7 @@
 
         <div class = "flex-auto basis-10/12">
             <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3 ">
-                <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12">Pending Approvals</h1>  
+                <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12 ml-28 ">Pending Approvals</h1>  
                 <a href = "#" @click="logout()">
                 <div class = " flex items-center hover:bg-[#0F4C75] rounded-md">
                     <div class = "mr-1 p-3">

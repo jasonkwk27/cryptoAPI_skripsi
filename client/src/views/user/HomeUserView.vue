@@ -98,7 +98,7 @@
 
         <div class = "flex-auto basis-10/12">
             <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3 ">
-                <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12">Home</h1>  
+                <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12  ml-28 ">Home</h1>  
                 <a href = "#" @click="logout()">
                 <div class = " flex items-center hover:bg-[#0F4C75] rounded-md">
                     <div class = "mr-1 p-3">
@@ -135,7 +135,13 @@ export default{
         }
     },
     created(){
-      
+        if(getCookie("userToken") == ""){
+        this.$router.push('/login');
+        }
+        else {
+            console.log("")
+        }
+       
     },
     methods: {
         logout(){
@@ -149,6 +155,22 @@ export default{
 function delete_cookie(name) {
   document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   
+}
+
+function getCookie(param){
+            let name = param + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
 }
 
 </script>

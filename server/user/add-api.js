@@ -22,7 +22,7 @@ router.post('/',urlencodedParser,(req,res)=>{
                 return res.send(err.message);
             }
             else{
-                sql.query(`INSERT INTO api_info (iduser_api,apiKey,apiSecretKey) VALUES (?,?,?)`,[jwt.iduser,req.body.apiKey,req.body.apiSecretKey],(err,result)=>{
+                sql.query(`INSERT INTO api_info (iduser_api,apiKey,apiSecretKey,description) VALUES (?,?,?,?)`,[jwt.iduser,req.body.apiKey,req.body.apiSecretKey,req.body.description],(err,result)=>{
                     if(err){
                         console.log(err);
                     }

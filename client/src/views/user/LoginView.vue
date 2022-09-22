@@ -1,6 +1,6 @@
 <template>
 <form @submit.prevent = "handleSubmit" class = "">
-    <div class = "login bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-screen h-screen flex justify-center">
+    <div class = "login bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-screen h-screen flex">
         <div class = "form  bg-[#1B262C] w-1/4 m-auto text-center rounded-lg shadow-xl">
 
                                 <h1 class = "text-[#BBE1FA] font-bold text-2xl mt-8">Login</h1>

@@ -97,10 +97,10 @@
 
 
         <div class = "flex-auto basis-10/12">
-            <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3 ">
-                <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12">Add API Key</h1>  
+            <div class = "flex items-center bg-[#1B262C] rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3">
+                <h1 class = "text-[#BBE1FA] text-3xl p-3 ml-28 w-full text-center">Add API Key</h1>  
                 <a href = "#" @click="logout()">
-                <div class = " flex items-center hover:bg-[#0F4C75] rounded-md">
+                <div class = "flex items-center hover:bg-[#0F4C75] rounded-md">
                     <div class = "mr-1 p-3">
                     <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="20" height="20"><title>11-arrow</title><path d="M22.763,10.232l-4.95-4.95L16.4,6.7,20.7,11H6.617v2H20.7l-4.3,4.3,1.414,1.414,4.95-4.95a2.5,2.5,0,0,0,0-3.536Z" fill="#BBE1FA"/><path d="M10.476,21a1,1,0,0,1-1,1H3a1,1,0,0,1-1-1V3A1,1,0,0,1,3,2H9.476a1,1,0,0,1,1,1V8.333h2V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V21a3,3,0,0,0,3,3H9.476a3,3,0,0,0,3-3V15.667h-2Z" fill="#BBE1FA"/></svg>
                     </div>
@@ -108,12 +108,19 @@
                         <h1 class = "text-[#BBE1FA] text-l">Logout</h1>
                     </div>
                 </div>
-                </a> 
+                </a>
             </div>
 
-            <div class = "bg-[#1B262C] rounded-lg shadow-xl h-fit w-fit mt-3 mr-3 mb-3">
+            <form @submit.prevent = "handleSubmit" class = "">
+            <div class = "bg-[#1B262C] overflow-hidden rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3">
+                    <input type="text"  class = "block w-1/3 mt-8 mx-auto mb-5 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl" placeholder="Enter API Key" v-model="apiKey" name="apiKey" required>
+                    <input type="text"  class = "block w-1/3 mx-auto my-5 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl" placeholder="Enter API Secret Key" v-model="apiSecretKey" name="apiSecretKey" required>
+                    <input type="text"  class = "block w-1/2 mx-auto  mt-5 mb-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl" placeholder="Enter Description" v-model="description" name="description" required>
+                    <h1 v-if ="submission_status" class = "mt-5 text-[#BBE1FA] text-center">API has been added successfully!</h1>
+                    <button type="submit" class = "block my-8 mx-auto p-3 w-1/6 bg-[#3282B8] text-[#1B262C] font-bold rounded-full">Add API Key</button>
 
             </div>
+            </form>
 
         </div>
 
@@ -127,21 +134,48 @@
 </template>
 
 <script>
+import axios from 'axios';
+import qs from 'qs'
 export default{
     data(){
         return{
             api_clicked : false,
-            ts_clicked : false
+            ts_clicked : false,
+            apiKey : "",
+            apiSecretKey : "",
+            description : "",
+            submission_status : false
         }
     },
     created(){
-      
+        if(getCookie("userToken") == ""){
+        this.$router.push('/login');
+        }
     },
     methods: {
         logout(){
             delete_cookie("userToken");
             this.$router.push('/login');
-        }  
+        },
+        handleSubmit(){
+            const data = qs.stringify({
+                    apiKey : this.apiKey,
+                    apiSecretKey : this.apiSecretKey,
+                    description : this.description
+            });
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/api/user/add-api',
+                data: data,
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                    'authorization' : 'Bearer '+getCookie("userToken")
+                }
+            }).then(()=>{
+                this.submission_status = true;
+            })
+        }
+        
     }
     
 }
@@ -149,6 +183,22 @@ export default{
 function delete_cookie(name) {
   document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   
+}
+
+function getCookie(param){
+            let name = param + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
 }
 
 </script>

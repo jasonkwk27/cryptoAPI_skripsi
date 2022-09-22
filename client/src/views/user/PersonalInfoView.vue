@@ -98,7 +98,7 @@
 
         <div class = "flex-auto basis-10/12">
             <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3 ">
-                <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12">Personal Info</h1>  
+                <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12  ml-28 ">Personal Info</h1>  
                 <a href = "#" @click="logout()">
                 <div class = " flex items-center hover:bg-[#0F4C75] rounded-md">
                     <div class = "mr-1 p-3">
@@ -111,8 +111,12 @@
                 </a> 
             </div>
 
-            <div class = "bg-[#1B262C] rounded-lg shadow-xl h-fit w-fit mt-3 mr-3 mb-3">
-
+            <div class = "bg-[#1B262C] rounded-lg shadow-xl max-w-full h-fit mt-3 mr-3 mb-3 items-center">
+                <h1 class = "text-[#BBE1FA] text-2xl p-3">Username : {{personal_info[0].username}}</h1>
+                <h1 class = "text-[#BBE1FA] text-2xl p-3">Password : {{personal_info[0].password}}</h1>            
+                <h1 class = "text-[#BBE1FA] text-2xl p-3">Email : {{personal_info[0].email}}</h1>   
+                <h1 class = "text-[#BBE1FA] text-2xl p-3">Name : {{personal_info[0].name}}</h1>   
+                <h1 class = "text-[#BBE1FA] text-2xl p-3">API's Connected : {{personal_info[0].connectedAPI}}</h1>         
             </div>
 
         </div>
@@ -137,16 +141,23 @@ export default{
         }
     },
     created(){
-        axios({
+        if(getCookie("userToken") == ""){
+        this.$router.push('/login');
+        }
+        else {
+            axios({
                 method: 'get',
                 url: 'http://localhost:3000/api/user/user-info',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
                     'authorization' : 'Bearer '+getCookie("userToken")
                 }
-        }).then((result)=>{
-            this.personal_info = result.data;
-        })
+            }).then((result)=>{
+                this.personal_info = result.data;
+            })
+        }
+       
+
 
 
     },

@@ -23,7 +23,7 @@ router.get('/',urlencodedParser,(req,res)=>{
                 return res.send(err.message);
             }
             else{
-                sql.query(`SELECT * FROM user WHERE username = ? AND password = ?`,[jwt.username,jwt.password],(err,result)=>{
+                sql.query(`SELECT username,password,email,name,(SELECT COUNT(*) FROM crypto_web.user INNER JOIN crypto_web.api_info ON user.iduser = api_info.iduser_api) AS connectedAPI FROM user WHERE username = ? AND password = ?`,[jwt.username,jwt.password],(err,result)=>{
                     if(err){
                         console.log(err);
                     }

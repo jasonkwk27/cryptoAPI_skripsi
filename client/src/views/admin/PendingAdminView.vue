@@ -127,7 +127,6 @@ export default{
         axios({
                 method: 'get',
                 url: 'http://localhost:3000/api/user/user-list',
-                data: qs.stringify({token : getCookie("adminToken")}),
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
                     'authorization' : 'Bearer '+getCookie("adminToken")

@@ -111,8 +111,33 @@
                 </a> 
             </div>
 
-            <div class = "bg-[#1B262C] rounded-lg shadow-xl h-fit w-fit mt-3 mr-3 mb-3">
+            <div class = "bg-[#1B262C] rounded-lg shadow-xl h-fit mt-3 mr-3 mb-3">
+                <div class = "api_list max-w-full">
+                    <table class = "table-auto w-full">
+                    <tr>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">API Key</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">API Secret Key</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Description</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Actions</th>
+                    </tr>
+                    <tr v-for="(api,index) in api_list" :key="index">
+                        <template v-if="api_list[index].apiKey != null">
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{api_list[index].apiKey}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{api_list[index].apiSecretKey}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{api_list[index].description}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] flex ">
+                                <a href = "#" v-if="this.api_list[index].apiKey != fetch_index">
+                                    <svg id="Layer_1" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" class = "mr-5" @click = "fetch_data(index)"><path d="m18.535 18.666 1.414 1.414-3.2 3.2a2.475 2.475 0 0 1 -3.494 0l-3.2-3.2 1.414-1.414 2.531 2.534v-8.2h2v8.2zm-.745-11.457a8 8 0 0 0 -15.79 1.791 7.912 7.912 0 0 0 .9 3.671 5.49 5.49 0 0 0 2.6 10.329h4.642l-2-2h-2.642a3.491 3.491 0 0 1 -.872-6.874l1.437-.371-.883-1.192a5.939 5.939 0 0 1 -1.182-3.563 6 6 0 0 1 11.939-.8l.1.758.759.1a5.988 5.988 0 0 1 4.202 9.247l1.43 1.43a7.976 7.976 0 0 0 -4.64-12.526z"  fill="#BBE1FA"/></svg>
+                                </a>
+                                <a href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20" @click = "delete_api(index)"><path d="M21,4H17.9A5.009,5.009,0,0,0,13,0H11A5.009,5.009,0,0,0,6.1,4H3A1,1,0,0,0,3,6H4V19a5.006,5.006,0,0,0,5,5h6a5.006,5.006,0,0,0,5-5V6h1a1,1,0,0,0,0-2ZM11,2h2a3.006,3.006,0,0,1,2.829,2H8.171A3.006,3.006,0,0,1,11,2Zm7,17a3,3,0,0,1-3,3H9a3,3,0,0,1-3-3V6H18Z"  fill="#BBE1FA"/><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18Z"  fill="#BBE1FA"/><path d="M14,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z" fill="#BBE1FA"/></svg>
+                                </a>
+                            </td>
+                        </template>
 
+                    </tr>
+                    </table>
+                </div>
             </div>
 
         </div>
@@ -127,11 +152,15 @@
 </template>
 
 <script>
+import axios from 'axios';
+import qs from 'qs'
 export default{
     data(){
         return{
             api_clicked : false,
-            ts_clicked : false
+            ts_clicked : false,
+            api_list : {},
+            fetch_index : getCookie("fetchIndex")
         }
     },
     created(){
@@ -139,15 +168,50 @@ export default{
         this.$router.push('/login');
         }
         else {
-            console.log("")
+            if(this.fetch_index == ""){
+                this.fetch_index = null;
+            }
+            axios({
+                method: 'get',
+                url: 'http://localhost:3000/api/user/api-info',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                    'authorization' : 'Bearer '+getCookie("userToken")
+                }
+            })
+            .then((res)=>{
+                this.api_list = res.data;
+                console.log(res.data);
+            })
         }
        
     },
     methods: {
+        delete_api(index){
+            const data = qs.stringify({
+                    apiKey : this.api_list[index].apiKey,
+                    apiSecretKey : this.api_list[index].apiSecretKey
+            });
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/api/user/delete-api',
+                data: data,
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                    'authorization' : 'Bearer '+getCookie("userToken")
+                }
+            }).then(()=>{
+                this.api_list.splice(index,1);
+            })
+        },
         logout(){
             delete_cookie("userToken");
             this.$router.push('/login');
-        }  
+        },
+        fetch_data(index){
+            document.cookie = `fetchIndex=${this.api_list[index].apiKey}`;
+            this.fetch_index = this.api_list[index].apiKey;
+        }
     }
     
 }

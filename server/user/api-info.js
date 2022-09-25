@@ -22,7 +22,7 @@ router.get('/',urlencodedParser,(req,res)=>{
                 return res.send(err.message);
             }
             else{
-                sql.query(`SELECT apiKey,apiSecretKey
+                sql.query(`SELECT apiKey,apiSecretKey,description
                 FROM crypto_web.user 
                 LEFT JOIN crypto_web.api_info 
                 ON user.iduser = api_info.iduser_api

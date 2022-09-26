@@ -11,6 +11,7 @@ import add_api from './user/add-api.js'
 import delete_api from './user/delete-api.js'
 import api_token from './user/api-token.js'
 import api_info from './user/api-info.js'
+import wallet_balance from './bybit/wallet-balance.js'
 
 const app = express();
 const port = 3000;
@@ -28,6 +29,7 @@ app.use('/',add_api);
 app.use('/',delete_api);
 app.use('/',api_token);
 app.use('/',api_info);
+app.use('/',wallet_balance);
 
 
 app.listen(port,() =>{

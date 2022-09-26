@@ -8,6 +8,7 @@ import HomeUserView from '../views/user/HomeUserView.vue'
 import PersonalInfoView from '../views/user/PersonalInfoView.vue'
 import AddApiView from '../views/user/AddApiView.vue'
 import ApiInfoView from '../views/user/ApiInfoView.vue'
+import WalletBalanceView from '../views/user/WalletBalanceView.vue'
 
 
 
@@ -56,6 +57,10 @@ const routes = [
     path:'/api-info',
     name :'api-info',
     component : ApiInfoView
+  },{
+    path:'/wallet-balance',
+    name:'wallet-balance',
+    component : WalletBalanceView
   }
 ]
 

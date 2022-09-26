@@ -9,7 +9,6 @@ app.use(cors());
 dotenv.config();
 
 var router = express.Router();
-
 router.get('/',(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !");
@@ -21,7 +20,12 @@ router.get('/',(req,res)=>{
                 return res.send(err.message);
             }
             else{
-                sql.query(`SELECT * FROM api_info WHERE apiKey = ? AND apiSecretKey = ?`,[jwt.apiKey,jwt.apiSecretKey],(err,result)=>{
+                sql.query(`SELECT apiKey,apiSecretKey,description
+                FROM crypto_web.user 
+                LEFT JOIN crypto_web.api_info 
+                ON user.iduser = api_info.iduser_api
+                WHERE iduser = ?`
+                ,[jwt.iduser],(err,result)=>{
                     if(err){
                         console.log(err);
                     }
@@ -33,8 +37,10 @@ router.get('/',(req,res)=>{
         });
     }
 
+    
 });
 
-app.use('/api/user/api-info',router);
+
+app.use('/api/user/api-list',router);
 
 export default app;

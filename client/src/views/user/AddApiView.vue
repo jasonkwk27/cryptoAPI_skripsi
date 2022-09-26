@@ -155,6 +155,7 @@ export default{
     methods: {
         logout(){
             delete_cookie("userToken");
+            delete_cookie("apiToken");
             this.$router.push('/login');
         },
         handleSubmit(){

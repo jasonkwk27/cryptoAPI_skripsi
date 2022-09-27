@@ -1,12 +1,13 @@
 <template>
-    <div class = "bg-[#0F4C75] w-full h-screen flex ">
-        <div class = "bg-[#1B262C] text-center rounded-lg shadow-xl max-h-full m-3 flex-auto basis-2/12">
+    <div class = " bg-[#0F4C75] w-full h-full flex ">
+        <div class = "basis-2/12 m-3"></div>
+        <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-screen m-3  flex-auto w-2/12">
             <a href = "/home">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto mt-20 rounded-md ">
                     <div class = "mr-1 p-3">
                         <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20"><path d="M23.121,9.069,15.536,1.483a5.008,5.008,0,0,0-7.072,0L.879,9.069A2.978,2.978,0,0,0,0,11.19v9.817a3,3,0,0,0,3,3H21a3,3,0,0,0,3-3V11.19A2.978,2.978,0,0,0,23.121,9.069ZM15,22.007H9V18.073a3,3,0,0,1,6,0Zm7-1a1,1,0,0,1-1,1H17V18.073a5,5,0,0,0-10,0v3.934H3a1,1,0,0,1-1-1V11.19a1.008,1.008,0,0,1,.293-.707L9.878,2.9a3.008,3.008,0,0,1,4.244,0l7.585,7.586A1.008,1.008,0,0,1,22,11.19Z" fill="#BBE1FA"/></svg>
                     </div>
-                    <div>
+                    <div class = "">
                         <h1 class = "text-[#BBE1FA] text-l">Home</h1>
                     </div>
             </div>
@@ -96,7 +97,7 @@
         </div>
 
 
-        <div class = "flex-auto basis-10/12">
+        <div class = "flex-auto">
             <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3 ">
                 <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12 ml-28 ">Wallet Balances</h1>  
                 <a href = "#" @click="logout()">
@@ -111,6 +112,24 @@
                 </a> 
             </div>
 
+            <div class = "flex">
+                <div class = "bg-[#1B262C] basis-5/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = " flex-auto p-3 h-full w-full text-center">
+                        <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">Total Networth</h1> 
+                        <h1 class = "text-[#BBE1FA] text-3xl pb-3 m-3">$ {{this.total_networth}}</h1> 
+                        <h1 class = "text-[#BBE1FA] text-3xl pb-3 m-3">{{1/this.coin_list["BTC"].price*this.total_networth}} BTC</h1> 
+                    </div>
+
+                </div>
+                
+                <div class = "bg-[#1B262C]  basis-7/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "w-fit text-center m-auto p-3 h-fit">
+                        <h1 class = "text-[#3282B8] text-3xl pb-3 w-11/12 ">Networth Allocation</h1> 
+                        <canvas id="doughnutChart" class =""></canvas>
+                    </div>
+                </div>
+            </div>
+
             <div class = "bg-[#1B262C] rounded-lg shadow-xl h-fit mt-3 mr-3 mb-3">
                 <div class = "coin_list max-w-full">
                     <table class = "table-auto w-full">
@@ -122,9 +141,9 @@
                     </tr>
                     <tr v-for="(coin,index) in coin_list" :key="index">
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{index}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{this.coin_list[index].price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">$ {{this.coin_list[index].price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{this.coin_list[index].wallet_balance}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{this.coin_list[index].wallet_balance * this.coin_list[index].price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">$ {{this.coin_list[index].wallet_balance * this.coin_list[index].price}}</td>
 
                     </tr>
                     </table>
@@ -144,12 +163,16 @@
 
 <script>
 import axios from 'axios';
+import Chart from 'chart.js/auto'
 export default{
     data(){
         return{
             api_clicked : false,
             ts_clicked : false,
             coin_list : {},
+            symbols : [],
+            asset_value : [],
+            total_networth : 0,
         }
     },
     created(){
@@ -157,6 +180,7 @@ export default{
         this.$router.push('/login');
         }
         else {
+
             axios({
                 method: 'get',
                 url: 'http://localhost:3000/api/bybit/wallet-balance',
@@ -167,7 +191,7 @@ export default{
             })
             .then((res)=>{
                 this.coin_list = res.data;
-                var symbols = Object.getOwnPropertyNames(this.coin_list);
+                this.symbols = Object.getOwnPropertyNames(this.coin_list);
                     axios({
                         method: 'get',
                         url: 'http://localhost:3000/api/bybit/coin-tickers',
@@ -176,24 +200,27 @@ export default{
                         }
                     }).then(
                         (result)=>{                   
-                            for(let i = 0;i<symbols.length;i++){
+                            for(let i = 0;i<this.symbols.length;i++){
                                 for(let j = 0;j<result.data.length;j++){
-                                    if(symbols[i] == "USDT"){
-                                        this.coin_list[symbols[i]].price = 1;
+                                    if(this.symbols[i] == "USDT"){
+                                        this.coin_list[this.symbols[i]].price = 1;
                                         break;
                                     }
-                                    else if(symbols[i] == "LUNA"){
-                                        this.coin_list[symbols[i]].price = 0;
+                                    else if(this.symbols[i] == "LUNA"){
+                                        this.coin_list[this.symbols[i]].price = 0;
                                         break;
                                     }
-                                    else if (result.data[j].symbol == symbols[i] + "USDT"){
-                                        this.coin_list[symbols[i]].price = result.data[j].mark_price;
+                                    else if (result.data[j].symbol == this.symbols[i] + "USDT"){
+                                        this.coin_list[this.symbols[i]].price = result.data[j].mark_price;
                                         break;
                                     }
                                 }
+                                this.asset_value[i] = this.coin_list[this.symbols[i]].price * this.coin_list[this.symbols[i]].wallet_balance;
+                                this.total_networth = this.total_networth + (this.coin_list[this.symbols[i]].price * this.coin_list[this.symbols[i]].wallet_balance);
                             }
-                            console.log(this.coin_list);
+                            this.donut();
                         }
+                        
                     )
             })
         }
@@ -204,7 +231,25 @@ export default{
             delete_cookie("userToken");
             delete_cookie("apiToken");
             this.$router.push('/login');
-        }
+        },
+        donut(){
+            const ctx = document.getElementById('doughnutChart').getContext('2d');
+                const doughnutChart = new Chart(ctx,{
+                    type: 'doughnut',
+                    data: {
+                        labels: this.symbols,
+                        datasets: [{
+                            label: 'Portfolio Allocation',
+                            data: this.asset_value,
+                            backgroundColor: ["#E0ACD5",'#3993DD','#F4EBE8','#29E7CD','#6A3E37','#DCF2B0','#C2EABD','#C0BABC','#C7AC92','#CD533B','#99B2DD','#7FB685'],
+                            hoverOffset: 4
+                        }]
+                    },
+
+                });
+                doughnutChart.show;
+        },
+
     }
     
 }

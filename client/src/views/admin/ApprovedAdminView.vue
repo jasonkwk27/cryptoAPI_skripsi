@@ -1,6 +1,7 @@
 <template>
     <div class = "bg-[#0F4C75] w-full h-screen flex ">
-        <div class = "bg-[#1B262C] text-center rounded-lg shadow-xl max-h-full m-3 flex-auto basis-2/12">
+        <div class = "basis-2/12 m-3"></div>
+        <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-screen m-3 flex-auto w-2/12">
             <a href = "/adm-home">
             <div class = "flex items-center   w-11/12 m-auto mt-20 rounded-md hover:bg-[#3282B8] ">
                     <div class = "mr-1 p-3">

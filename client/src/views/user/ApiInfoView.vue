@@ -1,6 +1,7 @@
 <template>
     <div class = "bg-[#0F4C75] w-full h-screen flex ">
-        <div class = "bg-[#1B262C] text-center rounded-lg shadow-xl max-h-full m-3 flex-auto basis-2/12">
+        <div class = "basis-2/12 m-3"></div>
+        <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-screen m-3 flex-auto w-2/12">
             <a href = "/home">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto mt-20 rounded-md ">
                     <div class = "mr-1 p-3">
@@ -111,8 +112,8 @@
                 </a> 
             </div>
 
-            <div class = "bg-[#1B262C] rounded-lg shadow-xl h-fit mt-3 mr-3 mb-3">
-                <div class = "api_list max-w-full">
+            <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3 mb-3">
+                <div class = "api_list">
                     <table class = "table-auto w-full">
                     <tr>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">API Key</th>

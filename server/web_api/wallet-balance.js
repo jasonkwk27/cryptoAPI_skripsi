@@ -1,11 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import sql from "../model/db.js";
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken'
 import axios from 'axios'
 import crypto from 'crypto'
-import {base_url as base_url,walletbalance_path as walletbalance_path,url_publictime as url_publictime} from '../config/bybit-configuration.js'
+import {base_url as base_url,walletbalance_path as walletbalance_path,url_publictime as url_publictime} from '../config/webapi-configuration.js'
 
 const app = express();  
 app.use(cors());
@@ -41,7 +40,7 @@ router.get('/',(req,res)=>{
                     url.searchParams.append('sign',sign);
                     axios.get(url.href)
                     .then((result)=> {
-                        res.send(result.data.result);
+                        res.send(JSON.stringify(result.data.result));
                         
                     })
                     .catch((err)=>{

@@ -11,7 +11,8 @@ import add_api from './user/add-api.js'
 import delete_api from './user/delete-api.js'
 import api_token from './user/api-token.js'
 import api_info from './user/api-info.js'
-import wallet_balance from './bybit/wallet-balance.js'
+import wallet_balance from './web_api/wallet-balance.js'
+import coin_tickers from './web_api/coin-tickers.js'
 
 const app = express();
 const port = 3000;
@@ -30,7 +31,7 @@ app.use('/',delete_api);
 app.use('/',api_token);
 app.use('/',api_info);
 app.use('/',wallet_balance);
-
+app.use('/',coin_tickers);
 
 app.listen(port,() =>{
     console.log(`Server started on port ${port}`);

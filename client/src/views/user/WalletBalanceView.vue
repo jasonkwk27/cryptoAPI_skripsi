@@ -112,7 +112,23 @@
             </div>
 
             <div class = "bg-[#1B262C] rounded-lg shadow-xl h-fit mt-3 mr-3 mb-3">
+                <div class = "coin_list max-w-full">
+                    <table class = "table-auto w-full">
+                    <tr>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Symbol</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Current Price</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Amount</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Value</th>
+                    </tr>
+                    <tr v-for="(coin,index) in coin_list" :key="index">
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{index}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{this.coin_list[index].price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{this.coin_list[index].wallet_balance}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{this.coin_list[index].wallet_balance * this.coin_list[index].price}}</td>
 
+                    </tr>
+                    </table>
+                </div>
             </div>
 
         </div>
@@ -127,11 +143,13 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default{
     data(){
         return{
             api_clicked : false,
             ts_clicked : false,
+            coin_list : {},
         }
     },
     created(){
@@ -139,7 +157,45 @@ export default{
         this.$router.push('/login');
         }
         else {
-            console.log("")
+            axios({
+                method: 'get',
+                url: 'http://localhost:3000/api/bybit/wallet-balance',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                    'authorization' : 'Bearer '+getCookie("apiToken")
+                }
+            })
+            .then((res)=>{
+                this.coin_list = res.data;
+                var symbols = Object.getOwnPropertyNames(this.coin_list);
+                    axios({
+                        method: 'get',
+                        url: 'http://localhost:3000/api/bybit/coin-tickers',
+                        headers: {
+                            'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                        }
+                    }).then(
+                        (result)=>{                   
+                            for(let i = 0;i<symbols.length;i++){
+                                for(let j = 0;j<result.data.length;j++){
+                                    if(symbols[i] == "USDT"){
+                                        this.coin_list[symbols[i]].price = 1;
+                                        break;
+                                    }
+                                    else if(symbols[i] == "LUNA"){
+                                        this.coin_list[symbols[i]].price = 0;
+                                        break;
+                                    }
+                                    else if (result.data[j].symbol == symbols[i] + "USDT"){
+                                        this.coin_list[symbols[i]].price = result.data[j].mark_price;
+                                        break;
+                                    }
+                                }
+                            }
+                            console.log(this.coin_list);
+                        }
+                    )
+            })
         }
        
     },

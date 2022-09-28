@@ -11,7 +11,6 @@ router.get('/',urlencodedParser,(req,res)=>{
     axios.get(coin_tickers).then(
         (result)=>{
             res.send(JSON.stringify(result.data.result));
-
         }
     )
 

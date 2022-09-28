@@ -144,7 +144,6 @@
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">$ {{this.coin_list[index].price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{this.coin_list[index].wallet_balance}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">$ {{this.coin_list[index].wallet_balance * this.coin_list[index].price}}</td>
-
                     </tr>
                     </table>
                 </div>

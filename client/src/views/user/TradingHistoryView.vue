@@ -1,9 +1,9 @@
 <template>
-    <div class = "bg-[#0F4C75] w-full h-full flex ">
+    <div class = "bg-[#0F4C75] w-full h-screen flex ">
         <div class = "basis-2/12 m-3"></div>
         <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-screen m-3 flex-auto w-2/12">
             <a href = "/home">
-            <div class = "flex items-center  bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-11/12 m-auto mt-20 rounded-md ">
+            <div class = "flex items-center  hover:bg-[#0F4C75]  w-11/12 m-auto mt-20 rounded-md ">
                     <div class = "mr-1 p-3">
                         <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20"><path d="M23.121,9.069,15.536,1.483a5.008,5.008,0,0,0-7.072,0L.879,9.069A2.978,2.978,0,0,0,0,11.19v9.817a3,3,0,0,0,3,3H21a3,3,0,0,0,3-3V11.19A2.978,2.978,0,0,0,23.121,9.069ZM15,22.007H9V18.073a3,3,0,0,1,6,0Zm7-1a1,1,0,0,1-1,1H17V18.073a5,5,0,0,0-10,0v3.934H3a1,1,0,0,1-1-1V11.19a1.008,1.008,0,0,1,.293-.707L9.878,2.9a3.008,3.008,0,0,1,4.244,0l7.585,7.586A1.008,1.008,0,0,1,22,11.19Z" fill="#BBE1FA"/></svg>
                     </div>
@@ -65,7 +65,7 @@
             </a>
 
             <a href = "#" @click ="ts_clicked = !ts_clicked">
-            <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md relative">
+            <div class = "flex items-center  bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
                         <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="20" height="20"><path d="M12,0A12.043,12.043,0,0,0,4,3.06V0H2V5.143A1.859,1.859,0,0,0,3.857,7H9V5H4.86A10,10,0,1,1,2,12H0A12,12,0,1,0,12,0Z" fill="#BBE1FA"/><polygon points="11 7 11 12.414 14.293 15.707 15.707 14.293 13 11.586 13 7 11 7" fill="#BBE1FA"/></svg>
                     </div>
@@ -112,8 +112,41 @@
                 </a> 
             </div>
 
-            <div class = "bg-[#1B262C] rounded-lg shadow-xl h-fit w-fit mt-3 mr-3 mb-3">
+            <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl  w-fit h-fit mt-3 mr-3 mb-3 ">
+                <form  @submit.prevent = "handleSubmit">
+                <div class = "flex rounded-lg">  
+                    <div class = "mx-5 my-3 rounded-lg">
+                        <div class = "flex items-center bg-[#0F4C75] outline-white outline-1 hover:outline rounded-lg">
+                            <input type ="text" class = "py-3 px-5  bg-[#0F4C75] text-[#BBE1FA] rounded-lg focus:outline-none" v-model = "symbol_input"  @click ="symbol_clicked = !symbol_clicked">
+                            <a href = "#" @click ="symbol_clicked = !symbol_clicked">
+                            <svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="15" height="15" class = "m-3" v-if="!symbol_clicked"><path d="M1.51,6.079a1.492,1.492,0,0,1,1.06.44l7.673,7.672a2.5,2.5,0,0,0,3.536,0L21.44,6.529A1.5,1.5,0,1,1,23.561,8.65L15.9,16.312a5.505,5.505,0,0,1-7.778,0L.449,8.64A1.5,1.5,0,0,1,1.51,6.079Z" fill="#BBE1FA"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="15" height="15" class = "m-3" v-else><path d="M22.5,18a1.5,1.5,0,0,1-1.061-.44L13.768,9.889a2.5,2.5,0,0,0-3.536,0L2.57,17.551A1.5,1.5,0,0,1,.449,15.43L8.111,7.768a5.505,5.505,0,0,1,7.778,0l7.672,7.672A1.5,1.5,0,0,1,22.5,18Z" fill="#BBE1FA"/></svg>
+                            </a>
+                        </div>
+                        <div class = "bg-[#0F4C75] rounded-lg h-60 absolute overflow-y-auto" v-if="symbol_clicked">
+                            <a href="#">
+                                <li v-for="(coin,index) in coin_symbols" :key="index" class = "list-none  hover:bg-[#3282B8] text-[#BBE1FA]" @click = "symbol_clicked = !symbol_clicked; symbol_input = coin_symbols[index].symbol">
+                                {{ coin_symbols[index].symbol }}
+                                </li>
+                            </a>
 
+                        </div>
+                    </div>
+
+                    <div class = "m-3 bg-[#0F4C75] rounded-lg outline-white outline-1 hover:outline h-fit">
+                        <datepicker class = " bg-[#0F4C75] text-[#BBE1FA] p-3 rounded-lg" v-model="date_from" :upper-limit="date_to"/>
+                    </div>
+
+                    <div class = "m-3 bg-[#0F4C75] rounded-lg outline-white outline-1 hover:outline h-fit">
+                        <datepicker class = " bg-[#0F4C75] text-[#BBE1FA] p-3 rounded-lg" v-model="date_to"  :lower-limit="date_from" />
+                    </div>
+
+                    <div class = "m-3 h-fit">
+                        <button type="submit" class = "py-3 px-5 bg-[#3282B8] text-[#1B262C] font-bold rounded-full">Search</button>
+                    </div>
+
+                </div>
+                </form>
             </div>
 
         </div>
@@ -126,25 +159,54 @@
     </div>
 
 </template>
-
+ 
 <script>
+import Datepicker from "vue3-datepicker";
+import axios from 'axios';
 export default{
+    components: {
+        Datepicker,
+    },
     data(){
         return{
             api_clicked : false,
-            ts_clicked : false
+            ts_clicked : false,
+            symbol_clicked : false,
+            date_from: new Date(),
+            date_to : new Date(),
+            coin_symbols : {},
+            symbol_input : "All",
         }
     },
     created(){
         if(getCookie("userToken") == ""){
         this.$router.push('/login');
         }
-        else {
-            console.log("")
+        else {  
+            axios({
+                        method: 'get',
+                        url: 'http://localhost:3000/api/bybit/coin-tickers',
+                        headers: {
+                            'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                        }
+            }).then(
+                (result)=>{
+                    for(let i = 0;i<result.data.length ;i++){
+                        if(result.data[i].symbol.includes("USDT")){
+                            this.coin_symbols[i] = result.data[i];
+                        }
+                    }
+                }
+            )
         }
        
     },
     methods: {
+        handleSubmit(){
+            console.log(this.symbol_input);
+            console.log(this.date_from);
+            console.log(this.date_to);
+        },
         logout(){
             delete_cookie("userToken");
             delete_cookie("apiToken");

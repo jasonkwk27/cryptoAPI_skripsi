@@ -117,7 +117,7 @@
                     <input type="text"  class = "block w-1/3 mx-auto my-5 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder="Enter API Secret Key" v-model="apiSecretKey" name="apiSecretKey" required>
                     <input type="text"  class = "block w-1/2 mx-auto  mt-5 mb-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder="Enter Description" v-model="description" name="description" required>
                     <h1 v-if ="submission_status" class = "mt-5 text-[#BBE1FA] text-center">API has been added successfully!</h1>
-                    <button type="submit" class = "block my-8 mx-auto p-3 w-1/6 bg-[#3282B8] text-[#1B262C] font-bold rounded-full">Add API Key</button>
+                    <button type="submit" class = "block my-8 mx-auto p-3 w-1/6 bg-[#3282B8] text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]">Add API Key</button>
 
             </div>
             </form>

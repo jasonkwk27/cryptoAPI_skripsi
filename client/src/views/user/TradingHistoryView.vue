@@ -142,7 +142,7 @@
                     </div>
 
                     <div class = "m-3 h-fit">
-                        <button type="submit" class = "py-3 px-5 bg-[#3282B8] text-[#1B262C] font-bold rounded-full">Search</button>
+                        <button type="submit" class = "py-3 px-5 bg-[#3282B8] text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]">Search</button>
                     </div>
 
                 </div>

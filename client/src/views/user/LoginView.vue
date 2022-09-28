@@ -7,7 +7,7 @@
                                 <input type="text"  class = "w-9/12 mt-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder="Enter Username" v-model="username" name="username" required>
                                 <input type="password" class = "w-9/12 mt-5 mb-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder="Enter Password" v-model = "password" name="password" required>
                                 <h1 v-if = "credential_status" class = "mb-5 text-[#BBE1FA]">Invalid credentials!</h1>
-                                <button type="submit" class = "p-3 w-1/2 bg-[#3282B8] mb-5 text-[#1B262C] font-bold rounded-full">Login</button>
+                                <button type="submit" class = "p-3 w-1/2 bg-[#3282B8] mb-5 text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]">Login</button>
                                 <h1 class = "text-[#BBE1FA] mb-5">Didn't have an account? <a class = "underline" href="/register">Register</a></h1>
                  
         </div>

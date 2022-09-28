@@ -81,13 +81,13 @@
             </div>
             </a>
 
-            <a href = "#" v-if = "ts_clicked">
+            <a href = "/trading-history" v-if = "ts_clicked">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
                 <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">Trading History</h1>
             </div>
             </a>
 
-            <a href = "#" v-if = "ts_clicked">
+            <a href = "/trading-analytics" v-if = "ts_clicked">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
                 <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">Trading Analytics</h1>
             </div>

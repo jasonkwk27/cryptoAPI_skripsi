@@ -1,8 +1,9 @@
 <template>
-    <div class = "bg-[#0F4C75] w-full h-screen flex ">
-        <div class = "bg-[#1B262C] text-center rounded-lg shadow-xl max-h-full m-3 flex-auto basis-2/12">
+    <div class = "bg-[#0F4C75] w-full h-full flex ">
+        <div class = "basis-2/12 m-3"></div>
+        <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-screen m-3 flex-auto w-2/12">
             <a href = "/home">
-            <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto mt-20 rounded-md ">
+            <div class = "flex items-center  bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-11/12 m-auto mt-20 rounded-md ">
                     <div class = "mr-1 p-3">
                         <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20"><path d="M23.121,9.069,15.536,1.483a5.008,5.008,0,0,0-7.072,0L.879,9.069A2.978,2.978,0,0,0,0,11.19v9.817a3,3,0,0,0,3,3H21a3,3,0,0,0,3-3V11.19A2.978,2.978,0,0,0,23.121,9.069ZM15,22.007H9V18.073a3,3,0,0,1,6,0Zm7-1a1,1,0,0,1-1,1H17V18.073a5,5,0,0,0-10,0v3.934H3a1,1,0,0,1-1-1V11.19a1.008,1.008,0,0,1,.293-.707L9.878,2.9a3.008,3.008,0,0,1,4.244,0l7.585,7.586A1.008,1.008,0,0,1,22,11.19Z" fill="#BBE1FA"/></svg>
                     </div>
@@ -24,7 +25,7 @@
             </a>
 
             <a href = "#" @click ="api_clicked = !api_clicked">
-            <div class = "flex items-center bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-11/12 m-auto rounded-md relative">
+            <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
                         <svg id="Layer_1" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m22 0h-2.172a2.978 2.978 0 0 0 -2.121.879l-8.361 8.36a7.537 7.537 0 1 0 5.415 5.415l1.239-1.239v-2.415h3v-3h2.414l1.707-1.707a2.983 2.983 0 0 0 .879-2.122v-2.171a2 2 0 0 0 -2-2zm0 4.171a1 1 0 0 1 -.293.708l-1.121 1.121h-3.586v3h-3v3.585l-1.545 1.545a5.64 5.64 0 0 1 .545 2.37 5.5 5.5 0 1 1 -5.5-5.5 4.236 4.236 0 0 1 2.369.544l9.252-9.251a1.009 1.009 0 0 1 .707-.293h2.172zm-17 13.829a1 1 0 1 0 1-1 1 1 0 0 0 -1 1z" fill="#BBE1FA"/></svg>
                     </div>
@@ -86,7 +87,7 @@
             </div>
             </a>
 
-            <a href = "/trading-analytics" v-if = "ts_clicked">
+            <a href = "trading-analytics" v-if = "ts_clicked">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
                 <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">Trading Analytics</h1>
             </div>
@@ -97,10 +98,10 @@
 
 
         <div class = "flex-auto basis-10/12">
-            <div class = "flex items-center bg-[#1B262C] rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3">
-                <h1 class = "text-[#BBE1FA] text-3xl p-3 ml-28 w-full text-center">Add API Key</h1>  
+            <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3 ">
+                <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12  ml-28 ">Trading History</h1>  
                 <a href = "#" @click="logout()">
-                <div class = "flex items-center hover:bg-[#0F4C75] rounded-md">
+                <div class = " flex items-center hover:bg-[#0F4C75] rounded-md">
                     <div class = "mr-1 p-3">
                     <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="20" height="20"><title>11-arrow</title><path d="M22.763,10.232l-4.95-4.95L16.4,6.7,20.7,11H6.617v2H20.7l-4.3,4.3,1.414,1.414,4.95-4.95a2.5,2.5,0,0,0,0-3.536Z" fill="#BBE1FA"/><path d="M10.476,21a1,1,0,0,1-1,1H3a1,1,0,0,1-1-1V3A1,1,0,0,1,3,2H9.476a1,1,0,0,1,1,1V8.333h2V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V21a3,3,0,0,0,3,3H9.476a3,3,0,0,0,3-3V15.667h-2Z" fill="#BBE1FA"/></svg>
                     </div>
@@ -108,19 +109,12 @@
                         <h1 class = "text-[#BBE1FA] text-l">Logout</h1>
                     </div>
                 </div>
-                </a>
+                </a> 
             </div>
 
-            <form @submit.prevent = "handleSubmit" class = "">
-            <div class = "bg-[#1B262C] overflow-hidden rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3">
-                    <input type="text"  class = "block w-1/3 mt-8 mx-auto mb-5 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl" placeholder="Enter API Key" v-model="apiKey" name="apiKey" required>
-                    <input type="text"  class = "block w-1/3 mx-auto my-5 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl" placeholder="Enter API Secret Key" v-model="apiSecretKey" name="apiSecretKey" required>
-                    <input type="text"  class = "block w-1/2 mx-auto  mt-5 mb-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl" placeholder="Enter Description" v-model="description" name="description" required>
-                    <h1 v-if ="submission_status" class = "mt-5 text-[#BBE1FA] text-center">API has been added successfully!</h1>
-                    <button type="submit" class = "block my-8 mx-auto p-3 w-1/6 bg-[#3282B8] text-[#1B262C] font-bold rounded-full">Add API Key</button>
+            <div class = "bg-[#1B262C] rounded-lg shadow-xl h-fit w-fit mt-3 mr-3 mb-3">
 
             </div>
-            </form>
 
         </div>
 
@@ -134,49 +128,28 @@
 </template>
 
 <script>
-import axios from 'axios';
-import qs from 'qs'
 export default{
     data(){
         return{
             api_clicked : false,
-            ts_clicked : false,
-            apiKey : "",
-            apiSecretKey : "",
-            description : "",
-            submission_status : false
+            ts_clicked : false
         }
     },
     created(){
         if(getCookie("userToken") == ""){
         this.$router.push('/login');
         }
+        else {
+            console.log("")
+        }
+       
     },
     methods: {
         logout(){
             delete_cookie("userToken");
             delete_cookie("apiToken");
             this.$router.push('/login');
-        },
-        handleSubmit(){
-            const data = qs.stringify({
-                    apiKey : this.apiKey,
-                    apiSecretKey : this.apiSecretKey,
-                    description : this.description
-            });
-            axios({
-                method: 'post',
-                url: 'http://localhost:3000/api/user/add-api',
-                data: data,
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("userToken")
-                }
-            }).then(()=>{
-                this.submission_status = true;
-            })
-        }
-        
+        }  
     }
     
 }

@@ -9,6 +9,8 @@ import PersonalInfoView from '../views/user/PersonalInfoView.vue'
 import AddApiView from '../views/user/AddApiView.vue'
 import ApiInfoView from '../views/user/ApiInfoView.vue'
 import WalletBalanceView from '../views/user/WalletBalanceView.vue'
+import TradingHistoryView from '../views/user/TradingHistoryView.vue'
+import TradingAnalyticsView from '../views/user/TradingAnalyticsView.vue'
 
 
 
@@ -57,10 +59,20 @@ const routes = [
     path:'/api-info',
     name :'api-info',
     component : ApiInfoView
-  },{
+  },
+  {
     path:'/wallet-balance',
     name:'wallet-balance',
     component : WalletBalanceView
+  },{
+    path:'/trading-history',
+    name:'trading-history',
+    component : TradingHistoryView
+  },
+  {
+    path : '/trading-analytics',
+    name : 'trading-analytics',
+    component : TradingAnalyticsView
   }
 ]
 

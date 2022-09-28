@@ -13,6 +13,7 @@ import api_token from './user/api-token.js'
 import api_info from './user/api-info.js'
 import wallet_balance from './web_api/wallet-balance.js'
 import coin_tickers from './web_api/coin-tickers.js'
+import closed_pnl from './web_api/closed-pnl.js'
 
 const app = express();
 const port = 3000;
@@ -32,6 +33,7 @@ app.use('/',api_token);
 app.use('/',api_info);
 app.use('/',wallet_balance);
 app.use('/',coin_tickers);
+app.use('/',closed_pnl);
 
 app.listen(port,() =>{
     console.log(`Server started on port ${port}`);

@@ -141,6 +141,27 @@
                 </div>
             </div>
 
+            
+            <div class="bg-[#1B262C] w-fit flex justify-center">
+            <nav aria-label="Page navigation example">
+                <ul class="flex list-style-none">
+                <li class="page-item"><a
+                    class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA] hover:bg-[#0F4C75] focus:shadow-none"
+                    href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a></li>
+                <li class="page-item" v-for="index in total_page" :key="index"><a
+                    class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA]  hover:bg-[#0F4C75] focus:shadow-none"
+                    href="#">{{index}}</a></li>
+                <li class="page-item"><a
+                    class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA]  hover:bg-[#0F4C75] focus:shadow-none"
+                    href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a></li>
+                </ul>
+            </nav>
+            </div>
+
         </div>
 
 
@@ -161,7 +182,9 @@ export default{
             api_clicked : false,
             ts_clicked : false,
             api_list : {},
-            keySelected : ""
+            keySelected : "",
+            total_page : 1,
+            max_list : 5
         }
     },
     created(){
@@ -192,6 +215,8 @@ export default{
             })
             .then((res)=>{
                 this.api_list = res.data;
+                this.total_page = Math.floor((this.api_list.length + this.max_list - 1) / this.max_list);
+
             })
         }
        

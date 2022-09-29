@@ -4,15 +4,17 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken'
 import axios from 'axios'
 import crypto from 'crypto'
+import bodyParser from 'body-parser';
 import {base_url as base_url,pnl_path as pnl_path,url_publictime as url_publictime} from '../config/webapi-configuration.js'
 
 const app = express();  
 app.use(cors());
 dotenv.config();
+var urlencodedParser = bodyParser.urlencoded({ extended: false })  
 
 var router = express.Router();
 
-router.get('/',(req,res)=>{
+router.post('/',urlencodedParser,(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !");
     }
@@ -28,24 +30,28 @@ router.get('/',(req,res)=>{
                var apiSecretKey = jwt.apiSecretKey;
                var params = "";
                var sign  = "";
-               var symbol = "";
+               var symbol = req.body.pair;
+               var start_time = new Date(req.body.from).getTime()/1000;
+               var end_time = new Date(req.body.to).getTime()/1000;
                axios.get(url_publictime)
                .then((result)=>{
-
                     params = {
                         "timestamp": (result.data.time_now*1000).toString().substring(0,13),
-                        "symbol" : "BTCUSDT",
-                        "api_key" : apiKey
+                        "symbol" : symbol,
+                        "api_key" : apiKey,
+                        "start_time": start_time,
+                        "end_time":end_time
                     };
                     url.searchParams.append('api_key', apiKey);
-                    url.searchParams.append('symbol',"BTCUSDT");
+                    url.searchParams.append('symbol',symbol);
+                    url.searchParams.append('start_time',start_time);
+                    url.searchParams.append('end_time',end_time);
                     url.searchParams.append('timestamp',params.timestamp);
                     sign = getSignature(params,apiSecretKey);
                     url.searchParams.append('sign',sign);
                     axios.get(url.href)
                     .then((result)=> {
-                        res.send(result.data.result);
-                        
+                        res.send(result.data.result.data);
                     })
                     .catch((err)=>{
                         console.log(err)

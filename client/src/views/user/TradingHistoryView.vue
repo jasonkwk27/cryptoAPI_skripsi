@@ -142,12 +142,65 @@
                     </div>
 
                     <div class = "m-3 h-fit">
-                        <button type="submit" class = "py-3 px-5 bg-[#3282B8] text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]">Search</button>
+                        <button type="submit" class = "py-3 px-5 bg-[#3282B8] text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click="search_clicked = true">Search</button>
+                    </div>
+
+                    <div class="bg-[#1B262C] w-fit flex items-center rounded-lg" v-if="search_clicked">
+                    <nav aria-label="Page navigation example">
+                        <ul class="flex list-style-none">
+                        <li class="page-item"><a
+                            class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA] hover:bg-[#0F4C75] focus:shadow-none"
+                            href="#" aria-label="Previous"  @click = "previous_page()">
+                            <span aria-hidden="true">&laquo;</span>
+                            </a></li>
+                        <li class="page-item" v-for="index in total_page" :key="index"><a
+                            class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA]  hover:bg-[#0F4C75] focus:shadow-none"
+                            href="#" @click = "change_page(index)">{{index}}</a></li>
+                        <li class="page-item"><a
+                            class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA]  hover:bg-[#0F4C75] focus:shadow-none"
+                            href="#" aria-label="Next"   @click = "next_page()">
+                            <span aria-hidden="true">&raquo;</span>
+                            </a></li>
+                        </ul>
+                    </nav>
                     </div>
 
                 </div>
                 </form>
             </div>
+
+            <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3 mb-3" v-if="search_clicked">
+                <div class = "trade_list">
+                    <table class = "table-auto w-full border-separate border-spacing-2">
+                    <tr>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Symbol</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Contract Type</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Quantity</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Leverage</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Entry Price</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Exit Price</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Closed PnL</th>
+                    </tr>
+                        <tr v-for="(user,index) in sliced_tradelist" :key="index" class = "">
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "sliced_tradelist[index].side == 'Sell' " >{{sliced_tradelist[index].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{sliced_tradelist[index].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "sliced_tradelist[index].order_type == 'Market' && sliced_tradelist[index].side == 'Sell'">Market Buy</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "sliced_tradelist[index].order_type == 'Market' && sliced_tradelist[index].side == 'Buy'">Market Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "sliced_tradelist[index].order_type == 'Limit' && sliced_tradelist[index].side == 'Sell'">Limit Buy</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "sliced_tradelist[index].order_type == 'Limit' && sliced_tradelist[index].side == 'Buy'">Limit Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].qty}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].leverage}} x</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].avg_entry_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].avg_exit_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "sliced_tradelist[index].closed_pnl > 0 ">$ {{sliced_tradelist[index].closed_pnl}}</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{sliced_tradelist[index].closed_pnl}}</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            
+
 
         </div>
 
@@ -163,6 +216,7 @@
 <script>
 import Datepicker from "vue3-datepicker";
 import axios from 'axios';
+import qs from 'qs';
 export default{
     components: {
         Datepicker,
@@ -172,10 +226,16 @@ export default{
             api_clicked : false,
             ts_clicked : false,
             symbol_clicked : false,
+            trade_list : {},
+            sliced_tradelist : {},
             date_from: new Date(),
             date_to : new Date(),
             coin_symbols : {},
-            symbol_input : "All",
+            symbol_input : "Select a pair",
+            total_page : 1,
+            current_page:1,
+            max_list : 8,
+            search_clicked :false
         }
     },
     created(){
@@ -203,15 +263,51 @@ export default{
     },
     methods: {
         handleSubmit(){
-            console.log(this.symbol_input);
-            console.log(this.date_from);
-            console.log(this.date_to);
+            const data = qs.stringify({
+                pair : this.symbol_input,
+                from : this.date_from,
+                to : this.date_to
+            });
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/api/bybit/closed-pnl',
+                data: data,
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                    'authorization' : 'Bearer '+getCookie("apiToken")
+                 }
+            }).then(
+                (result)=>{
+                    this.trade_list = result.data;
+                    document.cookie = `pair=${this.symbol_input}`;
+                    document.cookie = `dateFrom=${new Date(this.date_from).getTime()/1000}`;
+                    document.cookie = `dateTo=${new Date(this.date_to).getTime()/1000}`;
+                    this.total_page = Math.floor((this.trade_list.length + this.max_list - 1) / this.max_list);
+                    this.change_page(1);
+                }
+            )
         },
         logout(){
             delete_cookie("userToken");
             delete_cookie("apiToken");
             this.$router.push('/login');
-        }  
+        },
+        change_page(index){
+            this.current_page = index;
+            this.sliced_tradelist = this.trade_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
+        },
+        previous_page(){
+            if(this.current_page > 1){
+                this.current_page = this.current_page - 1;
+                this.sliced_tradelist = this.trade_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
+            }
+        },
+        next_page(){
+            if(this.current_page < this.total_page){
+                this.current_page = this.current_page + 1 ;
+                this.sliced_tradelist = this.trade_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
+            }
+        }
     }
     
 }

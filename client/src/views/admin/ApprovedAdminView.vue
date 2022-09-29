@@ -71,13 +71,13 @@
                         <th class = "px-5 py-3 text-left text-[#3282B8]">API's Connected</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Actions</th>
                     </tr>
-                    <tr v-for="(user,index) in user_list" :key="index">
-                        <template v-if="user_list[index].approvalStatus == 1">
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{user_list[index].name}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{user_list[index].username}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{user_list[index].password}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{user_list[index].email}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{user_list[index].connectedAPI}}</td>
+                    <tr v-for="(user,index) in sliced_userlist" :key="index">
+                        <template v-if="sliced_userlist[index].approvalStatus == 1">
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_userlist[index].name}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_userlist[index].username}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_userlist[index].password}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_userlist[index].email}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_userlist[index].connectedAPI}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] flex ">
                                 <a href = "#">
                                 <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20"  @click="update_approval(index)" class = "mr-5 "><path d="M19,8.424V7A7,7,0,0,0,5,7V8.424A5,5,0,0,0,2,13v6a5.006,5.006,0,0,0,5,5H17a5.006,5.006,0,0,0,5-5V13A5,5,0,0,0,19,8.424ZM7,7A5,5,0,0,1,17,7V8H7ZM20,19a3,3,0,0,1-3,3H7a3,3,0,0,1-3-3V13a3,3,0,0,1,3-3H17a3,3,0,0,1,3,3Z" fill="#BBE1FA"/><path d="M12,14a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V15A1,1,0,0,0,12,14Z"  fill="#BBE1FA"/></svg>
@@ -91,6 +91,26 @@
                     </tr>
                     </table>
                 </div>
+            </div>
+
+            <div class="bg-[#1B262C] w-fit flex justify-center">
+            <nav aria-label="Page navigation example">
+                <ul class="flex list-style-none">
+                <li class="page-item"><a
+                    class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA] hover:bg-[#0F4C75] focus:shadow-none"
+                    href="#" aria-label="Previous"  @click = "previous_page()">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a></li>
+                <li class="page-item" v-for="index in total_page" :key="index"><a
+                    class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA]  hover:bg-[#0F4C75] focus:shadow-none"
+                    href="#" @click = "change_page(index)">{{index}}</a></li>
+                <li class="page-item"><a
+                    class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA]  hover:bg-[#0F4C75] focus:shadow-none"
+                    href="#" aria-label="Next"   @click = "next_page()">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a></li>
+                </ul>
+            </nav>
             </div>
 
         </div>
@@ -111,7 +131,11 @@ export default{
     data(){
         return{
             admin_username : null,
-            user_list : {}
+            user_list : {},
+            sliced_userlist :{},
+            total_page : 1,
+            current_page :1,
+            max_list : 5,
         }
     },
     created(){
@@ -128,16 +152,15 @@ export default{
                 }
         })
         .then((res)=>{
-            this.user_list = res.data;
-            for (let i = 0; i < this.user_list.length; i++) {
-                if(this.user_list[i].approvalStatus == 1){
-                    this.granted_approval++;
-                }
-                else{
-                    this.pending_approval++;
-                }
-                this.api_total = this.api_total +this.user_list[i].connectedAPI;
+            for( var i = 0; i < res.data.length; i++){ 
+                if ( res.data[i].approvalStatus == 0) {
+                    res.data.splice(i,1);
+                    i--;
+                } 
             }
+            this.user_list = res.data;
+            this.total_page = Math.floor((this.user_list.length + this.max_list - 1) / this.max_list);
+            this.change_page(1);
         })
        }
 
@@ -145,8 +168,8 @@ export default{
     methods: {
         update_approval(index){
              const data = qs.stringify({
-                    username : this.user_list[index].username,
-                    approvalStatus : this.user_list[index].approvalStatus
+                    username : this.sliced_userlist[index].username,
+                    approvalStatus : this.sliced_userlist[index].approvalStatus
             });
             axios({
                 method: 'post',
@@ -157,12 +180,12 @@ export default{
                     'authorization' : 'Bearer '+getCookie("adminToken")
                 }
             }).then(()=>{
-                this.user_list.splice(index,1);
+                this.sliced_userlist.splice(index,1);
             })
         },
         delete_user(index){
             const data = qs.stringify({
-                    username : this.user_list[index].username,
+                    username : this.sliced_userlist[index].username,
             });
             axios({
                 method: 'post',
@@ -173,13 +196,29 @@ export default{
                     'authorization' : 'Bearer '+getCookie("adminToken")
                 }
             }).then(()=>{
-                this.user_list.splice(index,1);
+                this.sliced_userlist.splice(index,1);
             })
         },
         logout(){
             delete_cookie("adminToken");
             this.$router.push('/login');
-        }  
+        } ,
+        change_page(index){
+            this.current_page = index;
+            this.sliced_userlist = this.user_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
+        },
+        previous_page(){
+            if(this.current_page > 1){
+                this.current_page = this.current_page - 1;
+                this.sliced_userlist = this.user_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
+            }
+        },
+        next_page(){
+            if(this.current_page < this.total_page){
+                this.current_page = this.current_page + 1 ;
+                this.sliced_userlist = this.user_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
+            }
+        }
     },
     
 }

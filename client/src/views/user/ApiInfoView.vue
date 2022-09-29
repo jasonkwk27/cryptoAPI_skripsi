@@ -121,13 +121,13 @@
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Description</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Actions</th>
                     </tr>
-                    <tr v-for="(api,index) in api_list" :key="index">
-                        <template v-if="api_list[index].apiKey != null">
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{api_list[index].apiKey}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{api_list[index].apiSecretKey}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{api_list[index].description}}</td>
+                    <tr v-for="(user,index) in sliced_apilist" :key="index">
+                        <template v-if="sliced_apilist[index].apiKey != null">
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_apilist[index].apiKey}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_apilist[index].apiSecretKey}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_apilist[index].description}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] flex ">
-                                <a href = "#" v-if="keySelected != api_list[index].apiKey">
+                                <a href = "#" v-if="keySelected != sliced_apilist[index].apiKey">
                                     <svg id="Layer_1" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" class = "mr-5" @click = "fetch_data(index)"><path d="m18.535 18.666 1.414 1.414-3.2 3.2a2.475 2.475 0 0 1 -3.494 0l-3.2-3.2 1.414-1.414 2.531 2.534v-8.2h2v8.2zm-.745-11.457a8 8 0 0 0 -15.79 1.791 7.912 7.912 0 0 0 .9 3.671 5.49 5.49 0 0 0 2.6 10.329h4.642l-2-2h-2.642a3.491 3.491 0 0 1 -.872-6.874l1.437-.371-.883-1.192a5.939 5.939 0 0 1 -1.182-3.563 6 6 0 0 1 11.939-.8l.1.758.759.1a5.988 5.988 0 0 1 4.202 9.247l1.43 1.43a7.976 7.976 0 0 0 -4.64-12.526z"  fill="#BBE1FA"/></svg>
                                 </a>
                                 <a href="#">
@@ -147,15 +147,15 @@
                 <ul class="flex list-style-none">
                 <li class="page-item"><a
                     class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA] hover:bg-[#0F4C75] focus:shadow-none"
-                    href="#" aria-label="Previous">
+                    href="#" aria-label="Previous"  @click = "previous_page()">
                     <span aria-hidden="true">&laquo;</span>
                     </a></li>
                 <li class="page-item" v-for="index in total_page" :key="index"><a
                     class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA]  hover:bg-[#0F4C75] focus:shadow-none"
-                    href="#">{{index}}</a></li>
+                    href="#" @click = "change_page(index)">{{index}}</a></li>
                 <li class="page-item"><a
                     class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded  text-[#BBE1FA]  hover:bg-[#0F4C75] focus:shadow-none"
-                    href="#" aria-label="Next">
+                    href="#" aria-label="Next"   @click = "next_page()">
                     <span aria-hidden="true">&raquo;</span>
                     </a></li>
                 </ul>
@@ -182,9 +182,11 @@ export default{
             api_clicked : false,
             ts_clicked : false,
             api_list : {},
+            sliced_apilist :{},
             keySelected : "",
             total_page : 1,
-            max_list : 5
+            current_page :1,
+            max_list : 15,
         }
     },
     created(){
@@ -216,7 +218,7 @@ export default{
             .then((res)=>{
                 this.api_list = res.data;
                 this.total_page = Math.floor((this.api_list.length + this.max_list - 1) / this.max_list);
-
+                this.change_page(1);
             })
         }
        
@@ -224,8 +226,8 @@ export default{
     methods: {
         delete_api(index){
             const data = qs.stringify({
-                    apiKey : this.api_list[index].apiKey,
-                    apiSecretKey : this.api_list[index].apiSecretKey
+                    apiKey : this.sliced_apilist[index].apiKey,
+                    apiSecretKey : this.sliced_apilist[index].apiSecretKey
             });
             axios({
                 method: 'post',
@@ -236,7 +238,7 @@ export default{
                     'authorization' : 'Bearer '+getCookie("userToken")
                 }
             }).then(()=>{
-                this.api_list.splice(index,1);
+                this.sliced_apilist.splice(index,1);
             })
         },
         logout(){
@@ -246,8 +248,8 @@ export default{
         },
         fetch_data(index){
             const data = qs.stringify({
-                    apiKey : this.api_list[index].apiKey,
-                    apiSecretKey : this.api_list[index].apiSecretKey
+                    apiKey : this.sliced_apilist[index].apiKey,
+                    apiSecretKey : this.sliced_apilist[index].apiSecretKey
             });
             axios({
                 method: 'post',
@@ -273,6 +275,22 @@ export default{
                 }
             })
 
+        },
+        change_page(index){
+            this.current_page = index;
+            this.sliced_apilist = this.api_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
+        },
+        previous_page(){
+            if(this.current_page > 1){
+                this.current_page = this.current_page - 1;
+                this.sliced_apilist = this.api_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
+            }
+        },
+        next_page(){
+            if(this.current_page < this.total_page){
+                this.current_page = this.current_page + 1 ;
+                this.sliced_apilist = this.api_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
+            }
         }
     }
     

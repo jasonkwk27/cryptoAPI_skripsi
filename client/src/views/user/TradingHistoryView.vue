@@ -180,10 +180,10 @@
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Symbol</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Contract Type</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Quantity</th>
-                        <th class = "px-5 py-3 text-left text-[#3282B8]">Leverage</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Entry Price</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Exit Price</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Entry Date</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">% PnL from Margin</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Closed PnL</th>
                     </tr>
                         <tr v-for="(user,index) in sliced_tradelist" :key="index" class = "">
@@ -194,10 +194,11 @@
                             <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "sliced_tradelist[index].order_type == 'Limit' && sliced_tradelist[index].side == 'Sell'">Limit Buy</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "sliced_tradelist[index].order_type == 'Limit' && sliced_tradelist[index].side == 'Buy'">Limit Sell</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].qty}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].leverage}} x</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].avg_entry_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].avg_exit_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{new Date(sliced_tradelist[index].created_at*1000).toDateString()}}</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "sliced_tradelist[index].closed_pnl/(sliced_tradelist[index].qty*sliced_tradelist[index].avg_entry_price) *100 > 0 ">{{(sliced_tradelist[index].closed_pnl/(sliced_tradelist[index].qty*sliced_tradelist[index].avg_entry_price) * 100).toFixed(2)}} %</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{(sliced_tradelist[index].closed_pnl/(sliced_tradelist[index].qty*sliced_tradelist[index].avg_entry_price) * 100).toFixed(2)}} %</td>
                             <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "sliced_tradelist[index].closed_pnl > 0 ">$ {{sliced_tradelist[index].closed_pnl}}</td>
                             <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{sliced_tradelist[index].closed_pnl}}</td>
                         </tr>
@@ -459,6 +460,7 @@ export default{
             }
         },
         calculatePerformance(){
+            this.performance = "TBD";
             var performance_grade_wr = 0;
             var performance_grade_profitmargin = 0;
             if(this.win_rate < 30){
@@ -473,7 +475,7 @@ export default{
             else if (this.win_rate >=70 && this.win_rate <90){
                 performance_grade_wr = 3;
             }
-            else{
+            else if (this.win_rate >= 90){
                 performance_grade_wr = 4;
             }
 
@@ -490,7 +492,7 @@ export default{
                 else if(this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 >= 2 && this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 < 5){
                     performance_grade_profitmargin = 3 +performance_grade_profitmargin;
                 }
-                else {
+                else if(this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 >= 5) {
                     performance_grade_profitmargin = 4 +performance_grade_profitmargin;
                 }
 
@@ -509,7 +511,7 @@ export default{
             else if(performance_grade_profitmargin+performance_grade_wr/2 >= 3 && performance_grade_profitmargin+performance_grade_wr/2 < 4 ){
                 this.performance = "B";
             }
-            else{
+            else if(performance_grade_profitmargin+performance_grade_wr/2 >= 4) {
                 this.performance = "A";
             }
         },
@@ -546,7 +548,7 @@ export default{
                             display: false
                             }
                         }
-                    }
+                    },
                 });
                 this.chart_rendered++;
                 lineChart.show;

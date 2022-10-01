@@ -1,5 +1,5 @@
 <template>
-    <div class = "bg-[#0F4C75] w-full h-screen flex ">
+    <div :class = "[bg_height]" class = "bg-[#0F4C75] w-full flex" >
         <div class = "basis-2/12 m-3"></div>
         <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-screen m-3 flex-auto w-2/12">
             <a href = "/home">
@@ -117,16 +117,20 @@
                 <div class = "flex rounded-lg">  
                     <div class = "mx-5 my-3 rounded-lg">
                         <div class = "flex items-center bg-[#0F4C75] outline-white outline-1 hover:outline rounded-lg">
-                            <input type ="text" class = "py-3 px-5  bg-[#0F4C75] text-[#BBE1FA] rounded-lg focus:outline-none" v-model = "symbol_input"  @click ="symbol_clicked = !symbol_clicked">
-                            <a href = "#" @click ="symbol_clicked = !symbol_clicked">
-                            <svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="15" height="15" class = "m-3" v-if="!symbol_clicked"><path d="M1.51,6.079a1.492,1.492,0,0,1,1.06.44l7.673,7.672a2.5,2.5,0,0,0,3.536,0L21.44,6.529A1.5,1.5,0,1,1,23.561,8.65L15.9,16.312a5.505,5.505,0,0,1-7.778,0L.449,8.64A1.5,1.5,0,0,1,1.51,6.079Z" fill="#BBE1FA"/></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="15" height="15" class = "m-3" v-else><path d="M22.5,18a1.5,1.5,0,0,1-1.061-.44L13.768,9.889a2.5,2.5,0,0,0-3.536,0L2.57,17.551A1.5,1.5,0,0,1,.449,15.43L8.111,7.768a5.505,5.505,0,0,1,7.778,0l7.672,7.672A1.5,1.5,0,0,1,22.5,18Z" fill="#BBE1FA"/></svg>
+                            <input type ="text" class = "py-3 px-5  bg-[#0F4C75] text-[#BBE1FA] rounded-lg focus:outline-none" v-model = "symbol_input"  @click ="symbol_clicked = !symbol_clicked" placeholder = "Select a pair">
+                            <a href = "#">
+                            <svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="15" height="15" class = "m-3" v-if="!symbol_clicked"  @click ="symbol_clicked = !symbol_clicked"><path d="M1.51,6.079a1.492,1.492,0,0,1,1.06.44l7.673,7.672a2.5,2.5,0,0,0,3.536,0L21.44,6.529A1.5,1.5,0,1,1,23.561,8.65L15.9,16.312a5.505,5.505,0,0,1-7.778,0L.449,8.64A1.5,1.5,0,0,1,1.51,6.079Z" fill="#BBE1FA"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" v-else class = "m-3" viewBox="0 0 513.749 513.749" style="enable-background:new 0 0 513.749 513.749;" xml:space="preserve" width="15" height="15" @click = "symbol_inputChanged">
+                            <g>
+                                <path d="M504.352,459.061l-99.435-99.477c74.402-99.427,54.115-240.344-45.312-314.746S119.261-9.277,44.859,90.15   S-9.256,330.494,90.171,404.896c79.868,59.766,189.565,59.766,269.434,0l99.477,99.477c12.501,12.501,32.769,12.501,45.269,0   c12.501-12.501,12.501-32.769,0-45.269L504.352,459.061z M225.717,385.696c-88.366,0-160-71.634-160-160s71.634-160,160-160   s160,71.634,160,160C385.623,314.022,314.044,385.602,225.717,385.696z"  fill="#BBE1FA"/>
+                            </g>
+                            </svg>
                             </a>
                         </div>
-                        <div class = "bg-[#0F4C75] rounded-lg h-60 absolute overflow-y-auto" v-if="symbol_clicked">
+                        <div class = "bg-[#0F4C75] rounded-lg h-60 absolute overflow-y-auto ml-3" v-if="symbol_clicked">
                             <a href="#">
-                                <li v-for="(coin,index) in coin_symbols" :key="index" class = "list-none  hover:bg-[#3282B8] text-[#BBE1FA]" @click = "symbol_clicked = !symbol_clicked; symbol_input = coin_symbols[index].symbol">
-                                {{ coin_symbols[index].symbol }}
+                                <li v-for="(coin,index) in coinsymbols_filtered" :key="index" class = "list-none  hover:bg-[#3282B8] text-[#BBE1FA]" @click = "symbol_clicked = !symbol_clicked; symbol_input = coinsymbols_filtered[index].symbol">
+                                {{ coinsymbols_filtered[index].symbol }}
                                 </li>
                             </a>
 
@@ -169,7 +173,7 @@
                 </form>
             </div>
 
-            <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3 mb-3" v-if="search_clicked">
+            <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3" v-if="search_clicked">
                 <div class = "trade_list">
                     <table class = "table-auto w-full border-separate border-spacing-2">
                     <tr>
@@ -179,6 +183,7 @@
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Leverage</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Entry Price</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Exit Price</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Entry Date</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Closed PnL</th>
                     </tr>
                         <tr v-for="(user,index) in sliced_tradelist" :key="index" class = "">
@@ -192,12 +197,68 @@
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].leverage}} x</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].avg_entry_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].avg_exit_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{new Date(sliced_tradelist[index].created_at*1000).toDateString()}}</td>
                             <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "sliced_tradelist[index].closed_pnl > 0 ">$ {{sliced_tradelist[index].closed_pnl}}</td>
                             <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{sliced_tradelist[index].closed_pnl}}</td>
                         </tr>
 
                     </table>
                 </div>
+            </div>
+
+            <div class = "flex items-center text-center rounded-lg  max-w-full"  v-if="search_clicked">
+                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "flex p-3 w-full items-center ">
+                        <div class = "flex  basis-1/2 max-w-full">
+                            <h1 class = "text-[#BBE1FA]  text-4xl m-auto">Winrate</h1>
+                        </div>
+                        <div class = "items-center basis-1/2">
+                            <h1 class= "text-lg"></h1>
+                            <h1 class = "text-[#BBE1FA]  text-2xl">{{this.win_rate}} %</h1>
+                            <h1 class = "text-[#BBE1FA]  text-md"><span style="color: green">{{this.total_win}} W </span>/ <span style="color: red">{{this.trade_list.length-this.total_win}} L </span></h1>
+                            <h1 class= "text-lg"></h1>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "flex p-3 w-full items-center ">
+                        <div class = "flex  basis-1/2  max-w-full">
+                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">PnL</h1>
+                        </div>
+                        <div class = "items-center  basis-3/4 ">
+                            <h1 class= "text-lg"></h1>
+                            <h1 class = "text-[#BBE1FA] text-2xl">{{this.pnl}} $</h1>
+                            <h1 class= "text-lg"></h1>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "flex p-3 w-full items-center ">
+                        <div class = "flex   basis-1/2  max-w-full">
+                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">Performance</h1>
+                        </div>
+                        <div class = "items-center  basis-1/2 ">
+                            <h1 class= "text-lg"></h1>
+                            <h1 class = "text-[#BBE1FA]  text-2xl">{{this.performance}}</h1>
+                            <h1 class= "text-lg"></h1>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class = "items-center text-center  mt-3 mr-3 w-full" v-if="search_clicked">
+                <div class = "bg-[#1B262C]  w-4/5 m-auto rounded-lg shadow-xl">
+                    <canvas id="lineChart" class =""></canvas>
+                </div>
+
             </div>
             
 
@@ -208,15 +269,17 @@
 
         
 
-    
     </div>
 
+    
 </template>
+
  
 <script>
 import Datepicker from "vue3-datepicker";
 import axios from 'axios';
 import qs from 'qs';
+import Chart from 'chart.js/auto'
 export default{
     components: {
         Datepicker,
@@ -231,11 +294,20 @@ export default{
             date_from: new Date(),
             date_to : new Date(),
             coin_symbols : {},
-            symbol_input : "Select a pair",
+            coinsymbols_filtered : {},
+            symbol_input : "",
             total_page : 1,
             current_page:1,
             max_list : 8,
-            search_clicked :false
+            search_clicked :false,
+            win_rate : 0,
+            pnl : 0,
+            performance : "",
+            total_win : 0,
+            pnlArray : [],
+            dateArray : [],
+            chart_rendered :0,
+            bg_height : 'h-screen'
         }
     },
     created(){
@@ -254,10 +326,13 @@ export default{
                     for(let i = 0;i<result.data.length ;i++){
                         if(result.data[i].symbol.includes("USDT")){
                             this.coin_symbols[i] = result.data[i];
+                            this.coinsymbols_filtered[i] = result.data[i];
                         }
                     }
                 }
             )
+
+            
         }
        
     },
@@ -279,11 +354,70 @@ export default{
             }).then(
                 (result)=>{
                     this.trade_list = result.data;
+                    var temp_pnlArray = [],temp_dateArray = [];
+                    this.pnlArray = [],this.dateArray = []
+                    this.pnlArray[0] = 0;
+                    for(let i = 0,j=result.data.length-1;i<result.data.length;i++,j--){
+                        temp_pnlArray[j] = result.data[i].closed_pnl;
+                        temp_dateArray[j] = new Date(result.data[i].created_at*1000).toDateString();
+                    }
+
+                    for(let i = 0,j = 0;i<result.data.length;i++){
+                        if(i == result.data.length-1){
+                            if(temp_dateArray[i] != temp_dateArray[i-1]){
+                                this.dateArray[j] = temp_dateArray[i];
+                                this.pnlArray[j] = 0;
+                                j++;
+                            }
+                        }
+                        else if(temp_dateArray[i] != temp_dateArray[i+1]){
+                            this.dateArray[j] = temp_dateArray[i];
+                            this.pnlArray[j] = 0;  
+                            j++;
+
+                        }
+                    }
+
+                    for(let i = 0,j = 1,k=0;i<result.data.length;i++){
+                        if(temp_dateArray[i] == temp_dateArray[i+1]){
+                            j++;
+                        }
+                        else{
+                            for(let l = i-j+1;l<=i;l++){
+                                this.pnlArray[k] = temp_pnlArray[l] + this.pnlArray[k];
+                            }
+                            if(k >0){
+                                this.pnlArray[k] = this.pnlArray[k-1] + this.pnlArray[k];
+                            }
+                            k++;
+                            j = 1;
+                        }
+                    }
+
                     document.cookie = `pair=${this.symbol_input}`;
                     document.cookie = `dateFrom=${new Date(this.date_from).getTime()/1000}`;
                     document.cookie = `dateTo=${new Date(this.date_to).getTime()/1000}`;
+                    this.calculateWinrate();
+                    this.pnl = 0;
+                    this.calculatePnL();
+                    this.calculatePerformance();
                     this.total_page = Math.floor((this.trade_list.length + this.max_list - 1) / this.max_list);
                     this.change_page(1);
+
+                    if(this.chart_rendered == 0){
+                        this.showlineChart();
+                    }
+                    else{
+                        this.updateChart();
+                    }
+
+                    if(this.pnlArray.length > 1){
+                        this.bg_height = 'h-fit';
+                    }
+                    else{
+                        this.bg_height = 'h-screen';
+                    }
+
                 }
             )
         },
@@ -307,6 +441,128 @@ export default{
                 this.current_page = this.current_page + 1 ;
                 this.sliced_tradelist = this.trade_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
             }
+        },
+        calculateWinrate(){
+            var total_trade = this.trade_list.length;
+            var total_win = 0;
+            for(let i = 0;i<this.trade_list.length;i++){
+                if(this.trade_list[i].closed_pnl >0){
+                    total_win++;
+                }
+            }
+            this.total_win = total_win;
+            this.win_rate = total_win/total_trade * 100;
+        },
+        calculatePnL(){
+            for(let i = 0;i<this.trade_list.length;i++){
+                this.pnl = this.trade_list[i].closed_pnl + this.pnl;
+            }
+        },
+        calculatePerformance(){
+            var performance_grade_wr = 0;
+            var performance_grade_profitmargin = 0;
+            if(this.win_rate < 30){
+                performance_grade_wr = 0;
+            }
+            else if(this.win_rate >= 30 && this.win_rate <50){
+                performance_grade_wr = 1;
+            }
+            else if(this.win_rate >= 50 && this.win_rate <70){
+                performance_grade_wr = 2;
+            }
+            else if (this.win_rate >=70 && this.win_rate <90){
+                performance_grade_wr = 3;
+            }
+            else{
+                performance_grade_wr = 4;
+            }
+
+            for(let i = 0;i<this.trade_list.length;i++){
+                if(this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 < -2){
+                    performance_grade_profitmargin = 0 +performance_grade_profitmargin;
+                }
+                else if(this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 >= -2 && this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 < 0){
+                    performance_grade_profitmargin = 1 +performance_grade_profitmargin;
+                }
+                else if(this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 >= 0 && this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 < 2){
+                    performance_grade_profitmargin = 2 +performance_grade_profitmargin;
+                }
+                else if(this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 >= 2 && this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 < 5){
+                    performance_grade_profitmargin = 3 +performance_grade_profitmargin;
+                }
+                else {
+                    performance_grade_profitmargin = 4 +performance_grade_profitmargin;
+                }
+
+            }
+            performance_grade_profitmargin = performance_grade_profitmargin/this.trade_list.length;
+
+            if(performance_grade_profitmargin+performance_grade_wr/2 < 1){
+                this.performance = "E";
+            }
+            else if(performance_grade_profitmargin+performance_grade_wr/2 >= 1 && performance_grade_profitmargin+performance_grade_wr/2 < 2 ){
+                this.performance = "D";
+            }
+            else if (performance_grade_profitmargin+performance_grade_wr/2 >= 2 && performance_grade_profitmargin+performance_grade_wr/2 < 3 ){
+                this.performance = "C";
+            }
+            else if(performance_grade_profitmargin+performance_grade_wr/2 >= 3 && performance_grade_profitmargin+performance_grade_wr/2 < 4 ){
+                this.performance = "B";
+            }
+            else{
+                this.performance = "A";
+            }
+        },
+        symbol_inputChanged(){
+            this.coinsymbols_filtered = {};
+           for(let i in this.coin_symbols){
+                if(this.coin_symbols[i].symbol.includes(this.symbol_input.toUpperCase())){
+                    this.coinsymbols_filtered[i] = this.coin_symbols[i];
+                
+                }
+           }
+          
+        },
+        showlineChart(){
+                const ctx = document.getElementById('lineChart').getContext('2d');  
+                const lineChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: this.dateArray,
+                        datasets: [{
+                            data: this.pnlArray,
+                            fill: {
+                                target: 'origin',
+                                above: 'rgba(43, 122, 11,0.5)',
+                                below: 'rgba(230, 72, 72,0.5)' 
+                            },
+                            borderColor: 'rgb(27, 38, 50)'                      
+                        }]
+                    },
+                    options :{
+                        tension:0.4,
+                        plugins: {
+                            legend: {
+                            display: false
+                            }
+                        }
+                    }
+                });
+                this.chart_rendered++;
+                lineChart.show;
+
+
+        },
+        updateChart(){
+            let chartStatus = Chart.getChart("lineChart"); 
+            if (chartStatus != undefined) {
+                chartStatus.data.datasets[0].data = null;
+                chartStatus.data.labels = null;
+                chartStatus.data.datasets[0].data = this.pnlArray;
+                chartStatus.data.labels = this.dateArray;
+                chartStatus.update();
+            }
+
         }
     }
     

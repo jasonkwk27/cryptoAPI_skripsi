@@ -1,5 +1,5 @@
 <template>
-    <div class = "bg-[#0F4C75] w-full h-full flex ">
+    <div class = "bg-[#0F4C75] w-full h-fit flex ">
         <div class = "basis-2/12 m-3"></div>
         <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-screen m-3 flex-auto w-2/12">
             <a href = "/home">
@@ -112,8 +112,111 @@
                 </a> 
             </div>
 
-            <div class = "bg-[#1B262C] rounded-lg shadow-xl h-fit w-fit mt-3 mr-3 mb-3">
+            <div class = "h-fit mt-3 mr-3 mb-3">
+                <div class = "bg-[#1B262C] text-center w-1/4 m-auto rounded-lg shadow-xl">
+                    <h1 class = "text-[#BBE1FA] text-3xl p-3">Longs</h1>  
+                </div>
 
+                <div class = "flex items-center text-center rounded-lg  max-w-full">
+                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "flex p-3 w-full items-center ">
+                        <div class = "flex  basis-1/2 max-w-full">
+                            <h1 class = "text-[#BBE1FA]  text-4xl m-auto">Winrate</h1>
+                        </div>
+                        <div class = "items-center basis-1/2">
+                            <h1 class= "text-lg"></h1>
+                            <h1 class = "text-[#BBE1FA]  text-2xl">%</h1>
+                            <h1 class = "text-[#BBE1FA]  text-md"><span style="color: green">W</span>/<span style="color: red">L</span></h1>
+                            <h1 class= "text-lg"></h1>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "flex p-3 w-full items-center ">
+                        <div class = "flex  basis-1/2  max-w-full">
+                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">PnL</h1>
+                        </div>
+                        <div class = "items-center  basis-3/4 ">
+                            <h1 class= "text-lg"></h1>
+                            <h1 class = "text-[#BBE1FA] text-2xl">$</h1>
+                            <h1 class= "text-lg"></h1>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "flex p-3 w-full items-center ">
+                        <div class = "flex   basis-1/2  max-w-full">
+                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">Performance</h1>
+                        </div>
+                        <div class = "items-center  basis-1/2 ">
+                            <h1 class= "text-lg"></h1>
+                            <h1 class = "text-[#BBE1FA]  text-2xl">A</h1>
+                            <h1 class= "text-lg"></h1>
+                        </div>
+
+                    </div>
+
+                </div>
+                </div>
+            </div>
+
+            <div class = "h-fit mt-3 mr-3 mb-3">
+                <div class = "bg-[#1B262C] text-center w-1/4 m-auto rounded-lg shadow-xl">
+                    <h1 class = "text-[#BBE1FA] text-3xl p-3">Shorts</h1>  
+                </div>
+                <div class = "flex items-center text-center rounded-lg  max-w-full">
+                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "flex p-3 w-full items-center ">
+                        <div class = "flex  basis-1/2 max-w-full">
+                            <h1 class = "text-[#BBE1FA]  text-4xl m-auto">Winrate</h1>
+                        </div>
+                        <div class = "items-center basis-1/2">
+                            <h1 class= "text-lg"></h1>
+                            <h1 class = "text-[#BBE1FA]  text-2xl">%</h1>
+                            <h1 class = "text-[#BBE1FA]  text-md"><span style="color: green">W</span>/<span style="color: red">L</span></h1>
+                            <h1 class= "text-lg"></h1>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "flex p-3 w-full items-center ">
+                        <div class = "flex  basis-1/2  max-w-full">
+                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">PnL</h1>
+                        </div>
+                        <div class = "items-center  basis-3/4 ">
+                            <h1 class= "text-lg"></h1>
+                            <h1 class = "text-[#BBE1FA] text-2xl">$</h1>
+                            <h1 class= "text-lg"></h1>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "flex p-3 w-full items-center ">
+                        <div class = "flex   basis-1/2  max-w-full">
+                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">Performance</h1>
+                        </div>
+                        <div class = "items-center  basis-1/2 ">
+                            <h1 class= "text-lg"></h1>
+                            <h1 class = "text-[#BBE1FA]  text-2xl">A</h1>
+                            <h1 class= "text-lg"></h1>
+                        </div>
+
+                    </div>
+
+                </div>
+                </div>
             </div>
 
         </div>

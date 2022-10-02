@@ -208,51 +208,45 @@
             </div>
 
             <div class = "flex items-center text-center rounded-lg  max-w-full"  v-if="search_clicked">
-                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
-                    <div class = "flex p-3 w-full items-center ">
-                        <div class = "flex  basis-1/2 max-w-full">
-                            <h1 class = "text-[#BBE1FA]  text-4xl m-auto">Winrate</h1>
-                        </div>
-                        <div class = "items-center basis-1/2">
-                            <h1 class= "text-lg"></h1>
-                            <h1 class = "text-[#BBE1FA]  text-2xl">{{this.win_rate}} %</h1>
-                            <h1 class = "text-[#BBE1FA]  text-md"><span style="color: green">{{this.total_win}} W </span>/ <span style="color: red">{{this.trade_list.length-this.total_win}} L </span></h1>
-                            <h1 class= "text-lg"></h1>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
-                    <div class = "flex p-3 w-full items-center ">
-                        <div class = "flex  basis-1/2  max-w-full">
-                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">PnL</h1>
-                        </div>
-                        <div class = "items-center  basis-3/4 ">
-                            <h1 class= "text-lg"></h1>
-                            <h1 class = "text-[#BBE1FA] text-2xl">{{this.pnl}} $</h1>
-                            <h1 class= "text-lg"></h1>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                <div class = "bg-[#1B262C]  h-max basis-1/2 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
                     <div class = "flex p-3 w-full items-center ">
                         <div class = "flex   basis-1/2  max-w-full">
-                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">Performance</h1>
+                            <h1 class = "text-[#BBE1FA]  text-3xl text-right m-auto">Long/Short Ratio</h1>
                         </div>
                         <div class = "items-center  basis-1/2 ">
-                            <h1 class= "text-lg"></h1>
-                            <h1 class = "text-[#BBE1FA]  text-2xl">{{this.performance}}</h1>
-                            <h1 class= "text-lg"></h1>
+                            <canvas id="doughnutChart" class =""></canvas>
                         </div>
 
                     </div>
 
                 </div>
+
+                <div class = "basis-1/2 h-full ">
+                <div class = "bg-[#1B262C]  h-1/2 basis-1/2 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "flex p-3 w-full items-center ">
+                        <div class = "items-center  w-full">
+                            <h1 class = "text-[#BBE1FA]  text-4xl m-auto">Winrate</h1>
+                            <h1 class = "text-[#BBE1FA]  text-2xl">{{this.win_rate.toFixed(2)}} %</h1>
+                            <h1 class = "text-[#BBE1FA]  text-md"><span style="color: green">{{this.total_win}} W </span>/ <span style="color: red">{{this.trade_list.length-this.total_win}} L </span></h1>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                
+                <div class = "bg-[#1B262C]  h-1/2 basis-1/2 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
+                    <div class = "flex p-3 w-full items-center ">
+                        <div class = "items-center w-full">
+                            <h1 class = "text-[#BBE1FA]  text-4xl m-auto">PnL</h1>
+                            <h1 class = "text-[#BBE1FA] text-2xl">{{this.pnl.toFixed(5)}} $</h1>
+                        </div>
+                    </div>
+
+
+                </div>
+                </div>
+
             </div>
 
             <div class = "items-center text-center  mt-3 mr-3 w-full" v-if="search_clicked">
@@ -292,8 +286,8 @@ export default{
             symbol_clicked : false,
             trade_list : {},
             sliced_tradelist : {},
-            date_from: getCookie("dateFrom"),
-            date_to : getCookie("dateTo"),
+            date_from: new Date(),
+            date_to : new Date(),
             coin_symbols : {},
             coinsymbols_filtered : {},
             symbol_input : getCookie("pair"),
@@ -303,12 +297,12 @@ export default{
             search_clicked :false,
             win_rate : 0,
             pnl : 0,
-            performance : "",
             total_win : 0,
             pnlArray : [],
             dateArray : [],
             chart_rendered :0,
-            bg_height : 'h-screen'
+            bg_height : 'h-screen',
+            total_long : 0
         }
     },
     created(){
@@ -356,7 +350,7 @@ export default{
                 (result)=>{
                     this.trade_list = result.data;
                     var temp_pnlArray = [],temp_dateArray = [];
-                    this.pnlArray = [],this.dateArray = []
+                    this.pnlArray = [],this.dateArray = [],this.total_long = 0;
                     this.pnlArray[0] = 0;
                     for(let i = 0,j=result.data.length-1;i<result.data.length;i++,j--){
                         temp_pnlArray[j] = result.data[i].closed_pnl;
@@ -365,11 +359,8 @@ export default{
 
                     for(let i = 0,j = 0;i<result.data.length;i++){
                         if(i == result.data.length-1){
-                            if(temp_dateArray[i] != temp_dateArray[i-1]){
                                 this.dateArray[j] = temp_dateArray[i];
                                 this.pnlArray[j] = 0;
-                                j++;
-                            }
                         }
                         else if(temp_dateArray[i] != temp_dateArray[i+1]){
                             this.dateArray[j] = temp_dateArray[i];
@@ -380,18 +371,29 @@ export default{
                     }
 
                     for(let i = 0,j = 1,k=0;i<result.data.length;i++){
-                        if(temp_dateArray[i] == temp_dateArray[i+1]){
-                            j++;
-                        }
-                        else{
+                        if(i == result.data.length-1){
                             for(let l = i-j+1;l<=i;l++){
                                 this.pnlArray[k] = temp_pnlArray[l] + this.pnlArray[k];
                             }
                             if(k >0){
                                 this.pnlArray[k] = this.pnlArray[k-1] + this.pnlArray[k];
                             }
-                            k++;
-                            j = 1;
+                        }
+                        else{
+                            if(temp_dateArray[i] == temp_dateArray[i+1]){
+                                j++;
+                            }
+                            else{
+                                for(let l = i-j+1;l<=i;l++){
+                                    this.pnlArray[k] = temp_pnlArray[l] + this.pnlArray[k];
+                                }
+                                if(k >0){
+                                    this.pnlArray[k] = this.pnlArray[k-1] + this.pnlArray[k];
+                                }
+                                
+                                k++;
+                                j = 1;
+                            }
                         }
                     }
 
@@ -401,23 +403,20 @@ export default{
                     this.calculateWinrate();
                     this.pnl = 0;
                     this.calculatePnL();
-                    this.calculatePerformance();
+                    this.calculateLSRatio();
                     this.total_page = Math.floor((this.trade_list.length + this.max_list - 1) / this.max_list);
                     this.change_page(1);
 
                     if(this.chart_rendered == 0){
                         this.showlineChart();
+                        this.showDoughnutChart()
                     }
                     else{
-                        this.updateChart();
+                        this.updatelineChart();
+                        this.updatedoughnutChart();
                     }
 
-                    if(this.pnlArray.length > 1){
-                        this.bg_height = 'h-fit';
-                    }
-                    else{
-                        this.bg_height = 'h-screen';
-                    }
+                    this.bg_height = 'h-fit';
 
                 }
             )
@@ -459,60 +458,11 @@ export default{
                 this.pnl = this.trade_list[i].closed_pnl + this.pnl;
             }
         },
-        calculatePerformance(){
-            this.performance = "TBD";
-            var performance_grade_wr = 0;
-            var performance_grade_profitmargin = 0;
-            if(this.win_rate < 30){
-                performance_grade_wr = 0;
-            }
-            else if(this.win_rate >= 30 && this.win_rate <50){
-                performance_grade_wr = 1;
-            }
-            else if(this.win_rate >= 50 && this.win_rate <70){
-                performance_grade_wr = 2;
-            }
-            else if (this.win_rate >=70 && this.win_rate <90){
-                performance_grade_wr = 3;
-            }
-            else if (this.win_rate >= 90){
-                performance_grade_wr = 4;
-            }
-
+        calculateLSRatio(){
             for(let i = 0;i<this.trade_list.length;i++){
-                if(this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 < -2){
-                    performance_grade_profitmargin = 0 +performance_grade_profitmargin;
+                if(this.trade_list[i].side == "Sell"){
+                    this.total_long ++;
                 }
-                else if(this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 >= -2 && this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 < 0){
-                    performance_grade_profitmargin = 1 +performance_grade_profitmargin;
-                }
-                else if(this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 >= 0 && this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 < 2){
-                    performance_grade_profitmargin = 2 +performance_grade_profitmargin;
-                }
-                else if(this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 >= 2 && this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 < 5){
-                    performance_grade_profitmargin = 3 +performance_grade_profitmargin;
-                }
-                else if(this.trade_list[i].closed_pnl/this.trade_list[i].avg_entry_price*this.trade_list[i].qty * 100 >= 5) {
-                    performance_grade_profitmargin = 4 +performance_grade_profitmargin;
-                }
-
-            }
-            performance_grade_profitmargin = performance_grade_profitmargin/this.trade_list.length;
-
-            if(performance_grade_profitmargin+performance_grade_wr/2 < 1){
-                this.performance = "E";
-            }
-            else if(performance_grade_profitmargin+performance_grade_wr/2 >= 1 && performance_grade_profitmargin+performance_grade_wr/2 < 2 ){
-                this.performance = "D";
-            }
-            else if (performance_grade_profitmargin+performance_grade_wr/2 >= 2 && performance_grade_profitmargin+performance_grade_wr/2 < 3 ){
-                this.performance = "C";
-            }
-            else if(performance_grade_profitmargin+performance_grade_wr/2 >= 3 && performance_grade_profitmargin+performance_grade_wr/2 < 4 ){
-                this.performance = "B";
-            }
-            else if(performance_grade_profitmargin+performance_grade_wr/2 >= 4) {
-                this.performance = "A";
             }
         },
         symbol_inputChanged(){
@@ -523,7 +473,7 @@ export default{
                 
                 }
            }
-          
+           this.showDoughnutChart();
         },
         showlineChart(){
                 const ctx = document.getElementById('lineChart').getContext('2d');  
@@ -555,7 +505,7 @@ export default{
 
 
         },
-        updateChart(){
+        updatelineChart(){
             let chartStatus = Chart.getChart("lineChart"); 
             if (chartStatus != undefined) {
                 chartStatus.data.datasets[0].data = null;
@@ -565,6 +515,38 @@ export default{
                 chartStatus.update();
             }
 
+        },
+        showDoughnutChart(){
+            const ctx = document.getElementById('doughnutChart').getContext('2d');  
+                const doughnutChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Longs','Shorts'],
+                        datasets: [{
+                            data: [this.total_long,this.trade_list.length-this.total_long],
+                            backgroundColor :[
+                                'rgb(125, 206, 19)',
+                                'rgb(230, 72, 72)'
+                            ],
+                            borderColor: 'rgb(27, 38, 50)'  ,
+                            hoverOffset : 4                   
+                        }]
+                    },
+                    options :{
+
+
+                    },
+                });
+                this.chart_rendered++;
+                doughnutChart.show;
+        },
+        updatedoughnutChart(){
+            let chartStatus = Chart.getChart("doughnutChart"); 
+            if (chartStatus != undefined) {
+                chartStatus.data.datasets[0].data = null;
+                chartStatus.data.datasets[0].data = [this.total_long,this.trade_list.length-this.total_long];
+                chartStatus.update();
+            }
         }
     }
     

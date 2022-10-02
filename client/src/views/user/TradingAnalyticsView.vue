@@ -121,12 +121,12 @@
                 <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
                     <div class = "flex p-3 w-full items-center ">
                         <div class = "flex  basis-1/2 max-w-full">
-                            <h1 class = "text-[#BBE1FA]  text-4xl m-auto">Winrate</h1>
+                            <h1 class = "text-[#BBE1FA]  text-4xl m-auto">Longs Winrate</h1>
                         </div>
                         <div class = "items-center basis-1/2">
                             <h1 class= "text-lg"></h1>
-                            <h1 class = "text-[#BBE1FA]  text-2xl">%</h1>
-                            <h1 class = "text-[#BBE1FA]  text-md"><span style="color: green">W</span>/<span style="color: red">L</span></h1>
+                            <h1 class = "text-[#BBE1FA]  text-2xl">{{long_winrate.toFixed(2)}}%</h1>
+                            <h1 class = "text-[#BBE1FA]  text-md"><span style="color: green">{{long_win}} W </span>/ <span style="color: red">{{total_long-long_win}} L</span></h1>
                             <h1 class= "text-lg"></h1>
                         </div>
 
@@ -137,12 +137,10 @@
                 <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
                     <div class = "flex p-3 w-full items-center ">
                         <div class = "flex  basis-1/2  max-w-full">
-                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">PnL</h1>
+                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">Longs PnL</h1>
                         </div>
                         <div class = "items-center  basis-3/4 ">
-                            <h1 class= "text-lg"></h1>
-                            <h1 class = "text-[#BBE1FA] text-2xl">$</h1>
-                            <h1 class= "text-lg"></h1>
+                            <h1 class = "text-[#BBE1FA] text-2xl">{{long_pnl.toFixed(5)}} $</h1>
                         </div>
 
                     </div>
@@ -152,12 +150,10 @@
                 <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
                     <div class = "flex p-3 w-full items-center ">
                         <div class = "flex   basis-1/2  max-w-full">
-                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">Performance</h1>
+                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">Total Longs</h1>
                         </div>
                         <div class = "items-center  basis-1/2 ">
-                            <h1 class= "text-lg"></h1>
-                            <h1 class = "text-[#BBE1FA]  text-2xl">A</h1>
-                            <h1 class= "text-lg"></h1>
+                            <h1 class = "text-[#BBE1FA]  text-2xl">{{total_long}}</h1>
                         </div>
 
                     </div>
@@ -174,12 +170,12 @@
                 <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
                     <div class = "flex p-3 w-full items-center ">
                         <div class = "flex  basis-1/2 max-w-full">
-                            <h1 class = "text-[#BBE1FA]  text-4xl m-auto">Winrate</h1>
+                            <h1 class = "text-[#BBE1FA]  text-4xl m-auto">Shorts Winrate</h1>
                         </div>
                         <div class = "items-center basis-1/2">
                             <h1 class= "text-lg"></h1>
-                            <h1 class = "text-[#BBE1FA]  text-2xl">%</h1>
-                            <h1 class = "text-[#BBE1FA]  text-md"><span style="color: green">W</span>/<span style="color: red">L</span></h1>
+                            <h1 class = "text-[#BBE1FA]  text-2xl">{{short_winrate.toFixed(2)}} %</h1>
+                            <h1 class = "text-[#BBE1FA]  text-md"><span style="color: green">{{short_win}} W </span>/ <span style="color: red">{{total_short-short_win}} L</span></h1>
                             <h1 class= "text-lg"></h1>
                         </div>
 
@@ -190,11 +186,11 @@
                 <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
                     <div class = "flex p-3 w-full items-center ">
                         <div class = "flex  basis-1/2  max-w-full">
-                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">PnL</h1>
+                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">Shorts PnL</h1>
                         </div>
                         <div class = "items-center  basis-3/4 ">
                             <h1 class= "text-lg"></h1>
-                            <h1 class = "text-[#BBE1FA] text-2xl">$</h1>
+                            <h1 class = "text-[#BBE1FA] text-2xl">{{short_pnl.toFixed(5)}} $</h1>
                             <h1 class= "text-lg"></h1>
                         </div>
 
@@ -205,11 +201,11 @@
                 <div class = "bg-[#1B262C]  h-max basis-4/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
                     <div class = "flex p-3 w-full items-center ">
                         <div class = "flex   basis-1/2  max-w-full">
-                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">Performance</h1>
+                            <h1 class = "text-[#BBE1FA]  text-4xl text-right m-auto">Total Shorts</h1>
                         </div>
                         <div class = "items-center  basis-1/2 ">
                             <h1 class= "text-lg"></h1>
-                            <h1 class = "text-[#BBE1FA]  text-2xl">A</h1>
+                            <h1 class = "text-[#BBE1FA]  text-2xl">{{total_short}}</h1>
                             <h1 class= "text-lg"></h1>
                         </div>
 
@@ -219,23 +215,178 @@
                 </div>
             </div>
 
-        </div>
 
+            <div class = "h-fit mt-3 mr-3 mb-3">
+                <div class = "bg-[#1B262C] text-center w-1/4 m-auto rounded-lg shadow-xl">
+                    <h1 class = "text-[#BBE1FA] text-3xl p-3">Best Winning Trades</h1>  
+                </div>
+
+                <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3">
+                <div class = "trade_list">
+                    <table class = "table-auto w-full border-separate border-spacing-2">
+                    <tr>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Symbol</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Contract Type</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Quantity</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Entry Price</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Exit Price</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Entry Date</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">% PnL from Margin</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Closed PnL</th>
+                    </tr>
+                    <tr>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[best_longidx].side == 'Sell' " >{{trade_list[ best_longidx].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[ best_longidx].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[best_longidx].order_type == 'Market' && trade_list[best_longidx].side == 'Sell'">Market Buy</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_longidx].order_type == 'Market' && trade_list[best_longidx].side == 'Buy'">Market Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_longidx].order_type == 'Limit' && trade_list[best_longidx].side == 'Sell'">Limit Buy</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_longidx].order_type == 'Limit' && trade_list[best_longidx].side == 'Buy'">Limit Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_longidx].qty}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_longidx].avg_entry_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_longidx].avg_exit_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{new Date(trade_list[best_longidx].created_at*1000).toDateString()}}</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "trade_list[best_longidx].closed_pnl/(trade_list[best_longidx].qty*trade_list[best_longidx].avg_entry_price) *100 > 0 ">{{(trade_list[best_longidx].closed_pnl/(trade_list[best_longidx].qty*trade_list[best_longidx].avg_entry_price) * 100).toFixed(2)}} %</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{(trade_list[best_longidx].closed_pnl/(trade_list[best_longidx].qty*trade_list[best_longidx].avg_entry_price) * 100).toFixed(2)}} %</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "trade_list[best_longidx].closed_pnl > 0 ">$ {{trade_list[best_longidx].closed_pnl}}</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{trade_list[best_longidx].closed_pnl}}</td>
+                    </tr>
+
+                    <tr>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[best_shortidx].side == 'Sell' " >{{trade_list[best_shortidx].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[best_shortidx].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[best_shortidx].order_type == 'Market' && trade_list[best_shortidx].side == 'Sell'">Market Buy</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_shortidx].order_type == 'Market' && trade_list[best_shortidx].side == 'Buy'">Market Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_shortidx].order_type == 'Limit' && trade_list[best_shortidx].side == 'Sell'">Limit Buy</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_shortidx].order_type == 'Limit' && trade_list[best_shortidx].side == 'Buy'">Limit Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_shortidx].qty}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_shortidx].avg_entry_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_shortidx].avg_exit_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{new Date(trade_list[best_shortidx].created_at*1000).toDateString()}}</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "trade_list[best_shortidx].closed_pnl/(trade_list[best_shortidx].qty*trade_list[best_shortidx].avg_entry_price) *100 > 0 ">{{(trade_list[best_shortidx].closed_pnl/(trade_list[best_shortidx].qty*trade_list[best_shortidx].avg_entry_price) * 100).toFixed(2)}} %</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{(trade_list[best_shortidx].closed_pnl/(trade_list[best_shortidx].qty*trade_list[best_shortidx].avg_entry_price) * 100).toFixed(2)}} %</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "trade_list[best_shortidx].closed_pnl > 0 ">$ {{trade_list[best_shortidx].closed_pnl}}</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{trade_list[best_shortidx].closed_pnl}}</td>
+                    </tr>
+                       
+
+                    </table>
+                </div>
+                </div>
+            </div>
+
+            <div class = "h-fit mt-3 mr-3 mb-3">
+                <div class = "bg-[#1B262C] text-center w-1/4 m-auto rounded-lg shadow-xl">
+                    <h1 class = "text-[#BBE1FA] text-3xl p-3">Worst Losing Trades</h1>  
+                </div>
+
+                <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3">
+                <div class = "trade_list">
+                    <table class = "table-auto w-full border-separate border-spacing-2">
+                    <tr>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Symbol</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Contract Type</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Quantity</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Entry Price</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Exit Price</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Entry Date</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">% PnL from Margin</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Closed PnL</th>
+                    </tr>
+
+                    <tr>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[worst_longidx].side == 'Sell' " >{{trade_list[worst_longidx].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[worst_longidx].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[worst_longidx].order_type == 'Market' && trade_list[worst_longidx].side == 'Sell'">Market Buy</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_longidx].order_type == 'Market' && trade_list[worst_longidx].side == 'Buy'">Market Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_longidx].order_type == 'Limit' && trade_list[worst_longidx].side == 'Sell'">Limit Buy</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_longidx].order_type == 'Limit' && trade_list[worst_longidx].side == 'Buy'">Limit Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_longidx].qty}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_longidx].avg_entry_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_longidx].avg_exit_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{new Date(trade_list[worst_longidx].created_at*1000).toDateString()}}</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "trade_list[worst_longidx].closed_pnl/(trade_list[worst_longidx].qty*trade_list[worst_longidx].avg_entry_price) *100 > 0 ">{{(trade_list[worst_longidx].closed_pnl/(trade_list[worst_longidx].qty*trade_list[worst_longidx].avg_entry_price) * 100).toFixed(2)}} %</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{(trade_list[worst_longidx].closed_pnl/(trade_list[worst_longidx].qty*trade_list[worst_longidx].avg_entry_price) * 100).toFixed(2)}} %</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "trade_list[worst_longidx].closed_pnl > 0 ">$ {{trade_list[worst_longidx].closed_pnl}}</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{trade_list[worst_longidx].closed_pnl}}</td>
+                    </tr>
+
+                    <tr>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[worst_shortidx].side == 'Sell' " >{{trade_list[worst_shortidx].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[worst_shortidx].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[worst_shortidx].order_type == 'Market' && trade_list[worst_shortidx].side == 'Sell'">Market Buy</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_shortidx].order_type == 'Market' && trade_list[worst_shortidx].side == 'Buy'">Market Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_shortidx].order_type == 'Limit' && trade_list[worst_shortidx].side == 'Sell'">Limit Buy</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_shortidx].order_type == 'Limit' && trade_list[worst_shortidx].side == 'Buy'">Limit Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_shortidx].qty}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_shortidx].avg_entry_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_shortidx].avg_exit_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{new Date(trade_list[worst_shortidx].created_at*1000).toDateString()}}</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "trade_list[worst_shortidx].closed_pnl/(trade_list[worst_shortidx].qty*trade_list[worst_shortidx].avg_entry_price) *100 > 0 ">{{(trade_list[worst_shortidx].closed_pnl/(trade_list[worst_shortidx].qty*trade_list[worst_shortidx].avg_entry_price) * 100).toFixed(2)}} %</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{(trade_list[worst_shortidx].closed_pnl/(trade_list[worst_shortidx].qty*trade_list[worst_shortidx].avg_entry_price) * 100).toFixed(2)}} %</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "trade_list[worst_shortidx].closed_pnl > 0 ">$ {{trade_list[worst_shortidx].closed_pnl}}</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{trade_list[worst_shortidx].closed_pnl}}</td>
+                    </tr>
+                       
+                       
+
+                    </table>
+                </div>
+                </div>
+            </div>
+
+            <div class = "flex items-center text-center rounded-lg  w-full">
+                <div class = "bg-[#1B262C]  h-max w-4/5 m-auto rounded-lg shadow-xl">
+                    <div class = "p-3  items-center ">
+                        <div class = "flex    max-w-full">
+                            <h1 class = "text-[#BBE1FA]  text-3xl text-right m-auto">Trade Result By Day</h1>
+                        </div>
+                        <div class = "items-center">
+                            <canvas id="barChart" class =""></canvas>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
 
         
 
+
+        </div>
+
+
+
+    
     
     </div>
 
 </template>
 
 <script>
+import axios from 'axios';
+import qs from 'qs';
+import Chart from 'chart.js/auto'
 export default{
     data(){
         return{
             api_clicked : false,
-            ts_clicked : false
+            ts_clicked : false,
+            trade_list : {},
+            total_long : 0,
+            total_short :0,
+            long_winrate : 0,
+            short_winrate :0,
+            long_pnl : 0,
+            short_pnl : 0,
+            long_win :0,
+            short_win : 0,
+            best_longidx : -1,
+            worst_longidx : -1,
+            best_shortidx : -1,
+            worst_shortidx : -1,
+            pnl_byDate : [],
         }
     },
     created(){
@@ -243,7 +394,69 @@ export default{
         this.$router.push('/login');
         }
         else {
-            console.log("")
+            const data = qs.stringify({
+                pair : getCookie("pair"),
+                from : new Date(getCookie("dateFrom")*1000),
+                to : new Date(getCookie("dateTo")*1000)
+            });
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/api/bybit/closed-pnl',
+                data: data,
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                    'authorization' : 'Bearer '+getCookie("apiToken")
+                 }
+            }).then(
+                (result)=>{
+                    this.trade_list = result.data;
+                    let best_long = Number.MIN_VALUE,worst_long = Number.MAX_VALUE,best_short = Number.MIN_VALUE,worst_short = Number.MAX_VALUE;
+                    for(let i = 0;i<7;i++){
+                        this.pnl_byDate[i] = 0;
+                    }
+                    for(let i = 0;i<result.data.length;i++){
+                        if(result.data[i].side == 'Sell'){
+                            this.total_long++;
+                            this.long_pnl = this.long_pnl + result.data[i].closed_pnl ;
+                            if(result.data[i].closed_pnl >= best_long){
+                                best_long = result.data[i].closed_pnl;
+                                this.best_longidx = i;
+                            }
+                            if(result.data[i].closed_pnl <= worst_long){
+                                worst_long = result.data[i].closed_pnl;
+                                this.worst_longidx = i;
+                            }
+                            if(result.data[i].closed_pnl > 0){
+                                this.long_win++;
+                            }
+
+                           
+                        }
+                        else{
+                            this.total_short++;
+                            this.short_pnl = this.short_pnl + result.data[i].closed_pnl;
+                            if(result.data[i].closed_pnl >= best_short){
+                                best_short = result.data[i].closed_pnl;
+                                this.best_shortidx = i;
+                            }
+                            if(result.data[i].closed_pnl <= worst_short){
+                                worst_short = result.data[i].closed_pnl;
+                                this.worst_shortidx = i;
+                            }
+                            if(result.data[i].closed_pnl > 0){
+                                this.short_win++;
+                            }
+                        }
+                        this.pnl_byDate[new Date(result.data[i].created_at*1000).getDay()] = this.pnl_byDate[new Date(result.data[i].created_at*1000).getDay()] + result.data[i].closed_pnl;
+                    }
+                    this.long_winrate = this.long_win / this.total_long * 100;
+                    this.short_winrate = this.short_win / this.total_short * 100;
+                }
+            ).then(
+                ()=>{
+                    this.showbarChart();
+                }
+            )
         }
        
     },
@@ -252,7 +465,44 @@ export default{
             delete_cookie("userToken");
             delete_cookie("apiToken");
             this.$router.push('/login');
-        }  
+        },
+        showbarChart(){
+            const ctx = document.getElementById('barChart').getContext('2d');  
+            const barChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+                        datasets: [{
+                            label: 'PnL by Day of the Week',
+                            data: [this.pnl_byDate[0],this.pnl_byDate[1],this.pnl_byDate[2],this.pnl_byDate[3],this.pnl_byDate[4],this.pnl_byDate[5],this.pnl_byDate[6]],
+                            backgroundColor :function(context) {
+                            const index = context.dataIndex;
+                            const value = context.dataset.data[index];
+                            return value < 0 ? 'red' : 'green'; // draw negative values in red      
+                            },
+                            borderColor:function(context) {
+                            const index = context.dataIndex;
+                            const value = context.dataset.data[index];
+                            return value < 0 ? 'red' : 'green'; // draw negative values in red      
+                            },
+                            hoverOffset : 4                   
+                        }]
+                    },
+                    options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                            legend: {
+                            display: false
+                            }
+                    }
+                }
+                });
+                barChart.show;
+        }
     }
     
 }

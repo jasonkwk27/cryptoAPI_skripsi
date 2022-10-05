@@ -118,7 +118,7 @@
                         </div>
                         <div class = "bg-[#0F4C75] rounded-lg h-60 absolute overflow-y-auto ml-3" v-if="symbol_clicked">
                             <a href="#">
-                                <li v-for="(coin,index) in coinsymbols_filtered" :key="index" class = "list-none  hover:bg-[#3282B8] text-[#BBE1FA]" @click = "symbol_clicked = !symbol_clicked; symbol_input = coinsymbols_filtered[index].symbol">
+                                <li v-for="(coin,index) in coinsymbols_filtered" :key="index" class = "list-none p-2 hover:bg-[#3282B8] text-[#BBE1FA]" @click = "symbol_clicked = !symbol_clicked; symbol_input = coinsymbols_filtered[index].symbol">
                                 {{ coinsymbols_filtered[index].symbol }}
                                 </li>
                             </a>
@@ -138,6 +138,7 @@
                         <button type="submit" class = "py-3 px-5 bg-[#3282B8] text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click="search_clicked = true">Search</button>
                     </div>
 
+                    <template v-if ="api_validity">
                     <div class="bg-[#1B262C] w-fit flex items-center rounded-lg" v-if="search_clicked">
                     <nav aria-label="Page navigation example">
                         <ul class="flex list-style-none">
@@ -157,6 +158,7 @@
                         </ul>
                     </nav>
                     </div>
+                    </template>
 
                 </div>
                 </form>
@@ -339,18 +341,18 @@ export default{
                  }
             }).then(
                 (result)=>{
-                    if(result.data.result != null){
-                        this.trade_list = result.data;
+                    if(result.data.result != null && result.data.result.data !=null){
+                        this.trade_list = result.data.result.data;
                         var temp_pnlArray = [],temp_dateArray = [];
                         this.pnlArray = [],this.dateArray = [],this.total_long = 0;
                         this.pnlArray[0] = 0;
-                        for(let i = 0,j=result.data.length-1;i<result.data.length;i++,j--){
-                            temp_pnlArray[j] = result.data[i].closed_pnl;
-                            temp_dateArray[j] = new Date(result.data[i].created_at*1000).toDateString();
+                        for(let i = 0,j=result.data.result.data.length-1;i<result.data.result.data.length;i++,j--){
+                            temp_pnlArray[j] = result.data.result.data[i].closed_pnl;
+                            temp_dateArray[j] = new Date(result.data.result.data[i].created_at*1000).toDateString();
                         }
 
-                        for(let i = 0,j = 0;i<result.data.length;i++){
-                            if(i == result.data.length-1){
+                        for(let i = 0,j = 0;i<result.data.result.data.length;i++){
+                            if(i == result.data.result.data.length-1){
                                     this.dateArray[j] = temp_dateArray[i];
                                     this.pnlArray[j] = 0;
                             }
@@ -362,8 +364,8 @@ export default{
                             }
                         }
 
-                        for(let i = 0,j = 1,k=0;i<result.data.length;i++){
-                            if(i == result.data.length-1){
+                        for(let i = 0,j = 1,k=0;i<result.data.result.data.length;i++){
+                            if(i == result.data.result.data.length-1){
                                 for(let l = i-j+1;l<=i;l++){
                                     this.pnlArray[k] = temp_pnlArray[l] + this.pnlArray[k];
                                 }
@@ -397,25 +399,32 @@ export default{
                         this.calculatePnL();
                         this.calculateLSRatio();
                         this.total_page = Math.floor((this.trade_list.length + this.max_list - 1) / this.max_list);
-                        this.change_page(1);
 
-                        if(this.chart_rendered == 0){
+                        this.api_validity = true;
+                        this.change_page(1);
+                        this.bg_height = 'h-fit';
+                        
+                    }
+                    else{
+                        if(result.data.result == null){
+                            console.log(result.data.ret_msg);
+                        }
+                        else if(result.data.result.data == null){
+                            console.log("No Data Is Found!");
+                        }
+                    }
+                }
+            ).then(
+                ()=>{
+                    if(this.chart_rendered == 0){
                             this.showlineChart();
-                            this.showDoughnutChart()
+                            this.showDoughnutChart();
+
                         }
                         else{
                             this.updatelineChart();
                             this.updatedoughnutChart();
                         }
-                        this.api_validity = true;
-                        this.bg_height = 'h-fit';
-                    }
-                    else{
-                    console.log(result.data);
-                    }
-
-    
-
                 }
             )
         },
@@ -474,9 +483,9 @@ export default{
                 
                 }
            }
-           this.showDoughnutChart();
         },
         showlineChart(){
+            if(document.getElementById("lineChart") != null){
                 const ctx = document.getElementById('lineChart').getContext('2d');  
                 const lineChart = new Chart(ctx, {
                     type: 'line',
@@ -503,7 +512,7 @@ export default{
                 });
                 this.chart_rendered++;
                 lineChart.show;
-
+            }
 
         },
         updatelineChart(){
@@ -518,6 +527,7 @@ export default{
 
         },
         showDoughnutChart(){
+            if(document.getElementById("doughnutChart") != null){
             const ctx = document.getElementById('doughnutChart').getContext('2d');  
                 const doughnutChart = new Chart(ctx, {
                     type: 'doughnut',
@@ -540,6 +550,7 @@ export default{
                 });
                 this.chart_rendered++;
                 doughnutChart.show;
+            }
         },
         updatedoughnutChart(){
             let chartStatus = Chart.getChart("doughnutChart"); 

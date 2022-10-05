@@ -102,7 +102,7 @@
             </div>
 
             <template v-if="api_validity">
-            <div class = "h-fit mt-3 mr-3 mb-3">
+            <div class = "h-fit mt-3 mr-3 mb-3" v-if="total_long > 0">
                 <div class = "bg-[#1B262C] text-center w-1/4 m-auto rounded-lg shadow-xl">
                     <h1 class = "text-[#BBE1FA] text-3xl p-3">Longs</h1>  
                 </div>
@@ -152,7 +152,7 @@
                 </div>
             </div>
 
-            <div class = "h-fit mt-3 mr-3 mb-3">
+            <div class = "h-fit mt-3 mr-3 mb-3" v-if="total_short>0">
                 <div class = "bg-[#1B262C] text-center w-1/4 m-auto rounded-lg shadow-xl">
                     <h1 class = "text-[#BBE1FA] text-3xl p-3">Shorts</h1>  
                 </div>
@@ -224,7 +224,7 @@
                         <th class = "px-5 py-3 text-left text-[#3282B8]">% PnL from Margin</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Closed PnL</th>
                     </tr>
-                    <tr>
+                    <tr v-if="total_long > 0">
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[best_longidx].side == 'Sell' " >{{trade_list[ best_longidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[ best_longidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[best_longidx].order_type == 'Market' && trade_list[best_longidx].side == 'Sell'">Market Buy</td>
@@ -241,7 +241,7 @@
                             <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{trade_list[best_longidx].closed_pnl}}</td>
                     </tr>
 
-                    <tr>
+                    <tr v-if="total_short > 0">
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[best_shortidx].side == 'Sell' " >{{trade_list[best_shortidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[best_shortidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[best_shortidx].order_type == 'Market' && trade_list[best_shortidx].side == 'Sell'">Market Buy</td>
@@ -283,7 +283,7 @@
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Closed PnL</th>
                     </tr>
 
-                    <tr>
+                    <tr v-if ="total_long > 0">
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[worst_longidx].side == 'Sell' " >{{trade_list[worst_longidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[worst_longidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[worst_longidx].order_type == 'Market' && trade_list[worst_longidx].side == 'Sell'">Market Buy</td>
@@ -300,7 +300,7 @@
                             <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{trade_list[worst_longidx].closed_pnl}}</td>
                     </tr>
 
-                    <tr>
+                    <tr v-if="total_short > 0">
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[worst_shortidx].side == 'Sell' " >{{trade_list[worst_shortidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[worst_shortidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[worst_shortidx].order_type == 'Market' && trade_list[worst_shortidx].side == 'Sell'">Market Buy</td>
@@ -372,10 +372,10 @@ export default{
             short_pnl : 0,
             long_win :0,
             short_win : 0,
-            best_longidx : -1,
-            worst_longidx : -1,
-            best_shortidx : -1,
-            worst_shortidx : -1,
+            best_longidx : 0,
+            worst_longidx : 0,
+            best_shortidx : 0,
+            worst_shortidx : 0,
             pnl_byDate : [],
             api_validity : false,
             bg_height : 'h-screen' 
@@ -402,24 +402,24 @@ export default{
             }).then(
                 (result)=>{
                     if(result.data.result !=null){
-                        this.trade_list = result.data;
+                        this.trade_list = result.data.result.data;
                         let best_long = Number.MIN_VALUE,worst_long = Number.MAX_VALUE,best_short = Number.MIN_VALUE,worst_short = Number.MAX_VALUE;
                         for(let i = 0;i<7;i++){
                             this.pnl_byDate[i] = 0;
                         }
-                        for(let i = 0;i<result.data.length;i++){
-                            if(result.data[i].side == 'Sell'){
+                        for(let i = 0;i<result.data.result.data.length;i++){
+                            if(result.data.result.data[i].side == 'Sell'){
                                 this.total_long++;
-                                this.long_pnl = this.long_pnl + result.data[i].closed_pnl ;
-                                if(result.data[i].closed_pnl >= best_long){
-                                    best_long = result.data[i].closed_pnl;
+                                this.long_pnl = this.long_pnl + result.data.result.data[i].closed_pnl ;
+                                if(result.data.result.data[i].closed_pnl >= best_long){
+                                    best_long = result.data.result.data[i].closed_pnl;
                                     this.best_longidx = i;
                                 }
-                                if(result.data[i].closed_pnl <= worst_long){
-                                    worst_long = result.data[i].closed_pnl;
+                                if(result.data.result.data[i].closed_pnl <= worst_long){
+                                    worst_long = result.data.result.data[i].closed_pnl;
                                     this.worst_longidx = i;
                                 }
-                                if(result.data[i].closed_pnl > 0){
+                                if(result.data.result.data[i].closed_pnl > 0){
                                     this.long_win++;
                                 }
 
@@ -427,24 +427,25 @@ export default{
                             }
                             else{
                                 this.total_short++;
-                                this.short_pnl = this.short_pnl + result.data[i].closed_pnl;
-                                if(result.data[i].closed_pnl >= best_short){
-                                    best_short = result.data[i].closed_pnl;
+                                this.short_pnl = this.short_pnl + result.data.result.data[i].closed_pnl;
+                                if(result.data.result.data[i].closed_pnl >= best_short){
+                                    best_short = result.data.result.data[i].closed_pnl;
                                     this.best_shortidx = i;
                                 }
-                                if(result.data[i].closed_pnl <= worst_short){
-                                    worst_short = result.data[i].closed_pnl;
+                                if(result.data.result.data[i].closed_pnl <= worst_short){
+                                    worst_short = result.data.result.data[i].closed_pnl;
                                     this.worst_shortidx = i;
                                 }
-                                if(result.data[i].closed_pnl > 0){
+                                if(result.data.result.data[i].closed_pnl > 0){
                                     this.short_win++;
                                 }
                             }
-                            this.pnl_byDate[new Date(result.data[i].created_at*1000).getDay()] = this.pnl_byDate[new Date(result.data[i].created_at*1000).getDay()] + result.data[i].closed_pnl;
+                            this.pnl_byDate[new Date(result.data.result.data[i].created_at*1000).getDay()] = this.pnl_byDate[new Date(result.data.result.data[i].created_at*1000).getDay()] + result.data.result.data[i].closed_pnl;
                         }
                         this.long_winrate = this.long_win / this.total_long * 100;
                         this.short_winrate = this.short_win / this.total_short * 100;
                         this.bg_height = 'h-fit';
+                        this.api_validity = true;
                         }
                         else{
                             console.log(result.data);

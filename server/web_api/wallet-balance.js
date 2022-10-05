@@ -40,11 +40,10 @@ router.get('/',(req,res)=>{
                     url.searchParams.append('sign',sign);
                     axios.get(url.href)
                     .then((result)=> {
-                        res.send(JSON.stringify(result.data.result));
-                        
+                        res.send(JSON.stringify(result.data));
                     })
                     .catch((err)=>{
-                        console.log(err)
+                        res.send(err);
                     })
                 }
                )

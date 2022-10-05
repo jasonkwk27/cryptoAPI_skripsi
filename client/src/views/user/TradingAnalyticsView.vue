@@ -1,5 +1,5 @@
 <template>
-    <div class = "bg-[#0F4C75] w-full h-fit flex ">
+    <div :class = "[bg_height]" class = "bg-[#0F4C75] w-full flex ">
         <div class = "basis-2/12 m-3"></div>
         <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-screen m-3 flex-auto w-2/12">
             <a href = "/personal-info">
@@ -101,6 +101,7 @@
                 </a> 
             </div>
 
+            <template v-if="api_validity">
             <div class = "h-fit mt-3 mr-3 mb-3">
                 <div class = "bg-[#1B262C] text-center w-1/4 m-auto rounded-lg shadow-xl">
                     <h1 class = "text-[#BBE1FA] text-3xl p-3">Longs</h1>  
@@ -341,7 +342,7 @@
 
 
         
-
+            </template>
 
         </div>
 
@@ -376,6 +377,8 @@ export default{
             best_shortidx : -1,
             worst_shortidx : -1,
             pnl_byDate : [],
+            api_validity : false,
+            bg_height : 'h-screen' 
         }
     },
     created(){
@@ -398,48 +401,55 @@ export default{
                  }
             }).then(
                 (result)=>{
-                    this.trade_list = result.data;
-                    let best_long = Number.MIN_VALUE,worst_long = Number.MAX_VALUE,best_short = Number.MIN_VALUE,worst_short = Number.MAX_VALUE;
-                    for(let i = 0;i<7;i++){
-                        this.pnl_byDate[i] = 0;
-                    }
-                    for(let i = 0;i<result.data.length;i++){
-                        if(result.data[i].side == 'Sell'){
-                            this.total_long++;
-                            this.long_pnl = this.long_pnl + result.data[i].closed_pnl ;
-                            if(result.data[i].closed_pnl >= best_long){
-                                best_long = result.data[i].closed_pnl;
-                                this.best_longidx = i;
-                            }
-                            if(result.data[i].closed_pnl <= worst_long){
-                                worst_long = result.data[i].closed_pnl;
-                                this.worst_longidx = i;
-                            }
-                            if(result.data[i].closed_pnl > 0){
-                                this.long_win++;
-                            }
+                    if(result.data.result !=null){
+                        this.trade_list = result.data;
+                        let best_long = Number.MIN_VALUE,worst_long = Number.MAX_VALUE,best_short = Number.MIN_VALUE,worst_short = Number.MAX_VALUE;
+                        for(let i = 0;i<7;i++){
+                            this.pnl_byDate[i] = 0;
+                        }
+                        for(let i = 0;i<result.data.length;i++){
+                            if(result.data[i].side == 'Sell'){
+                                this.total_long++;
+                                this.long_pnl = this.long_pnl + result.data[i].closed_pnl ;
+                                if(result.data[i].closed_pnl >= best_long){
+                                    best_long = result.data[i].closed_pnl;
+                                    this.best_longidx = i;
+                                }
+                                if(result.data[i].closed_pnl <= worst_long){
+                                    worst_long = result.data[i].closed_pnl;
+                                    this.worst_longidx = i;
+                                }
+                                if(result.data[i].closed_pnl > 0){
+                                    this.long_win++;
+                                }
 
-                           
+                            
+                            }
+                            else{
+                                this.total_short++;
+                                this.short_pnl = this.short_pnl + result.data[i].closed_pnl;
+                                if(result.data[i].closed_pnl >= best_short){
+                                    best_short = result.data[i].closed_pnl;
+                                    this.best_shortidx = i;
+                                }
+                                if(result.data[i].closed_pnl <= worst_short){
+                                    worst_short = result.data[i].closed_pnl;
+                                    this.worst_shortidx = i;
+                                }
+                                if(result.data[i].closed_pnl > 0){
+                                    this.short_win++;
+                                }
+                            }
+                            this.pnl_byDate[new Date(result.data[i].created_at*1000).getDay()] = this.pnl_byDate[new Date(result.data[i].created_at*1000).getDay()] + result.data[i].closed_pnl;
+                        }
+                        this.long_winrate = this.long_win / this.total_long * 100;
+                        this.short_winrate = this.short_win / this.total_short * 100;
+                        this.bg_height = 'h-fit';
                         }
                         else{
-                            this.total_short++;
-                            this.short_pnl = this.short_pnl + result.data[i].closed_pnl;
-                            if(result.data[i].closed_pnl >= best_short){
-                                best_short = result.data[i].closed_pnl;
-                                this.best_shortidx = i;
-                            }
-                            if(result.data[i].closed_pnl <= worst_short){
-                                worst_short = result.data[i].closed_pnl;
-                                this.worst_shortidx = i;
-                            }
-                            if(result.data[i].closed_pnl > 0){
-                                this.short_win++;
-                            }
+                            console.log(result.data);
                         }
-                        this.pnl_byDate[new Date(result.data[i].created_at*1000).getDay()] = this.pnl_byDate[new Date(result.data[i].created_at*1000).getDay()] + result.data[i].closed_pnl;
-                    }
-                    this.long_winrate = this.long_win / this.total_long * 100;
-                    this.short_winrate = this.short_win / this.total_short * 100;
+   
                 }
             ).then(
                 ()=>{
@@ -459,6 +469,7 @@ export default{
             this.$router.push('/login');
         },
         showbarChart(){
+            if(document.getElementById("barChart") != null){
             const ctx = document.getElementById('barChart').getContext('2d');  
             const barChart = new Chart(ctx, {
                     type: 'bar',
@@ -494,6 +505,7 @@ export default{
                 }
                 });
                 barChart.show;
+            }
         }
     }
     

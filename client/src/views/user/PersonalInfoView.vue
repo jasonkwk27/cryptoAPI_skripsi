@@ -101,7 +101,7 @@
                 </a> 
             </div>
 
-            <div class = "bg-[#1B262C] rounded-lg shadow-xl max-w-full h-fit mt-3 mr-3 mb-3 items-center">
+            <div class = "bg-[#1B262C] rounded-lg shadow-xl max-w-full h-fit mt-3 mr-3 mb-3 items-center" v-if="result_loaded">
                 <h1 class = "text-[#BBE1FA] text-2xl p-3">Username : {{personal_info[0].username}}</h1>
                 <h1 class = "text-[#BBE1FA] text-2xl p-3">Password : {{personal_info[0].password}}</h1>            
                 <h1 class = "text-[#BBE1FA] text-2xl p-3">Email : {{personal_info[0].email}}</h1>   
@@ -127,7 +127,8 @@ export default{
         return{
             api_clicked : false,
             ts_clicked : false,
-            personal_info : {}
+            personal_info : {},
+            result_loaded : false
         }
     },
     created(){
@@ -144,6 +145,7 @@ export default{
                 }
             }).then((result)=>{
                 this.personal_info = result.data;
+                this.result_loaded = true;
             })
         }
        

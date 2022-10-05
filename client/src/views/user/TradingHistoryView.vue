@@ -162,6 +162,7 @@
                 </form>
             </div>
 
+            <template v-if="api_validity">
             <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3" v-if="search_clicked">
                 <div class = "trade_list">
                     <table class = "table-auto w-full border-separate border-spacing-2">
@@ -245,7 +246,7 @@
 
             </div>
             
-
+            </template>
 
         </div>
 
@@ -291,7 +292,8 @@ export default{
             dateArray : [],
             chart_rendered :0,
             bg_height : 'h-screen',
-            total_long : 0
+            total_long : 0,
+            api_validity : false
         }
     },
     created(){
@@ -337,75 +339,82 @@ export default{
                  }
             }).then(
                 (result)=>{
-                    this.trade_list = result.data;
-                    var temp_pnlArray = [],temp_dateArray = [];
-                    this.pnlArray = [],this.dateArray = [],this.total_long = 0;
-                    this.pnlArray[0] = 0;
-                    for(let i = 0,j=result.data.length-1;i<result.data.length;i++,j--){
-                        temp_pnlArray[j] = result.data[i].closed_pnl;
-                        temp_dateArray[j] = new Date(result.data[i].created_at*1000).toDateString();
-                    }
+                    if(result.data.result != null){
+                        this.trade_list = result.data;
+                        var temp_pnlArray = [],temp_dateArray = [];
+                        this.pnlArray = [],this.dateArray = [],this.total_long = 0;
+                        this.pnlArray[0] = 0;
+                        for(let i = 0,j=result.data.length-1;i<result.data.length;i++,j--){
+                            temp_pnlArray[j] = result.data[i].closed_pnl;
+                            temp_dateArray[j] = new Date(result.data[i].created_at*1000).toDateString();
+                        }
 
-                    for(let i = 0,j = 0;i<result.data.length;i++){
-                        if(i == result.data.length-1){
+                        for(let i = 0,j = 0;i<result.data.length;i++){
+                            if(i == result.data.length-1){
+                                    this.dateArray[j] = temp_dateArray[i];
+                                    this.pnlArray[j] = 0;
+                            }
+                            else if(temp_dateArray[i] != temp_dateArray[i+1]){
                                 this.dateArray[j] = temp_dateArray[i];
-                                this.pnlArray[j] = 0;
-                        }
-                        else if(temp_dateArray[i] != temp_dateArray[i+1]){
-                            this.dateArray[j] = temp_dateArray[i];
-                            this.pnlArray[j] = 0;  
-                            j++;
-
-                        }
-                    }
-
-                    for(let i = 0,j = 1,k=0;i<result.data.length;i++){
-                        if(i == result.data.length-1){
-                            for(let l = i-j+1;l<=i;l++){
-                                this.pnlArray[k] = temp_pnlArray[l] + this.pnlArray[k];
-                            }
-                            if(k >0){
-                                this.pnlArray[k] = this.pnlArray[k-1] + this.pnlArray[k];
-                            }
-                        }
-                        else{
-                            if(temp_dateArray[i] == temp_dateArray[i+1]){
+                                this.pnlArray[j] = 0;  
                                 j++;
+
                             }
-                            else{
+                        }
+
+                        for(let i = 0,j = 1,k=0;i<result.data.length;i++){
+                            if(i == result.data.length-1){
                                 for(let l = i-j+1;l<=i;l++){
                                     this.pnlArray[k] = temp_pnlArray[l] + this.pnlArray[k];
                                 }
                                 if(k >0){
                                     this.pnlArray[k] = this.pnlArray[k-1] + this.pnlArray[k];
                                 }
-                                
-                                k++;
-                                j = 1;
+                            }
+                            else{
+                                if(temp_dateArray[i] == temp_dateArray[i+1]){
+                                    j++;
+                                }
+                                else{
+                                    for(let l = i-j+1;l<=i;l++){
+                                        this.pnlArray[k] = temp_pnlArray[l] + this.pnlArray[k];
+                                    }
+                                    if(k >0){
+                                        this.pnlArray[k] = this.pnlArray[k-1] + this.pnlArray[k];
+                                    }
+                                    
+                                    k++;
+                                    j = 1;
+                                }
                             }
                         }
-                    }
 
-                    document.cookie = `pair=${this.symbol_input}`;
-                    document.cookie = `dateFrom=${new Date(this.date_from).getTime()/1000}`;
-                    document.cookie = `dateTo=${new Date(this.date_to).getTime()/1000}`;
-                    this.calculateWinrate();
-                    this.pnl = 0;
-                    this.calculatePnL();
-                    this.calculateLSRatio();
-                    this.total_page = Math.floor((this.trade_list.length + this.max_list - 1) / this.max_list);
-                    this.change_page(1);
+                        document.cookie = `pair=${this.symbol_input}`;
+                        document.cookie = `dateFrom=${new Date(this.date_from).getTime()/1000}`;
+                        document.cookie = `dateTo=${new Date(this.date_to).getTime()/1000}`;
+                        this.calculateWinrate();
+                        this.pnl = 0;
+                        this.calculatePnL();
+                        this.calculateLSRatio();
+                        this.total_page = Math.floor((this.trade_list.length + this.max_list - 1) / this.max_list);
+                        this.change_page(1);
 
-                    if(this.chart_rendered == 0){
-                        this.showlineChart();
-                        this.showDoughnutChart()
+                        if(this.chart_rendered == 0){
+                            this.showlineChart();
+                            this.showDoughnutChart()
+                        }
+                        else{
+                            this.updatelineChart();
+                            this.updatedoughnutChart();
+                        }
+                        this.api_validity = true;
+                        this.bg_height = 'h-fit';
                     }
                     else{
-                        this.updatelineChart();
-                        this.updatedoughnutChart();
+                    console.log(result.data);
                     }
 
-                    this.bg_height = 'h-fit';
+    
 
                 }
             )

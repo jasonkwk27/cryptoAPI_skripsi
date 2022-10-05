@@ -51,7 +51,7 @@ router.post('/',urlencodedParser,(req,res)=>{
                     url.searchParams.append('sign',sign);
                     axios.get(url.href)
                     .then((result)=> {
-                        res.send(result.data.result.data);
+                        res.send(result.data);
                     })
                     .catch((err)=>{
                         console.log(err)

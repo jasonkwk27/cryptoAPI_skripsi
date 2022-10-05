@@ -1,5 +1,5 @@
 <template>
-    <div class = " bg-[#0F4C75] w-full h-full flex ">
+    <div :class = "[bg_height]" class = " bg-[#0F4C75] w-full flex ">
         <div class = "basis-2/12 m-3"></div>
         <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-screen m-3  flex-auto w-2/12">
             <a href = "/personal-info">
@@ -101,7 +101,8 @@
                 </a> 
             </div>
 
-            <div class = "flex">
+            <template v-if ="api_validity">
+                <div class = "flex">
                 <div class = "bg-[#1B262C] basis-5/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
                     <div class = " flex-auto p-3 h-full w-full text-center">
                         <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">Total Networth</h1> 
@@ -137,6 +138,11 @@
                     </table>
                 </div>
             </div>
+            </template>
+            
+            <template v-else>
+
+            </template>
 
         </div>
 
@@ -161,6 +167,8 @@ export default{
             symbols : [],
             asset_value : [],
             total_networth : 0,
+            api_validity : false,
+            bg_height :'h-screen'
         }
     },
     created(){
@@ -168,7 +176,6 @@ export default{
         this.$router.push('/login');
         }
         else {
-
             axios({
                 method: 'get',
                 url: 'http://localhost:3000/api/bybit/wallet-balance',
@@ -178,38 +185,46 @@ export default{
                 }
             })
             .then((res)=>{
-                this.coin_list = res.data;
-                this.symbols = Object.getOwnPropertyNames(this.coin_list);
-                    axios({
-                        method: 'get',
-                        url: 'http://localhost:3000/api/bybit/coin-tickers',
-                        headers: {
-                            'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                        }
-                    }).then(
-                        (result)=>{                   
-                            for(let i = 0;i<this.symbols.length;i++){
-                                for(let j = 0;j<result.data.length;j++){
-                                    if(this.symbols[i] == "USDT"){
-                                        this.coin_list[this.symbols[i]].price = 1;
-                                        break;
-                                    }
-                                    else if(this.symbols[i] == "LUNA"){
-                                        this.coin_list[this.symbols[i]].price = 0;
-                                        break;
-                                    }
-                                    else if (result.data[j].symbol == this.symbols[i] + "USDT"){
-                                        this.coin_list[this.symbols[i]].price = result.data[j].mark_price;
-                                        break;
-                                    }
-                                }
-                                this.asset_value[i] = this.coin_list[this.symbols[i]].price * this.coin_list[this.symbols[i]].wallet_balance;
-                                this.total_networth = this.total_networth + (this.coin_list[this.symbols[i]].price * this.coin_list[this.symbols[i]].wallet_balance);
+                if(res.data.result != null){
+                    this.api_validity = true;
+                    this.bg_height = 'h-fit';
+                    this.coin_list = res.data.result;
+                    this.symbols = Object.getOwnPropertyNames(this.coin_list);
+                        axios({
+                            method: 'get',
+                            url: 'http://localhost:3000/api/bybit/coin-tickers',
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
                             }
-                            this.donut();
-                        }
-                        
-                    )
+                        }).then(
+                            (result)=>{                   
+                                for(let i = 0;i<this.symbols.length;i++){
+                                    for(let j = 0;j<result.data.length;j++){
+                                        if(this.symbols[i] == "USDT"){
+                                            this.coin_list[this.symbols[i]].price = 1;
+                                            break;
+                                        }
+                                        else if(this.symbols[i] == "LUNA"){
+                                            this.coin_list[this.symbols[i]].price = 0;
+                                            break;
+                                        }
+                                        else if (result.data[j].symbol == this.symbols[i] + "USDT"){
+                                            this.coin_list[this.symbols[i]].price = result.data[j].mark_price;
+                                            break;
+                                        }
+                                    }
+                                    this.asset_value[i] = this.coin_list[this.symbols[i]].price * this.coin_list[this.symbols[i]].wallet_balance;
+                                    this.total_networth = this.total_networth + (this.coin_list[this.symbols[i]].price * this.coin_list[this.symbols[i]].wallet_balance);
+                                }
+                                this.donut();
+                            }
+                            
+                        )
+                }
+                else{
+                    console.log(res.data);
+                }
+
             })
         }
        
@@ -224,6 +239,7 @@ export default{
             this.$router.push('/login');
         },
         donut(){
+            if(document.getElementById("doughnutChart") != null){
             const ctx = document.getElementById('doughnutChart').getContext('2d');
                 const doughnutChart = new Chart(ctx,{
                     type: 'doughnut',
@@ -239,6 +255,7 @@ export default{
 
                 });
                 doughnutChart.show;
+            }
         },
 
     }

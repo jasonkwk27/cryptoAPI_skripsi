@@ -102,11 +102,10 @@
             </div>
 
             <div class = "bg-[#1B262C] rounded-lg shadow-xl max-w-full h-fit mt-3 mr-3 mb-3 items-center" v-if="result_loaded">
-                <h1 class = "text-[#BBE1FA] text-2xl p-3">Username : {{personal_info[0].username}}</h1>
-                <h1 class = "text-[#BBE1FA] text-2xl p-3">Password : {{personal_info[0].password}}</h1>            
+                <h1 class = "text-[#BBE1FA] text-2xl p-3">Username : {{personal_info[0].username}}</h1>         
                 <h1 class = "text-[#BBE1FA] text-2xl p-3">Email : {{personal_info[0].email}}</h1>   
                 <h1 class = "text-[#BBE1FA] text-2xl p-3">Name : {{personal_info[0].name}}</h1>   
-                <h1 class = "text-[#BBE1FA] text-2xl p-3">API's Connected : {{personal_info[0].connectedAPI}}</h1>         
+                <h1 class = "text-[#BBE1FA] text-2xl p-3">API's Connected : {{this.api_connected}}</h1>         
             </div>
 
         </div>
@@ -128,7 +127,8 @@ export default{
             api_clicked : false,
             ts_clicked : false,
             personal_info : {},
-            result_loaded : false
+            result_loaded : false,
+            api_connected : 0
         }
     },
     created(){
@@ -146,6 +146,18 @@ export default{
             }).then((result)=>{
                 this.personal_info = result.data;
                 this.result_loaded = true;
+                axios({
+                method: 'get',
+                url: 'http://localhost:3000/api/user/api-list',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                    'authorization' : 'Bearer '+getCookie("userToken")
+                }
+                }).then((result)=>{
+                    if(result.data[0].apiKey != null){
+                        this.api_connected = result.data.length;
+                    }
+                })
             })
         }
        

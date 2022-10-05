@@ -21,7 +21,7 @@ router.get('',(req,res)=>{
                 return res.send(err.message);
             }
             else{
-                sql.query(`SELECT username,password,email,name,approvalStatus,COUNT(apiKey) AS connectedAPI
+                sql.query(`SELECT iduser,username,password,email,name,approvalStatus,COUNT(apiKey) AS connectedAPI
                 FROM crypto_web.user 
                 LEFT JOIN crypto_web.api_info 
                 ON user.iduser = api_info.iduser_api

@@ -24,13 +24,19 @@ router.post('',urlencodedParser,(req,res)=>{
                 return res.send(err.message);
             }
             else{
-                sql.query(`DELETE FROM user WHERE username = ?`,[req.body.username],(err,result)=>{
+                sql.query('DELETE FROM api_info WHERE iduser_api = ?',[req.body.iduser],(err,result)=>{
                     if(err){
                         console.log(err);
                     }
-                    res.send(message);
-            
+                    sql.query(`DELETE FROM user WHERE username = ?`,[req.body.username],(err,result)=>{
+                        if(err){
+                            console.log(err);
+                        }
+                        res.send(message);
+                
+                    })
                 })
+
             }
         });
 

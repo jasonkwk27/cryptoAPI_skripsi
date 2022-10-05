@@ -185,6 +185,7 @@ export default{
         },
         delete_user(index){
             const data = qs.stringify({
+                    iduser : this.sliced_userlist[index].iduser,
                     username : this.sliced_userlist[index].username,
             });
             axios({

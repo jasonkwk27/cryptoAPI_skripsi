@@ -29,7 +29,7 @@
         },
         created(){
             if(getCookie("userToken") != ""){
-                this.$router.push('/home');
+                this.$router.push('/personal-info');
             }
         },
         methods:{
@@ -64,7 +64,7 @@
                         .then((res)=>{
                             if(res.data.status == 1){
                                 document.cookie = `userToken=${res.data.token}`;
-                                this.$router.push('/home');
+                                this.$router.push('/personal-info');
 
                             }
                             else{

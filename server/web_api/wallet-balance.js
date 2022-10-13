@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken'
 import axios from 'axios'
 import crypto from 'crypto'
-import {base_url as base_url,walletbalance_path as walletbalance_path,url_publictime as url_publictime} from '../config/webapi-configuration.js'
+import {base_url as base_url,walletbalance_path as walletbalance_path,public_time as public_time} from '../config/webapi-configuration.js'
 
 const app = express();  
 app.use(cors());
@@ -28,7 +28,7 @@ router.get('/',(req,res)=>{
                var apiSecretKey = jwt.apiSecretKey;
                var params = "";
                var sign  = "";
-               axios.get(url_publictime)
+               axios.get(base_url + public_time)
                .then((result)=>{
                     url.searchParams.append('api_key', apiKey);
                     params = {

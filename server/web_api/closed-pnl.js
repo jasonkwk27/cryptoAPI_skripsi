@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 import axios from 'axios'
 import crypto from 'crypto'
 import bodyParser from 'body-parser';
-import {base_url as base_url,pnl_path as pnl_path,url_publictime as url_publictime} from '../config/webapi-configuration.js'
+import {base_url as base_url,pnl_path as pnl_path,public_time as public_time} from '../config/webapi-configuration.js'
 
 const app = express();  
 app.use(cors());
@@ -33,7 +33,7 @@ router.post('/',urlencodedParser,(req,res)=>{
                var symbol = req.body.pair;
                var start_time = new Date(req.body.from).getTime()/1000;
                var end_time = new Date(req.body.to).getTime()/1000;
-               axios.get(url_publictime)
+               axios.get(base_url+public_time)
                .then((result)=>{
                     params = {
                         "timestamp": (result.data.time_now*1000).toString().substring(0,13),
@@ -51,6 +51,7 @@ router.post('/',urlencodedParser,(req,res)=>{
                     url.searchParams.append('sign',sign);
                     axios.get(url.href)
                     .then((result)=> {
+                        console.log(result.data);
                         res.send(result.data);
                     })
                     .catch((err)=>{

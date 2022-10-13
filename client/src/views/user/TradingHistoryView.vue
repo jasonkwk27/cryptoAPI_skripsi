@@ -407,7 +407,7 @@ export default{
                     }
                     else{
                         if(result.data.result == null){
-                            console.log(result.data.ret_msg);
+                            console.log(result.data);
                         }
                         else if(result.data.result.data == null){
                             console.log("No Data Is Found!");

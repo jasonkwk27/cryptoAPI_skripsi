@@ -20,6 +20,7 @@ router.post('',urlencodedParser,(req,res)=>{
         }
 
         loginInput = {
+            idadmin: result[0].idadmin,
             username:req.body.username,
             password:req.body.password
         }

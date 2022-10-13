@@ -9,7 +9,6 @@ const app = express();
 var urlencodedParser = bodyParser.urlencoded({ extended: false })  
 dotenv.config();
 app.use(cors());
-var message = "";
 
 var router = express.Router();
 
@@ -24,26 +23,19 @@ router.post('',urlencodedParser,(req,res)=>{
                 return res.send(err.message);
             }
             else{
-                if(req.body.approvalStatus == 0){
                     sql.query(`UPDATE user SET approvalStatus = 1 WHERE username = ?`,[req.body.username],(err,result)=>{
                         if(err){
                             console.log(err);
                         }
-                
-                        res.send(message);
-                
-                    })
-                }
-                else {
-                    sql.query(`UPDATE user SET approvalStatus = 0 WHERE username = ?`,[req.body.username],(err,result)=>{
-                        if(err){
-                            console.log(err);
-                        }
-                
-                        res.send(message);
+                        
+                        sql.query(`UPDATE USER SET approvedBy = ? WHERE username = ?`,[jwt.idadmin,req.body.username],(err,result)=>{
+                            if(err){
+                                console.log(err);
+                            }
+                            res.send(JSON.stringify(result));
+                        })
                 
                     })
-                }
             }
         });
 

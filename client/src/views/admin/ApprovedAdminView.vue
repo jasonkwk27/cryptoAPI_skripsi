@@ -79,9 +79,6 @@
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_userlist[index].email}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_userlist[index].connectedAPI}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] flex ">
-                                <a href = "#">
-                                <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20"  @click="update_approval(index)" class = "mr-5 "><path d="M19,8.424V7A7,7,0,0,0,5,7V8.424A5,5,0,0,0,2,13v6a5.006,5.006,0,0,0,5,5H17a5.006,5.006,0,0,0,5-5V13A5,5,0,0,0,19,8.424ZM7,7A5,5,0,0,1,17,7V8H7ZM20,19a3,3,0,0,1-3,3H7a3,3,0,0,1-3-3V13a3,3,0,0,1,3-3H17a3,3,0,0,1,3,3Z" fill="#BBE1FA"/><path d="M12,14a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V15A1,1,0,0,0,12,14Z"  fill="#BBE1FA"/></svg>
-                                </a>
                                 <a href="#">
                                 <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20" @click="delete_user(index)"><path d="M21,4H17.9A5.009,5.009,0,0,0,13,0H11A5.009,5.009,0,0,0,6.1,4H3A1,1,0,0,0,3,6H4V19a5.006,5.006,0,0,0,5,5h6a5.006,5.006,0,0,0,5-5V6h1a1,1,0,0,0,0-2ZM11,2h2a3.006,3.006,0,0,1,2.829,2H8.171A3.006,3.006,0,0,1,11,2Zm7,17a3,3,0,0,1-3,3H9a3,3,0,0,1-3-3V6H18Z"  fill="#BBE1FA"/><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18Z"  fill="#BBE1FA"/><path d="M14,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z" fill="#BBE1FA"/></svg>
                                 </a>
@@ -166,23 +163,6 @@ export default{
 
     },
     methods: {
-        update_approval(index){
-             const data = qs.stringify({
-                    username : this.sliced_userlist[index].username,
-                    approvalStatus : this.sliced_userlist[index].approvalStatus
-            });
-            axios({
-                method: 'post',
-                url: 'http://localhost:3000/api/user/update-approval',
-                data: data,
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("adminToken")
-                }
-            }).then(()=>{
-                this.sliced_userlist.splice(index,1);
-            })
-        },
         delete_user(index){
             const data = qs.stringify({
                     iduser : this.sliced_userlist[index].iduser,

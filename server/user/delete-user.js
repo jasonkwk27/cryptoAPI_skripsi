@@ -9,7 +9,6 @@ const app = express();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 dotenv.config();
 app.use(cors());
-var message = "";
 
 var router = express.Router();
 
@@ -32,7 +31,7 @@ router.post('',urlencodedParser,(req,res)=>{
                         if(err){
                             console.log(err);
                         }
-                        res.send(message);
+                        res.send(JSON.stringify(result));
                 
                     })
                 })

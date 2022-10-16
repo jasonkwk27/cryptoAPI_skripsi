@@ -8,8 +8,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(cors());
 var message = "";
 
-var router = express.Router();
-router.post('',urlencodedParser,(req,res)=>{
+app.post('/api/user/register',urlencodedParser,(req,res)=>{
     sql.query(`SELECT * FROM user WHERE username = ?`,[req.body.username],(err,result)=>{
         if(err){
             console.log(err);
@@ -32,8 +31,5 @@ router.post('',urlencodedParser,(req,res)=>{
         }
     })
 });
-
-
-app.use('/api/user/register',router);
 
 export default app;

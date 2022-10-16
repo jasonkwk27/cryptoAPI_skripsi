@@ -10,9 +10,7 @@ const app = express();
 app.use(cors());
 dotenv.config();
 
-var router = express.Router();
-
-router.get('/',(req,res)=>{
+app.get('/api/bybit/wallet-balance',(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !");
     }
@@ -54,8 +52,6 @@ router.get('/',(req,res)=>{
     }
 
 });
-
-app.use('/api/bybit/wallet-balance',router);
 
 function getSignature(parameters, secret) {
 	var orderedParams = "";

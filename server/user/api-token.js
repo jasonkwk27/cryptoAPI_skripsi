@@ -12,8 +12,7 @@ dotenv.config();
 var tokenInput = {};
 var apiResponse = {};
 
-var router = express.Router();
-router.post('/',urlencodedParser,(req,res)=>{
+app.post('/api/user/api-token',urlencodedParser,(req,res)=>{
     sql.query(`SELECT * FROM api_info WHERE apiKey = ? AND apiSecretKey = ?`,[req.body.apiKey,req.body.apiSecretKey],(err,result)=>{
         if(err){
             console.log(err);
@@ -45,8 +44,5 @@ router.post('/',urlencodedParser,(req,res)=>{
 function generateAPIToken(input){
     return jwt.sign(input,process.env.TOKEN_SECRET);
 }
-
-
-app.use('/api/user/api-token',router);
 
 export default app;

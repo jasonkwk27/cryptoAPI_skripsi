@@ -12,9 +12,7 @@ app.use(cors());
 dotenv.config();
 var urlencodedParser = bodyParser.urlencoded({ extended: false })  
 
-var router = express.Router();
-
-router.post('/',urlencodedParser,(req,res)=>{
+app.post('/api/bybit/closed-pnl',urlencodedParser,(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !");
     }
@@ -51,7 +49,6 @@ router.post('/',urlencodedParser,(req,res)=>{
                     url.searchParams.append('sign',sign);
                     axios.get(url.href)
                     .then((result)=> {
-                        console.log(result.data);
                         res.send(result.data);
                     })
                     .catch((err)=>{
@@ -67,7 +64,6 @@ router.post('/',urlencodedParser,(req,res)=>{
 
 });
 
-app.use('/api/bybit/closed-pnl',router);
 
 function getSignature(parameters, secret) {
 	var orderedParams = "";

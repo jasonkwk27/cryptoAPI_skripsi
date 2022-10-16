@@ -8,9 +8,7 @@ const app = express();
 app.use(cors());
 dotenv.config();
 
-var router = express.Router();
-
-router.get('/',(req,res)=>{
+app.get('/api/user/user-info',(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !");
     }
@@ -37,7 +35,5 @@ router.get('/',(req,res)=>{
     }
 
 });
-
-app.use('/api/user/user-info',router);
 
 export default app;

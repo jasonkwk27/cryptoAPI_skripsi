@@ -12,33 +12,36 @@ dotenv.config();
 var apiResponse = {};
 var loginInput = {};
 
-var router = express.Router();
-router.post('',urlencodedParser,(req,res)=>{
+app.post('/api/admin/login',urlencodedParser,(req,res)=>{
     sql.query(`SELECT * FROM admin WHERE username = ? AND password = ?`,[req.body.username,req.body.password],(err,result)=>{
         if(err){
-            console.log(err);
+            res.send(err);
         }
 
-        loginInput = {
-            idadmin: result[0].idadmin,
-            username:req.body.username,
-            password:req.body.password
+        else{
+
+            if(result.length == 1){
+                loginInput = {
+                    idadmin: result[0].idadmin,
+                    username:req.body.username,
+                    password:req.body.password
+                }
+        
+                const token = generateAdminToken(loginInput);
+                apiResponse = {
+                    token : token,
+                    status : 1
+                };
+            }
+            else {
+                apiResponse = {
+                    status : 0
+                };
+            }
+            res.send(JSON.stringify(apiResponse));
         }
 
-        const token = generateAdminToken(loginInput);
 
-        if(result.length == 1){
-            apiResponse = {
-                token : token,
-                status : 1
-            };
-        }
-        else {
-            apiResponse = {
-                status : 0
-            };
-        }
-        res.send(JSON.stringify(apiResponse));
 
     })
 
@@ -48,7 +51,5 @@ function generateAdminToken(input){
     return jwt.sign(input,process.env.TOKEN_SECRET);
 }
 
-
-app.use('/api/admin/login',router);
 
 export default app;

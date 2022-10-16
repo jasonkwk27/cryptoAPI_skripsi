@@ -10,8 +10,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(cors());
 dotenv.config();
 
-var router = express.Router();
-router.post('/',urlencodedParser,(req,res)=>{
+app.post('/api/user/delete-api',urlencodedParser,(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !");
     }
@@ -39,6 +38,5 @@ router.post('/',urlencodedParser,(req,res)=>{
 });
 
 
-app.use('/api/user/delete-api',router);
 
 export default app;

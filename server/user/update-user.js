@@ -10,7 +10,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 dotenv.config();
 app.use(cors());
 
-app.post('/api/user/update-approval',urlencodedParser,(req,res)=>{
+app.patch('/api/user',urlencodedParser,(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !")
     }

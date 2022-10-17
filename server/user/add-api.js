@@ -10,7 +10,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(cors());
 dotenv.config();
 
-app.post('/api/user/add-api',urlencodedParser,(req,res)=>{
+app.post('/api/user/bybit-api',urlencodedParser,(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !");
     }

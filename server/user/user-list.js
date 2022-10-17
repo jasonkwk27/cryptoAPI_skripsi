@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 dotenv.config();
 
-app.get('/api/user/user-list',(req,res)=>{
+app.get('/api/user',(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !")
     }

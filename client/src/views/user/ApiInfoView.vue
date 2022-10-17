@@ -179,17 +179,17 @@ export default{
         }
     },
     created(){
-        if(getCookie("userToken") == ""){
+        if(this.getCookie("userToken") == ""){
         this.$router.push('/login');
         }
         else {
-            if(getCookie("apiToken")!= ""){
+            if(this.getCookie("apiToken")!= ""){
                 axios({
                         method: 'get',
                         url: 'http://localhost:3000/api/user/api-info',
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                            'authorization' : 'Bearer '+getCookie("apiToken")
+                            'authorization' : 'Bearer '+this.getCookie("apiToken")
                         }
                     }).then((res)=>{
                         this.keySelected = res.data[0].apiKey;
@@ -198,10 +198,10 @@ export default{
 
             axios({
                 method: 'get',
-                url: 'http://localhost:3000/api/user/api-list',
+                url: 'http://localhost:3000/api/user/bybit-api',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("userToken")
+                    'authorization' : 'Bearer '+this.getCookie("userToken")
                 }
             })
             .then((res)=>{
@@ -219,23 +219,23 @@ export default{
                     apiSecretKey : this.sliced_apilist[index].apiSecretKey
             });
             axios({
-                method: 'post',
-                url: 'http://localhost:3000/api/user/delete-api',
+                method: 'delete',
+                url: 'http://localhost:3000/api/user/bybit-api',
                 data: data,
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("userToken")
+                    'authorization' : 'Bearer '+this.getCookie("userToken")
                 }
             }).then(()=>{
                 this.sliced_apilist.splice(index,1);
             })
         },
         logout(){
-            delete_cookie("userToken");
-            delete_cookie("apiToken");
-            delete_cookie("pair");
-            delete_cookie("dateFrom");
-            delete_cookie("dateTo");
+            this.delete_cookie("userToken");
+            this.delete_cookie("apiToken");
+            this.delete_cookie("pair");
+            this.delete_cookie("dateFrom");
+            this.delete_cookie("dateTo");
             this.$router.push('/login');
         },
         fetch_data(index){
@@ -255,10 +255,10 @@ export default{
                     document.cookie = `apiToken=${result.data.token}`;
                     axios({
                         method: 'get',
-                        url: 'http://localhost:3000/api/user/api-info',
+                        url: 'http://localhost:3000/api/user/bybit-api/api-info',
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                            'authorization' : 'Bearer '+getCookie("apiToken")
+                            'authorization' : 'Bearer '+this.getCookie("apiToken")
                         }
                     }).then((res)=>{
                         this.keySelected = res.data[0].apiKey;
@@ -283,17 +283,12 @@ export default{
                 this.current_page = this.current_page + 1 ;
                 this.sliced_apilist = this.api_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
             }
-        }
-    }
-    
-}
-
-function delete_cookie(name) {
-  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  
-}
-
-function getCookie(param){
+        },
+        delete_cookie(name) {
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        
+        },
+        getCookie(param){
             let name = param + "=";
             let decodedCookie = decodeURIComponent(document.cookie);
             let ca = decodedCookie.split(';');
@@ -307,6 +302,9 @@ function getCookie(param){
                 }
             }
             return "";
+        }   
+    }
+    
 }
 
 </script>

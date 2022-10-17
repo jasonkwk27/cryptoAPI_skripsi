@@ -282,7 +282,7 @@ export default{
             date_to : new Date(),
             coin_symbols : {},
             coinsymbols_filtered : {},
-            symbol_input : getCookie("pair"),
+            symbol_input : this.getCookie("pair"),
             total_page : 1,
             current_page:1,
             max_list : 8,
@@ -299,7 +299,7 @@ export default{
         }
     },
     created(){
-        if(getCookie("userToken") == ""){
+        if(this.getCookie("userToken") == ""){
         this.$router.push('/login');
         }
         else {  
@@ -337,7 +337,7 @@ export default{
                 data: data,
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("apiToken")
+                    'authorization' : 'Bearer '+this.getCookie("apiToken")
                  }
             }).then(
                 (result)=>{
@@ -429,11 +429,12 @@ export default{
             )
         },
         logout(){
-            delete_cookie("userToken");
-            delete_cookie("apiToken");
-            delete_cookie("pair");
-            delete_cookie("dateFrom");
-            delete_cookie("dateTo");
+            
+            this.delete_cookie("userToken");
+            this.delete_cookie("apiToken");
+            this.delete_cookie("pair");
+            this.delete_cookie("dateFrom");
+            this.delete_cookie("dateTo");
             this.$router.push('/login');
         },
         change_page(index){
@@ -559,17 +560,14 @@ export default{
                 chartStatus.data.datasets[0].data = [this.total_long,this.trade_list.length-this.total_long];
                 chartStatus.update();
             }
-        }
-    }
-    
-}
+        },
 
-function delete_cookie(name) {
-  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  
-}
+        delete_cookie(name) {
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        
+        },
 
-function getCookie(param){
+        getCookie(param){
             let name = param + "=";
             let decodedCookie = decodeURIComponent(document.cookie);
             let ca = decodedCookie.split(';');
@@ -583,6 +581,9 @@ function getCookie(param){
                 }
             }
             return "";
-}
+        }
 
+    }
+    
+}
 </script>

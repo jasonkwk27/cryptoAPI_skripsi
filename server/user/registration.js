@@ -8,7 +8,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(cors());
 var message = "";
 
-app.post('/api/user/register',urlencodedParser,(req,res)=>{
+app.post('/api/user',urlencodedParser,(req,res)=>{
     sql.query(`SELECT * FROM user WHERE username = ?`,[req.body.username],(err,result)=>{
         if(err){
             console.log(err);

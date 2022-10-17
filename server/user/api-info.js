@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 dotenv.config();
 
-app.get('/api/user/api-info',(req,res)=>{
+app.get('/api/user/bybit-api/api-info',(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !");
     }

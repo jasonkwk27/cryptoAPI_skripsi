@@ -137,17 +137,17 @@ export default{
         }
     },
     created(){
-        if(getCookie("userToken") == ""){
+        if(this.getCookie("userToken") == ""){
         this.$router.push('/login');
         }
     },
     methods: {
         logout(){
-            delete_cookie("userToken");
-            delete_cookie("apiToken");
-            delete_cookie("pair");
-            delete_cookie("dateFrom");
-            delete_cookie("dateTo");
+            this.delete_cookie("userToken");
+            this.delete_cookie("apiToken");
+            this.delete_cookie("pair");
+            this.delete_cookie("dateFrom");
+            this.delete_cookie("dateTo");
             this.$router.push('/login');
         },
         handleSubmit(){
@@ -158,27 +158,21 @@ export default{
             });
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/api/user/add-api',
+                url: 'http://localhost:3000/api/user/bybit-api',
                 data: data,
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("userToken")
+                    'authorization' : 'Bearer '+this.getCookie("userToken")
                 }
             }).then(()=>{
                 this.submission_status = true;
             })
-        }
+        },
+        delete_cookie(name) {
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         
-    }
-    
-}
-
-function delete_cookie(name) {
-  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  
-}
-
-function getCookie(param){
+        },
+        getCookie(param){
             let name = param + "=";
             let decodedCookie = decodeURIComponent(document.cookie);
             let ca = decodedCookie.split(';');
@@ -192,6 +186,11 @@ function getCookie(param){
                 }
             }
             return "";
+        }
+
+        
+    }
+    
 }
 
 </script>

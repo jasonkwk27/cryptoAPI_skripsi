@@ -132,7 +132,7 @@ export default{
         }
     },
     created(){
-        if(getCookie("userToken") == ""){
+        if(this.getCookie("userToken") == ""){
         this.$router.push('/login');
         }
         else {
@@ -141,17 +141,17 @@ export default{
                 url: 'http://localhost:3000/api/user/user-info',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("userToken")
+                    'authorization' : 'Bearer '+this.getCookie("userToken")
                 }
             }).then((result)=>{
                 this.personal_info = result.data;
                 this.result_loaded = true;
                 axios({
                 method: 'get',
-                url: 'http://localhost:3000/api/user/api-list',
+                url: 'http://localhost:3000/api/user/bybit-api',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("userToken")
+                    'authorization' : 'Bearer '+this.getCookie("userToken")
                 }
                 }).then((result)=>{
                     if(result.data[0].apiKey != null){
@@ -167,23 +167,18 @@ export default{
     },
     methods: {
         logout(){
-            delete_cookie("userToken");
-            delete_cookie("apiToken");
-            delete_cookie("pair");
-            delete_cookie("dateFrom");
-            delete_cookie("dateTo");
+            this.delete_cookie("userToken");
+            this.delete_cookie("apiToken");
+            this.delete_cookie("pair");
+            this.delete_cookie("dateFrom");
+            this.delete_cookie("dateTo");
             this.$router.push('/login');
-        }  
-    }
-    
-}
-
-function delete_cookie(name) {
-  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  
-}
-
-function getCookie(param){
+        },
+        delete_cookie(name) {
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        
+        },
+        getCookie(param){
             let name = param + "=";
             let decodedCookie = decodeURIComponent(document.cookie);
             let ca = decodedCookie.split(';');
@@ -197,6 +192,9 @@ function getCookie(param){
                 }
             }
             return "";
+        }
+    }
+    
 }
 
 </script>

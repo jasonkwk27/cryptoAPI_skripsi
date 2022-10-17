@@ -34,7 +34,7 @@
             }
         },
         created(){
-            if(getCookie("userToken") != ""){
+            if(this.getCookie("userToken") != ""){
                 this.$router.push('/home');
             }
         },
@@ -49,7 +49,7 @@
 
                 axios({
                 method: 'post',
-                url: 'http://localhost:3000/api/user/register',
+                url: 'http://localhost:3000/api/user',
                 data: data,
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -61,24 +61,24 @@
                  }   
                 )
 
+            },
+            getCookie(param){
+                let name = param + "=";
+                let decodedCookie = decodeURIComponent(document.cookie);
+                let ca = decodedCookie.split(';');
+                for(let i = 0; i <ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
             }
-        }
-    }
 
-    function getCookie(param){
-            let name = param + "=";
-            let decodedCookie = decodeURIComponent(document.cookie);
-            let ca = decodedCookie.split(';');
-            for(let i = 0; i <ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-                }
-            }
-            return "";
+        }
     }
 
 </script>

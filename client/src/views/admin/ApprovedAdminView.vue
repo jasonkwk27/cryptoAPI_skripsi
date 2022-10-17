@@ -136,16 +136,16 @@ export default{
         }
     },
     created(){
-       if(getCookie("adminToken") == ""){
+       if(this.getCookie("adminToken") == ""){
         this.$router.push('/login');
        }
        else {
         axios({
                 method: 'get',
-                url: 'http://localhost:3000/api/user/user-list',
+                url: 'http://localhost:3000/api/user',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("adminToken")
+                    'authorization' : 'Bearer '+this.getCookie("adminToken")
                 }
         })
         .then((res)=>{
@@ -169,19 +169,19 @@ export default{
                     username : this.sliced_userlist[index].username,
             });
             axios({
-                method: 'post',
-                url: 'http://localhost:3000/api/user/delete-user',
+                method: 'delete',
+                url: 'http://localhost:3000/api/user',
                 data: data,
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("adminToken")
+                    'authorization' : 'Bearer '+this.getCookie("adminToken")
                 }
             }).then(()=>{
                 this.sliced_userlist.splice(index,1);
             })
         },
         logout(){
-            delete_cookie("adminToken");
+            this.delete_cookie("adminToken");
             this.$router.push('/login');
         } ,
         change_page(index){
@@ -199,12 +199,8 @@ export default{
                 this.current_page = this.current_page + 1 ;
                 this.sliced_userlist = this.user_list.slice((this.current_page-1)*this.max_list,this.current_page*this.max_list);
             }
-        }
-    },
-    
-}
-
-function getCookie(param){
+        },
+        getCookie(param){
             let name = param + "=";
             let decodedCookie = decodeURIComponent(document.cookie);
             let ca = decodedCookie.split(';');
@@ -218,11 +214,14 @@ function getCookie(param){
                 }
             }
             return "";
+        },
+        delete_cookie(name) {
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        
+        }
+    },
+    
 }
 
-function delete_cookie(name) {
-  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  
-}
 
 </script>

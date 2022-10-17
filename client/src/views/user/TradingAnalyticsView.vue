@@ -382,14 +382,14 @@ export default{
         }
     },
     created(){
-        if(getCookie("userToken") == ""){
+        if(this.getCookie("userToken") == ""){
         this.$router.push('/login');
         }
         else {
             const data = qs.stringify({
-                pair : getCookie("pair"),
-                from : new Date(getCookie("dateFrom")*1000),
-                to : new Date(getCookie("dateTo")*1000)
+                pair : this.getCookie("pair"),
+                from : new Date(this.getCookie("dateFrom")*1000),
+                to : new Date(this.getCookie("dateTo")*1000)
             });
             axios({
                 method: 'post',
@@ -397,7 +397,7 @@ export default{
                 data: data,
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("apiToken")
+                    'authorization' : 'Bearer '+this.getCookie("apiToken")
                  }
             }).then(
                 (result)=>{
@@ -462,11 +462,11 @@ export default{
     },
     methods: {
         logout(){
-            delete_cookie("userToken");
-            delete_cookie("apiToken");
-            delete_cookie("pair");
-            delete_cookie("dateFrom");
-            delete_cookie("dateTo");
+            this.delete_cookie("userToken");
+            this.delete_cookie("apiToken");
+            this.delete_cookie("pair");
+            this.delete_cookie("dateFrom");
+            this.delete_cookie("dateTo");
             this.$router.push('/login');
         },
         showbarChart(){
@@ -507,17 +507,13 @@ export default{
                 });
                 barChart.show;
             }
-        }
-    }
-    
-}
+        },
 
-function delete_cookie(name) {
-  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  
-}
-
-function getCookie(param){
+        delete_cookie(name) {
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        
+        },
+        getCookie(param){
             let name = param + "=";
             let decodedCookie = decodeURIComponent(document.cookie);
             let ca = decodedCookie.split(';');
@@ -531,6 +527,9 @@ function getCookie(param){
                 }
             }
             return "";
+        }   
+    }
+    
 }
 
 </script>

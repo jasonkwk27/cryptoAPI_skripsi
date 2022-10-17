@@ -90,18 +90,18 @@ export default{
         }
     },
     created(){
-       if(getCookie("adminToken") == ""){
+       if(this.getCookie("adminToken") == ""){
         this.$router.push('/login');
        }
        else{
 
        axios({
                 method: 'get',
-                url: 'http://localhost:3000/api/user/user-list',
-                data: qs.stringify({token : getCookie("adminToken")}),
+                url: 'http://localhost:3000/api/user',
+                data: qs.stringify({token : this.getCookie("adminToken")}),
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+getCookie("adminToken")
+                    'authorization' : 'Bearer '+ this.getCookie("adminToken")
                 }
                 })
         .then((res)=>{
@@ -126,14 +126,10 @@ export default{
     },
     methods: {
         logout(){
-            delete_cookie("adminToken");
+            this.delete_cookie("adminToken");
             this.$router.push('/login');
-        }  
-    },
-    
-}
-
-function getCookie(param){
+        },
+        getCookie(param){
             let name = param + "=";
             let decodedCookie = decodeURIComponent(document.cookie);
             let ca = decodedCookie.split(';');
@@ -147,11 +143,14 @@ function getCookie(param){
                 }
             }
             return "";
+        },
+        delete_cookie(name) {
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+    },
+    
 }
 
-function delete_cookie(name) {
-  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  
-}
+
 
 </script>

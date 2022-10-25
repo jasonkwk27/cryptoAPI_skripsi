@@ -18,13 +18,13 @@ app.post('/api/user/login',urlencodedParser,(req,res)=>{
             console.log(err);
         }
 
-        loginInput = {
-            iduser : result[0].iduser,
-        }
-
-        const token = generateUserToken(loginInput);
 
         if(result.length == 1){
+            loginInput = {
+                iduser : result[0].iduser,
+            }
+
+            const token = generateUserToken(loginInput);
             apiResponse = {
                 token : token,
                 status : 1

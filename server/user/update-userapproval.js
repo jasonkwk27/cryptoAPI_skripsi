@@ -10,7 +10,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 dotenv.config();
 app.use(cors());
 
-app.put('/api/user',urlencodedParser,(req,res)=>{
+app.put('/api/user/updateApproval',urlencodedParser,(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !")
     }
@@ -20,14 +20,20 @@ app.put('/api/user',urlencodedParser,(req,res)=>{
             if(err){
                 return res.send(err.message);
             }
-            else{                 
-                        sql.query(`UPDATE USER SET username = ?, password = ?,email = ?,name = ? WHERE iduser = ?`,[req.body.username,req.body.password,req.body.email,req.body.name,jwt.iduser],(err,result)=>{
+            else{
+                    sql.query(`UPDATE user SET approvalStatus = 1 WHERE username = ?`,[req.body.username],(err,result)=>{
+                        if(err){
+                            console.log(err);
+                        }
+                        
+                        sql.query(`UPDATE USER SET approvedBy = ? WHERE username = ?`,[jwt.idadmin,req.body.username],(err,result)=>{
                             if(err){
                                 console.log(err);
                             }
                             res.send(JSON.stringify(result));
                         })
                 
+                    })
             }
         });
 

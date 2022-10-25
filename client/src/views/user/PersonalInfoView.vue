@@ -101,12 +101,43 @@
                 </a> 
             </div>
 
-            <div class = "bg-[#1B262C] rounded-lg shadow-xl max-w-full h-fit mt-3 mr-3 mb-3 items-center" v-if="result_loaded">
-                <h1 class = "text-[#BBE1FA] text-2xl p-3">Username : {{personal_info[0].username}}</h1>         
+
+            <div class = "bg-[#1B262C] rounded-lg shadow-xl max-w-full h-fit mt-3 mr-3 mb-3 flex-auto" v-if="result_loaded">
+                <div class = "flex">
+                    <h1 class = "text-[#BBE1FA] text-2xl p-3 w-full">Username : {{personal_info[0].username}}</h1>    
+                    <a href = "#" class = "pt-3" @click="modal_clicked = true,modal_obj.username = personal_info[0].username,modal_obj.password=personal_info[0].password,modal_obj.email = personal_info[0].email,modal_obj.name=personal_info[0].name">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20"  class = "mr-5"><path d="M18.656.93,6.464,13.122A4.966,4.966,0,0,0,5,16.657V18a1,1,0,0,0,1,1H7.343a4.966,4.966,0,0,0,3.535-1.464L23.07,5.344a3.125,3.125,0,0,0,0-4.414A3.194,3.194,0,0,0,18.656.93Zm3,3L9.464,16.122A3.02,3.02,0,0,1,7.343,17H7v-.343a3.02,3.02,0,0,1,.878-2.121L20.07,2.344a1.148,1.148,0,0,1,1.586,0A1.123,1.123,0,0,1,21.656,3.93Z"  fill="#BBE1FA"/><path d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z"  fill="#BBE1FA"/></svg>
+                    </a>
+                </div>
+
                 <h1 class = "text-[#BBE1FA] text-2xl p-3">Email : {{personal_info[0].email}}</h1>   
                 <h1 class = "text-[#BBE1FA] text-2xl p-3">Name : {{personal_info[0].name}}</h1>   
                 <h1 class = "text-[#BBE1FA] text-2xl p-3">API's Connected : {{this.api_connected}}</h1>         
             </div>
+
+            <div class="bg-slate-600 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 "  v-if="modal_clicked">
+            <div class=" w-1/3 bg-[#1B262C] m-auto text-center rounded-lg shadow-xl">
+                <a href="#">
+                    <h1 class = "text-right text-[#BBE1FA] text-2xl p-5" @click = "modal_clicked = false">X</h1>
+                </a>
+                <h1 class = "text-[#BBE1FA] font-bold text-2xl">Update User's Credential</h1>
+                <div>
+                    <input type="text"  class = "w-3/4 mt-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder="New Username.." name="username" v-model="modal_obj.username" required>
+                </div>
+                <div>
+                    <input type="text"  class = "w-3/4 mt-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder = "New Password.." name="password" v-model="modal_obj.password" required>
+                </div>
+                <div>
+                    <input type="text"  class = "w-3/4 mt-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder = "New Email.." name="email" v-model="modal_obj.email" required>
+                </div>
+                <div>
+                    <input type="text"  class = "w-3/4 mt-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder = "New Name.." name="name" v-model="modal_obj.name" required>
+                </div>
+                <h1 v-if = "update_status" class = " mt-5 text-[#BBE1FA]">User Info updated successfully !</h1>
+                <button class = "p-3 w-1/4 bg-[#3282B8] mb-5 mt-5  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click = "update_api()">Update</button>
+            </div>
+            </div>
+
 
         </div>
 
@@ -121,6 +152,7 @@
 
 <script>
 import axios from 'axios';
+import qs from 'qs'
 export default{
     data(){
         return{
@@ -128,7 +160,14 @@ export default{
             ts_clicked : false,
             personal_info : {},
             result_loaded : false,
-            api_connected : 0
+            api_connected : 0,
+            modal_clicked : false,
+            modal_obj :{
+                username : "",
+                password : "",
+                email : "",
+                name : "",
+            }
         }
     },
     created(){
@@ -166,6 +205,29 @@ export default{
 
     },
     methods: {
+        update_api(){
+            const data = qs.stringify({
+                    username : this.modal_obj.username,
+                    password : this.modal_obj.password,
+                    email : this.modal_obj.email,
+                    name : this.modal_obj.name
+            });
+            axios({
+                method: 'put',
+                url: 'http://localhost:3000/api/user',
+                data: data,
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                    'authorization' : 'Bearer '+this.getCookie("userToken")
+                }
+            }).then(()=>{
+                this.personal_info[0].username =this.modal_obj.username;
+                this.personal_info[0].password =this.modal_obj.password;
+                this.personal_info[0].email =this.modal_obj.email;
+                this.personal_info[0].name =this.modal_obj.name;
+                this.update_status = true;
+            })
+        },
         logout(){
             this.delete_cookie("userToken");
             this.delete_cookie("apiToken");

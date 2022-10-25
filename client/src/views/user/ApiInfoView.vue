@@ -119,6 +119,9 @@
                                 <a href = "#" v-if="keySelected != sliced_apilist[index].apiKey">
                                     <svg id="Layer_1" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" class = "mr-5" @click = "fetch_data(index)"><path d="m18.535 18.666 1.414 1.414-3.2 3.2a2.475 2.475 0 0 1 -3.494 0l-3.2-3.2 1.414-1.414 2.531 2.534v-8.2h2v8.2zm-.745-11.457a8 8 0 0 0 -15.79 1.791 7.912 7.912 0 0 0 .9 3.671 5.49 5.49 0 0 0 2.6 10.329h4.642l-2-2h-2.642a3.491 3.491 0 0 1 -.872-6.874l1.437-.371-.883-1.192a5.939 5.939 0 0 1 -1.182-3.563 6 6 0 0 1 11.939-.8l.1.758.759.1a5.988 5.988 0 0 1 4.202 9.247l1.43 1.43a7.976 7.976 0 0 0 -4.64-12.526z"  fill="#BBE1FA"/></svg>
                                 </a>
+                                <a href = "#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20" @click = "modal_clicked = true,modal_obj.index = index,modal_obj.apiKey = sliced_apilist[index].apiKey , modal_obj.apiSecretKey = sliced_apilist[index].apiSecretKey, modal_obj.description=sliced_apilist[index].description, modal_obj.idapi = sliced_apilist[index].idapi, update_status = false" class = "mr-5"><path d="M18.656.93,6.464,13.122A4.966,4.966,0,0,0,5,16.657V18a1,1,0,0,0,1,1H7.343a4.966,4.966,0,0,0,3.535-1.464L23.07,5.344a3.125,3.125,0,0,0,0-4.414A3.194,3.194,0,0,0,18.656.93Zm3,3L9.464,16.122A3.02,3.02,0,0,1,7.343,17H7v-.343a3.02,3.02,0,0,1,.878-2.121L20.07,2.344a1.148,1.148,0,0,1,1.586,0A1.123,1.123,0,0,1,21.656,3.93Z"  fill="#BBE1FA"/><path d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z"  fill="#BBE1FA"/></svg>
+                                </a>
                                 <a href="#">
                                 <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20" @click = "delete_api(index)"><path d="M21,4H17.9A5.009,5.009,0,0,0,13,0H11A5.009,5.009,0,0,0,6.1,4H3A1,1,0,0,0,3,6H4V19a5.006,5.006,0,0,0,5,5h6a5.006,5.006,0,0,0,5-5V6h1a1,1,0,0,0,0-2ZM11,2h2a3.006,3.006,0,0,1,2.829,2H8.171A3.006,3.006,0,0,1,11,2Zm7,17a3,3,0,0,1-3,3H9a3,3,0,0,1-3-3V6H18Z"  fill="#BBE1FA"/><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18Z"  fill="#BBE1FA"/><path d="M14,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z" fill="#BBE1FA"/></svg>
                                 </a>
@@ -151,6 +154,26 @@
             </nav>
             </div>
 
+            <div class="bg-slate-600 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 "  v-if="modal_clicked">
+            <div class=" w-1/3 bg-[#1B262C] m-auto text-center rounded-lg shadow-xl">
+                <a href="#">
+                    <h1 class = "text-right text-[#BBE1FA] text-2xl p-5" @click = "modal_clicked = false">X</h1>
+                </a>
+                <h1 class = "text-[#BBE1FA] font-bold text-2xl">Update API Credential</h1>
+                <div>
+                    <input type="text"  class = "w-3/4 mt-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder="New API Key.." name="apiKey" v-model="modal_obj.apiKey" required>
+                </div>
+                <div>
+                    <input type="text"  class = "w-3/4 mt-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder = "New API Secret Key.." name="apiSecretKey" v-model="modal_obj.apiSecretKey" required>
+                </div>
+                <div>
+                    <input type="text"  class = "w-3/4 mt-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder = "New Description.." name="description" v-model="modal_obj.description" required>
+                </div>
+                <h1 v-if = "update_status" class = " mt-5 text-[#BBE1FA]">API Info updated successfully !</h1>
+                <button class = "p-3 w-1/4 bg-[#3282B8] mb-5 mt-5  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click = "update_api()">Update</button>
+            </div>
+            </div>
+
         </div>
 
 
@@ -176,6 +199,15 @@ export default{
             total_page : 1,
             current_page :1,
             max_list : 15,
+            modal_clicked :false,
+            modal_obj :{
+                index : 0,
+                apiKey : "",
+                apiSecretKey : "",
+                description : "",
+                idapi : 0,
+            },
+            update_status :false
         }
     },
     created(){
@@ -227,8 +259,37 @@ export default{
                     'authorization' : 'Bearer '+this.getCookie("userToken")
                 }
             }).then(()=>{
+                if(this.keySelected == this.sliced_apilist[index].apiKey){
+                    this.delete_cookie("apiToken");
+                }
                 this.sliced_apilist.splice(index,1);
             })
+        },
+        update_api(){
+            const data = qs.stringify({
+                    apiKey : this.modal_obj.apiKey,
+                    apiSecretKey : this.modal_obj.apiSecretKey,
+                    description : this.modal_obj.description,
+                    idapi : this.modal_obj.idapi
+            });
+            axios({
+                method: 'put',
+                url: 'http://localhost:3000/api/user/bybit-api',
+                data: data,
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                    'authorization' : 'Bearer '+this.getCookie("userToken")
+                }
+            }).then(()=>{
+                if(this.keySelected ==  this.modal_obj.apiKey){
+                    this.delete_cookie("apiToken");
+                }
+                this.sliced_apilist[this.modal_obj.index].apiKey = this.modal_obj.apiKey;
+                this.sliced_apilist[this.modal_obj.index].apiSecretKey = this.modal_obj.apiSecretKey;
+                this.sliced_apilist[this.modal_obj.index].description = this.modal_obj.description;
+                this.update_status = true;
+            })
+            
         },
         logout(){
             this.delete_cookie("userToken");

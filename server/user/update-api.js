@@ -1,14 +1,16 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import sql from "../model/db.js";
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken'
 
 const app = express();  
+var urlencodedParser = bodyParser.urlencoded({ extended: false })  
 app.use(cors());
 dotenv.config();
 
-app.get('/api/user/bybit-api',(req,res)=>{
+app.put('/api/user/bybit-api',urlencodedParser,(req,res)=>{
     if(req.headers.authorization == null){
         res.send("Token required for authentication !");
     }
@@ -19,24 +21,21 @@ app.get('/api/user/bybit-api',(req,res)=>{
                 return res.send(err.message);
             }
             else{
-                sql.query(`SELECT idapi,apiKey,apiSecretKey,description
-                FROM crypto_web.user 
-                LEFT JOIN crypto_web.api_info 
-                ON user.iduser = api_info.iduser_api
-                WHERE iduser = ?`
-                ,[jwt.iduser],(err,result)=>{
+                sql.query(`UPDATE api_info SET apiKey = ?, apiSecretKey = ?,description = ? WHERE iduser_api = ? AND idapi = ?`,[req.body.apiKey,req.body.apiSecretKey,req.body.description,jwt.iduser,parseInt(req.body.idapi)],(err,result)=>{
                     if(err){
                         console.log(err);
                     }
-                
                     res.send(JSON.stringify(result));
                 })
             }
         
+
         });
     }
 
     
 });
+
+
 
 export default app;

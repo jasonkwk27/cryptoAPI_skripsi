@@ -178,8 +178,8 @@ export default{
                     approvalStatus : this.sliced_userlist[index].approvalStatus
             });
             axios({
-                method: 'patch',
-                url: 'http://localhost:3000/api/user/',
+                method: 'put',
+                url: 'http://localhost:3000/api/user/updateApproval',
                 
                 data: data,
                 headers: {

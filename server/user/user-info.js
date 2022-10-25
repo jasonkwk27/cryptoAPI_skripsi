@@ -19,10 +19,10 @@ app.get('/api/user/user-info',(req,res)=>{
                 return res.send(err.message);
             }
             else{
-                sql.query(`SELECT username,email,name
+                sql.query(`SELECT *
                 FROM crypto_web.user 
                 LEFT JOIN crypto_web.api_info 
-                ON user.iduser = api_info.iduser_api WHERE username = ? AND password = ? GROUP BY iduser`,[jwt.username,jwt.password],(err,result)=>{
+                ON user.iduser = api_info.iduser_api WHERE user.iduser = ? GROUP BY iduser`,[jwt.iduser],(err,result)=>{
                     if(err){
                         console.log(err);
                     }

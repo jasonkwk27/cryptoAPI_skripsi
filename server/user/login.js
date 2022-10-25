@@ -20,8 +20,6 @@ app.post('/api/user/login',urlencodedParser,(req,res)=>{
 
         loginInput = {
             iduser : result[0].iduser,
-            username:req.body.username,
-            password:req.body.password
         }
 
         const token = generateUserToken(loginInput);

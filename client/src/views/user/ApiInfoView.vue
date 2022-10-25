@@ -186,7 +186,7 @@ export default{
             if(this.getCookie("apiToken")!= ""){
                 axios({
                         method: 'get',
-                        url: 'http://localhost:3000/api/user/api-info',
+                        url: 'http://localhost:3000/api/user/bybit-api/api-info',
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
                             'authorization' : 'Bearer '+this.getCookie("apiToken")

@@ -227,10 +227,8 @@
                     <tr v-if="total_long > 0">
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[best_longidx].side == 'Sell' " >{{trade_list[ best_longidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[ best_longidx].symbol}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[best_longidx].order_type == 'Market' && trade_list[best_longidx].side == 'Sell'">Market Buy</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_longidx].order_type == 'Market' && trade_list[best_longidx].side == 'Buy'">Market Sell</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_longidx].order_type == 'Limit' && trade_list[best_longidx].side == 'Sell'">Limit Buy</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_longidx].order_type == 'Limit' && trade_list[best_longidx].side == 'Buy'">Limit Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[best_longidx].side == 'Sell'">Long</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_longidx].side == 'Buy'">Short</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_longidx].qty}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_longidx].avg_entry_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_longidx].avg_exit_price}}</td>
@@ -244,10 +242,8 @@
                     <tr v-if="total_short > 0">
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[best_shortidx].side == 'Sell' " >{{trade_list[best_shortidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[best_shortidx].symbol}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[best_shortidx].order_type == 'Market' && trade_list[best_shortidx].side == 'Sell'">Market Buy</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_shortidx].order_type == 'Market' && trade_list[best_shortidx].side == 'Buy'">Market Sell</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_shortidx].order_type == 'Limit' && trade_list[best_shortidx].side == 'Sell'">Limit Buy</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_shortidx].order_type == 'Limit' && trade_list[best_shortidx].side == 'Buy'">Limit Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[best_shortidx].side == 'Sell'">Long</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[best_shortidx].side == 'Buy'">Short</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_shortidx].qty}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_shortidx].avg_entry_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[best_shortidx].avg_exit_price}}</td>
@@ -286,10 +282,8 @@
                     <tr v-if ="total_long > 0">
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[worst_longidx].side == 'Sell' " >{{trade_list[worst_longidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[worst_longidx].symbol}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[worst_longidx].order_type == 'Market' && trade_list[worst_longidx].side == 'Sell'">Market Buy</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_longidx].order_type == 'Market' && trade_list[worst_longidx].side == 'Buy'">Market Sell</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_longidx].order_type == 'Limit' && trade_list[worst_longidx].side == 'Sell'">Limit Buy</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_longidx].order_type == 'Limit' && trade_list[worst_longidx].side == 'Buy'">Limit Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[worst_longidx].side == 'Sell'">Long</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_longidx].side == 'Buy'">Short</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_longidx].qty}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_longidx].avg_entry_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_longidx].avg_exit_price}}</td>
@@ -303,10 +297,8 @@
                     <tr v-if="total_short > 0">
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "trade_list[worst_shortidx].side == 'Sell' " >{{trade_list[worst_shortidx].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{trade_list[worst_shortidx].symbol}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[worst_shortidx].order_type == 'Market' && trade_list[worst_shortidx].side == 'Sell'">Market Buy</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_shortidx].order_type == 'Market' && trade_list[worst_shortidx].side == 'Buy'">Market Sell</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_shortidx].order_type == 'Limit' && trade_list[worst_shortidx].side == 'Sell'">Limit Buy</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_shortidx].order_type == 'Limit' && trade_list[worst_shortidx].side == 'Buy'">Limit Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "trade_list[worst_shortidx].side == 'Sell'">Long</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "trade_list[worst_shortidx].side == 'Buy'">Short</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_shortidx].qty}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_shortidx].avg_entry_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{trade_list[worst_shortidx].avg_exit_price}}</td>

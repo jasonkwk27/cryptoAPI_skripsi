@@ -181,10 +181,8 @@
                         <tr v-for="(user,index) in sliced_tradelist" :key="index" class = "">
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "sliced_tradelist[index].side == 'Sell' " >{{sliced_tradelist[index].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{sliced_tradelist[index].symbol}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "sliced_tradelist[index].order_type == 'Market' && sliced_tradelist[index].side == 'Sell'">Market Buy</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "sliced_tradelist[index].order_type == 'Market' && sliced_tradelist[index].side == 'Buy'">Market Sell</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "sliced_tradelist[index].order_type == 'Limit' && sliced_tradelist[index].side == 'Sell'">Limit Buy</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "sliced_tradelist[index].order_type == 'Limit' && sliced_tradelist[index].side == 'Buy'">Limit Sell</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "sliced_tradelist[index].side == 'Sell'">Long</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA]"  v-if = "sliced_tradelist[index].side == 'Buy'">Short</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].qty}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].avg_entry_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_tradelist[index].avg_exit_price}}</td>

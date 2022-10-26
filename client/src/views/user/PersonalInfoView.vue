@@ -13,6 +13,7 @@
             </div>
             </a>
 
+            <div v-auto-animate>
             <a href = "#" @click ="api_clicked = !api_clicked">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
@@ -41,6 +42,7 @@
                     <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">API Info</h1>
             </div>
             </a>
+            </div>
 
             <a href = "/wallet-balance">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
@@ -53,6 +55,7 @@
             </div>
             </a>
 
+            <div v-auto-animate>
             <a href = "#" @click ="ts_clicked = !ts_clicked">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
@@ -81,7 +84,7 @@
                 <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">Trading Analytics</h1>
             </div>
             </a>
-
+            </div>
 
         </div>
 
@@ -115,8 +118,8 @@
                 <h1 class = "text-[#BBE1FA] text-2xl p-3">API's Connected : {{this.api_connected}}</h1>         
             </div>
 
-            <div class="bg-slate-600 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 "  v-if="modal_clicked">
-            <div class=" w-1/3 bg-[#1B262C] m-auto text-center rounded-lg shadow-xl">
+            <div  class="bg-slate-600 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 "  v-if="modal_clicked">
+            <div v-auto-animate class=" w-1/3 bg-[#1B262C] m-auto text-center rounded-lg shadow-xl">
                 <a href="#">
                     <h1 class = "text-right text-[#BBE1FA] text-2xl p-5" @click = "modal_clicked = false">X</h1>
                 </a>

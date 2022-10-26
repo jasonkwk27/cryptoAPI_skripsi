@@ -13,6 +13,7 @@
             </div>
             </a>
 
+            <div v-auto-animate>
             <a href = "#" @click ="api_clicked = !api_clicked">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
@@ -41,6 +42,7 @@
                     <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">API Info</h1>
             </div>
             </a>
+            </div>
 
             <a href = "/wallet-balance">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
@@ -53,6 +55,7 @@
             </div>
             </a>
 
+            <div v-auto-animate>
             <a href = "#" @click ="ts_clicked = !ts_clicked">
             <div class = "flex items-center  bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
@@ -81,12 +84,13 @@
                 <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">Trading Analytics</h1>
             </div>
             </a>
+            </div>
 
 
         </div>
 
 
-        <div class = "flex-auto basis-10/12">
+        <div v-auto-animate class = "flex-auto basis-10/12">
             <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3 ">
                 <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12  ml-28 ">Trading History</h1>  
                 <a href = "#" @click="logout()">
@@ -104,7 +108,7 @@
             <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl  w-fit h-fit mt-3 mr-3 mb-3 ">
                 <form  @submit.prevent = "handleSubmit">
                 <div class = "flex rounded-lg">  
-                    <div class = "mx-5 my-3 rounded-lg">
+                    <div v-auto-animate class = "mx-5 my-3 rounded-lg">
                         <div class = "flex items-center bg-[#0F4C75] outline-white outline-1 hover:outline rounded-lg">
                             <input type ="text" class = "py-3 px-5  bg-[#0F4C75] text-[#BBE1FA] rounded-lg focus:outline-none" v-model = "symbol_input"  @click ="symbol_clicked = !symbol_clicked" placeholder = "Select a pair">
                             <a href = "#">
@@ -166,7 +170,7 @@
 
             <template v-if="api_validity">
             <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3" v-if="search_clicked">
-                <div class = "trade_list">
+                <div  class = "trade_list">
                     <table class = "table-auto w-full border-separate border-spacing-2">
                     <tr>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Symbol</th>
@@ -178,7 +182,7 @@
                         <th class = "px-5 py-3 text-left text-[#3282B8]">% PnL from Margin</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Closed PnL</th>
                     </tr>
-                        <tr v-for="(user,index) in sliced_tradelist" :key="index" class = "">
+                        <tr  v-for="(user,index) in sliced_tradelist" :key="index" class = "">
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a] " v-if = "sliced_tradelist[index].side == 'Sell' " >{{sliced_tradelist[index].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{sliced_tradelist[index].symbol}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA]" v-if = "sliced_tradelist[index].side == 'Sell'">Long</td>

@@ -12,6 +12,7 @@
             </div>
             </a>
 
+            <div v-auto-animate>
             <a href = "#" @click ="api_clicked = !api_clicked">
             <div class = "flex items-center bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
@@ -40,6 +41,7 @@
                     <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">API Info</h1>
             </div>
             </a>
+            </div>
 
             <a href = "/wallet-balance">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
@@ -52,6 +54,7 @@
             </div>
             </a>
 
+            <div v-auto-animate>
             <a href = "#" @click ="ts_clicked = !ts_clicked">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
@@ -80,6 +83,7 @@
                 <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">Trading Analytics</h1>
             </div>
             </a>
+            </div>
 
 
         </div>
@@ -101,7 +105,7 @@
             </div>
 
             <form @submit.prevent = "handleSubmit" class = "">
-            <div class = "bg-[#1B262C] overflow-hidden rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3">
+            <div v-auto-animate class = "bg-[#1B262C] overflow-hidden rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3">
                     <input type="text"  class = "block w-1/3 mt-8 mx-auto mb-5 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder="Enter API Key" v-model="apiKey" name="apiKey" required>
                     <input type="text"  class = "block w-1/3 mx-auto my-5 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder="Enter API Secret Key" v-model="apiSecretKey" name="apiSecretKey" required>
                     <input type="text"  class = "block w-1/2 mx-auto  mt-5 mb-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder="Enter Description" v-model="description" name="description" required>

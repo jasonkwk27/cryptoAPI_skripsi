@@ -13,6 +13,7 @@
             </div>
             </a>
 
+            <div v-auto-animate>
             <a href = "#" @click ="api_clicked = !api_clicked">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
@@ -41,6 +42,7 @@
                     <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">API Info</h1>
             </div>
             </a>
+            </div>
 
             <a href = "/wallet-balance">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
@@ -53,6 +55,7 @@
             </div>
             </a>
 
+            <div v-auto-animate>
             <a href = "#" @click ="ts_clicked = !ts_clicked">
             <div class = "flex items-center  bg-gradient-to-r from-[#0F4C75] to-[#1B262C]  w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
@@ -81,6 +84,7 @@
                 <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">Trading Analytics</h1>
             </div>
             </a>
+            </div>
 
 
         </div>

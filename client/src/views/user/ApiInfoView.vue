@@ -13,6 +13,7 @@
             </div>
             </a>
 
+            <div v-auto-animate>
             <a href = "#" @click ="api_clicked = !api_clicked">
             <div class = "flex items-center  bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
@@ -41,6 +42,7 @@
                     <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">API Info</h1>
             </div>
             </a>
+            </div>
 
             <a href = "/wallet-balance">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
@@ -53,6 +55,7 @@
             </div>
             </a>
 
+            <div v-auto-animate>
             <a href = "#" @click ="ts_clicked = !ts_clicked">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
@@ -81,7 +84,7 @@
                 <h1 class = "text-[#BBE1FA] text-l p-1 ml-11">Trading Analytics</h1>
             </div>
             </a>
-
+            </div>
 
         </div>
 
@@ -115,7 +118,7 @@
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_apilist[index].apiKey}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_apilist[index].apiSecretKey}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{sliced_apilist[index].description}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] flex ">
+                            <td v-auto-animate class = "px-5 py-3 text-left text-[#BBE1FA] flex ">
                                 <a href = "#" v-if="keySelected != sliced_apilist[index].apiKey">
                                     <svg id="Layer_1" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" class = "mr-5" @click = "fetch_data(index)"><path d="m18.535 18.666 1.414 1.414-3.2 3.2a2.475 2.475 0 0 1 -3.494 0l-3.2-3.2 1.414-1.414 2.531 2.534v-8.2h2v8.2zm-.745-11.457a8 8 0 0 0 -15.79 1.791 7.912 7.912 0 0 0 .9 3.671 5.49 5.49 0 0 0 2.6 10.329h4.642l-2-2h-2.642a3.491 3.491 0 0 1 -.872-6.874l1.437-.371-.883-1.192a5.939 5.939 0 0 1 -1.182-3.563 6 6 0 0 1 11.939-.8l.1.758.759.1a5.988 5.988 0 0 1 4.202 9.247l1.43 1.43a7.976 7.976 0 0 0 -4.64-12.526z"  fill="#BBE1FA"/></svg>
                                 </a>
@@ -155,7 +158,7 @@
             </div>
 
             <div class="bg-slate-600 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 "  v-if="modal_clicked">
-            <div class=" w-1/3 bg-[#1B262C] m-auto text-center rounded-lg shadow-xl">
+            <div v-auto-animate class=" w-1/3 bg-[#1B262C] m-auto text-center rounded-lg shadow-xl">
                 <a href="#">
                     <h1 class = "text-right text-[#BBE1FA] text-2xl p-5" @click = "modal_clicked = false">X</h1>
                 </a>

@@ -1,7 +1,7 @@
 <template>
 <form @submit.prevent = "handleSubmit" class = "">
     <div class = "login bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-screen h-screen flex">
-        <div class = "form  bg-[#1B262C] w-1/4 m-auto text-center rounded-lg shadow-xl">
+        <div v-auto-animate class = "form  bg-[#1B262C] w-1/4 m-auto text-center rounded-lg shadow-xl">
 
                                 <h1 class = "text-[#BBE1FA] font-bold text-2xl mt-8">Login</h1>
                                 <input type="text"  class = "w-9/12 mt-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder="Enter Username" v-model="username" name="username" required>

@@ -1,9 +1,9 @@
 <template>
-    <div :class = "[bg_height]" class = " bg-[#0F4C75] w-full flex ">
+    <div class = "bg-[#0F4C75] w-full h-screen flex ">
         <div class = "basis-2/12 m-3"></div>
-        <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-screen m-3  flex-auto w-2/12">
+        <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-full m-3 flex-auto w-2/12">
             <a href = "/personal-info">
-            <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 mt-20  m-auto rounded-md">
+            <div class = "flex items-center  hover:bg-[#0F4C75]   w-11/12 m-auto  mt-20 rounded-md">
                 <div class = "mr-1 p-3">
                     <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20"><path d="M12,12A6,6,0,1,0,6,6,6.006,6.006,0,0,0,12,12ZM12,2A4,4,0,1,1,8,6,4,4,0,0,1,12,2Z" fill="#BBE1FA"/><path d="M12,14a9.01,9.01,0,0,0-9,9,1,1,0,0,0,2,0,7,7,0,0,1,14,0,1,1,0,0,0,2,0A9.01,9.01,0,0,0,12,14Z" fill="#BBE1FA"/></svg>
                     </div>
@@ -15,7 +15,7 @@
 
             <div v-auto-animate>
             <a href = "#" @click ="api_clicked = !api_clicked">
-            <div class = "flex items-center w-11/12 m-auto  hover:bg-[#0F4C75] rounded-md relative">
+            <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md relative">
                     <div class = "mr-1 p-3">
                         <svg id="Layer_1" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m22 0h-2.172a2.978 2.978 0 0 0 -2.121.879l-8.361 8.36a7.537 7.537 0 1 0 5.415 5.415l1.239-1.239v-2.415h3v-3h2.414l1.707-1.707a2.983 2.983 0 0 0 .879-2.122v-2.171a2 2 0 0 0 -2-2zm0 4.171a1 1 0 0 1 -.293.708l-1.121 1.121h-3.586v3h-3v3.585l-1.545 1.545a5.64 5.64 0 0 1 .545 2.37 5.5 5.5 0 1 1 -5.5-5.5 4.236 4.236 0 0 1 2.369.544l9.252-9.251a1.009 1.009 0 0 1 .707-.293h2.172zm-17 13.829a1 1 0 1 0 1-1 1 1 0 0 0 -1 1z" fill="#BBE1FA"/></svg>
                     </div>
@@ -45,7 +45,7 @@
             </div>
 
             <a href = "/wallet-balance">
-            <div class = "flex items-center  bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-11/12 m-auto rounded-md">
+            <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
                     <div class = "mr-1 p-3">
                         <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="20" height="20"><path d="M20.5,6H5.5c-.789,0-1.53-.376-2-.999,.457-.607,1.184-1.001,2-1.001H22.5c1.972-.034,1.971-2.967,0-3H5.5C2.468,1,0,3.467,0,6.5v11c0,3.033,2.468,5.5,5.5,5.5h15c1.93,0,3.5-1.57,3.5-3.5V9.5c0-1.93-1.57-3.5-3.5-3.5Zm.5,13.5c0,.276-.225,.5-.5,.5H5.5c-1.379,0-2.5-1.122-2.5-2.5V8.396c.763,.39,1.618,.604,2.5,.604h15c.275,0,.5,.224,.5,.5v10Zm-2-5c-.034,1.972-2.967,1.971-3,0,.034-1.972,2.967-1.971,3,0Z" fill="#BBE1FA"/></svg>
                     </div>
@@ -72,7 +72,6 @@
                     </div>
             </div>
             </a>
-        
 
             <a href = "/trading-history" v-if = "ts_clicked">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
@@ -88,7 +87,7 @@
             </div>
 
             <a href = "/trading-hub">
-            <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
+            <div class = "flex items-center bg-gradient-to-r from-[#0F4C75] to-[#1B262C] w-11/12 m-auto rounded-md">
                     <div class = "mr-1 p-3">
                         <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20"><path d="M24,19V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V19H10.5v2H6v3H18V21H13.5V19ZM21,3V13H3V3Z " fill="#BBE1FA"/></svg>
                     </div>
@@ -98,13 +97,12 @@
             </div>
             </a>
 
-
         </div>
 
 
-        <div class = "flex-auto">
+        <div class = "flex-auto basis-10/12">
             <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl h-fit max-w-full mt-3 mr-3 mb-3 ">
-                <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12 ml-28 ">Wallet Balances</h1>  
+                <h1 class = "text-[#BBE1FA] text-3xl p-3 w-11/12  ml-28 ">Trading Hub</h1>  
                 <a href = "#" @click="logout()">
                 <div class = " flex items-center hover:bg-[#0F4C75] rounded-md">
                     <div class = "mr-1 p-3">
@@ -116,49 +114,6 @@
                 </div>
                 </a> 
             </div>
-
-            <template v-if ="api_validity">
-                <div class = "flex">
-                <div class = "bg-[#1B262C] basis-5/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
-                    <div class = " flex-auto p-3 h-full w-full text-center">
-                        <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">Total Networth</h1> 
-                        <h1 class = "text-[#BBE1FA] text-3xl pb-3 m-3">$ {{this.total_networth}}</h1> 
-                        <h1 class = "text-[#BBE1FA] text-3xl pb-3 m-3">{{1/this.coin_list["BTC"].price*this.total_networth}} BTC</h1> 
-                    </div>
-
-                </div>
-                
-                <div class = "bg-[#1B262C]  basis-7/12 mt-3 mr-3 mb-3 rounded-lg shadow-xl">
-                    <div class = "w-fit text-center m-auto p-3 h-fit">
-                        <h1 class = "text-[#3282B8] text-3xl pb-3 w-11/12 ">Networth Allocation</h1> 
-                        <canvas id="doughnutChart" class =""></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class = "bg-[#1B262C] rounded-lg shadow-xl h-fit mt-3 mr-3 mb-3">
-                <div class = "coin_list max-w-full">
-                    <table class = "table-auto w-full">
-                    <tr>
-                        <th class = "px-5 py-3 text-left text-[#3282B8]">Symbol</th>
-                        <th class = "px-5 py-3 text-left text-[#3282B8]">Current Price</th>
-                        <th class = "px-5 py-3 text-left text-[#3282B8]">Amount</th>
-                        <th class = "px-5 py-3 text-left text-[#3282B8]">Value</th>
-                    </tr>
-                    <tr v-for="(coin,index) in coin_list" :key="index">
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{index}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">$ {{this.coin_list[index].price}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{this.coin_list[index].wallet_balance}}</td>
-                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">$ {{this.coin_list[index].wallet_balance * this.coin_list[index].price}}</td>
-                    </tr>
-                    </table>
-                </div>
-            </div>
-            </template>
-            
-            <template v-else>
-
-            </template>
 
         </div>
 
@@ -172,80 +127,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-import Chart from 'chart.js/auto'
 export default{
-    data(){
-        return{
-            api_clicked : false,
-            ts_clicked : false,
-            coin_list : {},
-            symbols : [],
-            asset_value : [],
-            total_networth : 0,
-            api_validity : false,
-            bg_height :'h-screen'
-        }
-    },
-    created(){
-        if(this.getCookie("userToken") == ""){
-        this.$router.push('/login');
-        }
-        else {
-            axios({
-                method: 'get',
-                url: 'http://localhost:3000/api/bybit/wallet-balance',
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    'authorization' : 'Bearer '+this.getCookie("apiToken")
-                }
-            })
-            .then((res)=>{
-                if(res.data.result != null){
-                    this.api_validity = true;
-                    this.bg_height = 'h-fit';
-                    this.coin_list = res.data.result;
-                    this.symbols = Object.getOwnPropertyNames(this.coin_list);
-                        axios({
-                            method: 'get',
-                            url: 'http://localhost:3000/api/bybit/coin-tickers',
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                            }
-                        }).then(
-                            (result)=>{                   
-                                for(let i = 0;i<this.symbols.length;i++){
-                                    for(let j = 0;j<result.data.length;j++){
-                                        if(this.symbols[i] == "USDT"){
-                                            this.coin_list[this.symbols[i]].price = 1;
-                                            break;
-                                        }
-                                        else if(this.symbols[i] == "LUNA"){
-                                            this.coin_list[this.symbols[i]].price = 0;
-                                            break;
-                                        }
-                                        else if (result.data[j].symbol == this.symbols[i] + "USDT"){
-                                            this.coin_list[this.symbols[i]].price = result.data[j].mark_price;
-                                            break;
-                                        }
-                                    }
-                                    this.asset_value[i] = this.coin_list[this.symbols[i]].price * this.coin_list[this.symbols[i]].wallet_balance;
-                                    this.total_networth = this.total_networth + (this.coin_list[this.symbols[i]].price * this.coin_list[this.symbols[i]].wallet_balance);
-                                }
-                                this.donut();
-                            }
-                            
-                        )
-                }
-                else{
-                    console.log(res.data);
-                }
-
-            })
-        }
-       
-    },
-    methods: {
+    methods:{
         logout(){
             this.delete_cookie("userToken");
             this.delete_cookie("apiToken");
@@ -254,47 +137,11 @@ export default{
             this.delete_cookie("dateTo");
             this.$router.push('/login');
         },
-        donut(){
-            if(document.getElementById("doughnutChart") != null){
-            const ctx = document.getElementById('doughnutChart').getContext('2d');
-                const doughnutChart = new Chart(ctx,{
-                    type: 'doughnut',
-                    data: {
-                        labels: this.symbols,
-                        datasets: [{
-                            label: 'Portfolio Allocation',
-                            data: this.asset_value,
-                            backgroundColor: ["#E0ACD5",'#3993DD','#F4EBE8','#29E7CD','#6A3E37','#DCF2B0','#C2EABD','#C0BABC','#C7AC92','#CD533B','#99B2DD','#7FB685'],
-                            hoverOffset: 4
-                        }]
-                    },
-
-                });
-                doughnutChart.show;
-            }
-        },
-        getCookie(param){
-            let name = param + "=";
-            let decodedCookie = decodeURIComponent(document.cookie);
-            let ca = decodedCookie.split(';');
-            for(let i = 0; i <ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        },
         delete_cookie(name) {
             document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         
-        }
-
+        },
     }
-    
 }
 
 </script>

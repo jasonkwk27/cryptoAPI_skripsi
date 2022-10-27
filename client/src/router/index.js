@@ -10,7 +10,7 @@ import ApiInfoView from '../views/user/ApiInfoView.vue'
 import WalletBalanceView from '../views/user/WalletBalanceView.vue'
 import TradingHistoryView from '../views/user/TradingHistoryView.vue'
 import TradingAnalyticsView from '../views/user/TradingAnalyticsView.vue'
-
+import TradingHubView from '../views/user/TradingHubView.vue'
 
 
 const routes = [
@@ -67,6 +67,11 @@ const routes = [
     path : '/trading-analytics',
     name : 'trading-analytics',
     component : TradingAnalyticsView
+  },
+  {
+    path : '/trading-hub',
+    name : 'trading-hub',
+    component : TradingHubView
   }
 ]
 

@@ -85,6 +85,18 @@
             </div>
             </a>
             </div>
+            
+            <a href = "/trading-hub">
+            <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 m-auto rounded-md">
+                    <div class = "mr-1 p-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20"><path d="M24,19V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V19H10.5v2H6v3H18V21H13.5V19ZM21,3V13H3V3Z " fill="#BBE1FA"/></svg>
+                    </div>
+                    <div>
+                        <h1 class = "text-[#BBE1FA] text-l">Trading Hub</h1>
+                    </div>
+            </div>
+            </a>
+
 
         </div>
 

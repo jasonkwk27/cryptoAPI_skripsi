@@ -115,6 +115,40 @@
                 </a> 
             </div>
 
+            <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3">
+                <h1 class = "text-[#BBE1FA] text-2xl px-6 pt-6 ">Position List ({{position_list_length}})</h1>
+                <div  class = "trade_list">
+                    <table class = "table-auto w-full border-separate border-spacing-2">
+                    <tr>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Symbol</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Contract Type</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Position Value</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Quantity</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Entry Price</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Liquidation Price</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Unrealised PnL</th>
+                    </tr>
+
+                    <tr  v-for="(user,index) in position_list" :key="index" class = "">
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#16a34a]" v-if = "position_list[index].side == 'Buy' ">{{position_list[index].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] border-l-4 border-l-[#b91c1c]" v-else>{{position_list[index].symbol}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{position_list[index].side}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{position_list[index].position_value}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{position_list[index].size}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{position_list[index].entry_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{position_list[index].liq_price}}</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "position_list[index].unrealised_pnl > 0 ">$ {{position_list[index].unrealised_pnl}}</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{position_list[index].unrealised_pnl}}</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3">
+                <h1 class = "text-[#BBE1FA] text-2xl px-6 pt-6 ">Open a Position</h1>
+            </div>
+
         </div>
 
 
@@ -127,7 +161,17 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default{
+    data(){
+        return{
+            api_clicked : false,
+            ts_clicked : false,
+            position_list :{},
+            position_list_length :0
+        }
+    },
     methods:{
         logout(){
             this.delete_cookie("userToken");
@@ -141,6 +185,71 @@ export default{
             document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         
         },
+        getCookie(param){
+            let name = param + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        },
+        getPosition(){
+            axios({
+                        method: 'get',
+                        url: 'http://localhost:3000/api/bybit/position-list',
+                        headers: {
+                            'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                            'authorization' : 'Bearer '+this.getCookie("apiToken")
+                        }
+            }).then(
+                (result)=>{
+                    for(let i = 0 ,j = 0; i<result.data.result.length;i++){
+                        if(result.data.result[i].data.size > 0){
+                            this.position_list[j] = result.data.result[i].data;
+                           this.position_list_length++;
+                        }
+                    }
+                    console.log(this.position_list);
+                    
+
+                }
+            )
+        }
+    },
+    created(){
+        if(this.getCookie("userToken") == ""){
+        this.$router.push('/login');
+        }
+        else {  
+            setInterval(async () => {
+                await axios({
+                            method: 'get',
+                            url: 'http://localhost:3000/api/bybit/position-list',
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                                'authorization' : 'Bearer '+this.getCookie("apiToken")
+                            }
+                }).then(
+                    (result)=>{
+                        for(let i = 0 ,j = 0; i<result.data.result.length;i++){
+                            if(result.data.result[i].data.size > 0){
+                                this.position_list[j] = result.data.result[i].data;
+                            this.position_list_length++;
+                            }
+                        }
+
+                    }
+                );
+            }, 2000);
+        }
+       
     }
 }
 

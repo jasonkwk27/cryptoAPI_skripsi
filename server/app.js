@@ -17,6 +17,7 @@ import closed_pnl from './web_api/closed-pnl.js'
 import update_api from './user/update-api.js'
 import update_user from './user/update-user.js'
 import position_list from './web_api/position-list.js'
+import create_position from './web_api/create-position.js';
 
 const app = express();
 const port = 3000;
@@ -40,6 +41,7 @@ app.use('/',closed_pnl);
 app.use('/',update_api);
 app.use('/',update_user);
 app.use('/',position_list);
+app.use('/',create_position);
 
 app.listen(port,() =>{
     console.log(`Server started on port ${port}`);

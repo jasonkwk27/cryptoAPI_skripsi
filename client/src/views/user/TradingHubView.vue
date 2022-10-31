@@ -137,8 +137,8 @@
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{position_list[index].size}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{position_list[index].entry_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{position_list[index].liq_price}}</td>
-                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "position_list[index].unrealised_pnl > 0 ">$ {{position_list[index].unrealised_pnl}}</td>
-                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{position_list[index].unrealised_pnl}}</td>
+                            <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "position_list[index].unrealised_pnl > 0 ">$ {{(position_list[index].unrealised_pnl).toFixed(3)}} (+ {{(position_list[index].unrealised_pnl/position_list[index].position_value*100).toFixed(2)}} %)</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{(position_list[index].unrealised_pnl).toFixed(3)}} -({{(position_list[index].unrealised_pnl/position_list[index].position_value*100).toFixed(2)}} %)</td>
                         </tr>
 
                     </table>
@@ -147,6 +147,7 @@
 
             <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3">
                 <h1 class = "text-[#BBE1FA] text-2xl px-6 pt-6 ">Open a Position</h1>
+
             </div>
 
         </div>
@@ -199,28 +200,6 @@ export default{
                 }
             }
             return "";
-        },
-        getPosition(){
-            axios({
-                        method: 'get',
-                        url: 'http://localhost:3000/api/bybit/position-list',
-                        headers: {
-                            'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                            'authorization' : 'Bearer '+this.getCookie("apiToken")
-                        }
-            }).then(
-                (result)=>{
-                    for(let i = 0 ,j = 0; i<result.data.result.length;i++){
-                        if(result.data.result[i].data.size > 0){
-                            this.position_list[j] = result.data.result[i].data;
-                           this.position_list_length++;
-                        }
-                    }
-                    console.log(this.position_list);
-                    
-
-                }
-            )
         }
     },
     created(){
@@ -238,16 +217,18 @@ export default{
                             }
                 }).then(
                     (result)=>{
+                        this.position_list_length = 0;
                         for(let i = 0 ,j = 0; i<result.data.result.length;i++){
                             if(result.data.result[i].data.size > 0){
                                 this.position_list[j] = result.data.result[i].data;
-                            this.position_list_length++;
+                                j++;
+                                this.position_list_length++;
                             }
                         }
-
                     }
                 );
             }, 2000);
+
         }
        
     }

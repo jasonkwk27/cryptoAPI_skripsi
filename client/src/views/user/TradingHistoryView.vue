@@ -119,16 +119,16 @@
             <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl  w-fit h-fit mt-3 mr-3 mb-3 ">
                 <form  @submit.prevent = "handleSubmit">
                 <div class = "flex rounded-lg">  
-                    <div v-auto-animate class = "mx-5 my-3 rounded-lg" >
-                        <select class = "py-3 px-5  bg-[#0F4C75] text-[#BBE1FA] rounded-lg focus:outline-none" v-model="symbol_input">
+                    <div  class = "mx-5 my-3 rounded-lg" >
+                        <select class = "py-3 pl-3  bg-[#0F4C75] text-[#BBE1FA] rounded-lg focus:outline-none" v-model="symbol_input">
                         <option disabled value="">Select pair</option>
-                        <option v-for="(coin,index) in coinsymbols_filtered" :key="index" class = "list-none p-2 hover:bg-[#3282B8] text-[#BBE1FA]">
-                                {{ coinsymbols_filtered[index].symbol }}
+                        <option v-for="(coin,index) in coin_symbols" :key="index" class = "list-none p-2 hover:bg-[#3282B8] text-[#BBE1FA]">
+                                {{ coin_symbols[index].symbol }}
                         </option>
                         </select>
                     </div>
 
-                    <div class = "m-3 bg-[#0F4C75] rounded-lg outline-white outline-1 hover:outline h-fit">
+                    <div v-auto-animate class = "m-3 bg-[#0F4C75] rounded-lg outline-white outline-1 hover:outline h-fit">
                         <datepicker class = " bg-[#0F4C75] text-[#BBE1FA] p-3 rounded-lg" v-model="date_from" :upper-limit="date_to"/>
                     </div>
 
@@ -250,6 +250,12 @@
             
             </template>
 
+            <template v-else>
+                <div class = " flex-auto p-3 h-full w-full text-center">
+                        <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">{{msg}}</h1> 
+                    </div>
+            </template>
+
         </div>
 
 
@@ -280,7 +286,6 @@ export default{
             date_from: new Date(),
             date_to : new Date(),
             coin_symbols : {},
-            coinsymbols_filtered : {},
             symbol_input : this.getCookie("pair"),
             total_page : 1,
             current_page:1,
@@ -293,7 +298,8 @@ export default{
             chart_rendered :0,
             bg_height : 'h-screen',
             total_long : 0,
-            api_validity : false
+            api_validity : false,
+            msg : ''
         }
     },
     created(){
@@ -312,7 +318,6 @@ export default{
                     for(let i = 0;i<result.data.length ;i++){
                         if(result.data[i].symbol.includes("USDT")){
                             this.coin_symbols[i] = result.data[i];
-                            this.coinsymbols_filtered[i] = result.data[i];
                         }
                     }
                 }
@@ -405,11 +410,14 @@ export default{
                     }
                     else{
                         if(result.data.result == null){
-                            console.log(result.data);
+                            this.msg = result.data.ret_msg;
                         }
                         else if(result.data.result.data == null){
-                            console.log("No Data Is Found!");
+                            this.msg = "No data is found !";
+
                         }
+                        this.bg_height = 'h-screen';
+                        this.api_validity = false;
                     }
                 }
             ).then(
@@ -473,15 +481,6 @@ export default{
                     this.total_long ++;
                 }
             }
-        },
-        symbol_inputChanged(){
-            this.coinsymbols_filtered = {};
-           for(let i in this.coin_symbols){
-                if(this.coin_symbols[i].symbol.includes(this.symbol_input.toUpperCase())){
-                    this.coinsymbols_filtered[i] = this.coin_symbols[i];
-                
-                }
-           }
         },
         showlineChart(){
             if(document.getElementById("lineChart") != null){

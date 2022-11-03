@@ -157,7 +157,9 @@
             </template>
             
             <template v-else>
-
+                <div class = " flex-auto p-3 h-full w-full text-center">
+                        <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">Must select API Info to see content !</h1> 
+                    </div>
             </template>
 
         </div>
@@ -236,9 +238,6 @@ export default{
                             }
                             
                         )
-                }
-                else{
-                    console.log(res.data);
                 }
 
             })

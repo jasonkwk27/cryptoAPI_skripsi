@@ -345,9 +345,12 @@
                 </div>
 
             </div>
+            </template>
 
-
-        
+            <template v-else>
+                <div class = " flex-auto p-3 h-full w-full text-center">
+                        <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">{{msg}}</h1> 
+                    </div>
             </template>
 
         </div>
@@ -384,7 +387,8 @@ export default{
             worst_shortidx : 0,
             pnl_byDate : [],
             api_validity : false,
-            bg_height : 'h-screen' 
+            bg_height : 'h-screen',
+            msg : ''
         }
     },
     created(){
@@ -407,7 +411,8 @@ export default{
                  }
             }).then(
                 (result)=>{
-                    if(result.data.result !=null){
+                    console.log(result.data);
+                    if(result.data.ret_code == 0){
                         this.trade_list = result.data.result.data;
                         let best_long = Number.MIN_VALUE,worst_long = Number.MAX_VALUE,best_short = Number.MIN_VALUE,worst_short = Number.MAX_VALUE;
                         for(let i = 0;i<7;i++){
@@ -454,7 +459,7 @@ export default{
                         this.api_validity = true;
                         }
                         else{
-                            console.log(result.data);
+                            this.msg = result.data.ret_msg;
                         }
    
                 }

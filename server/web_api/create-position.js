@@ -27,29 +27,97 @@ app.post('/api/bybit/create-position',urlencodedParser,(req,res)=>{
                var apiSecretKey = jwt.apiSecretKey;
                var params = "";
                var sign  = "";
-               var symbol = req.body.pair;
-               axios.get(base_url+public_time)
-               .then((result)=>{
-                    params = {
-                        "timestamp": (result.data.time_now*1000).toString().substring(0,13),
-                        "symbol" : symbol,
-                        "api_key" : apiKey,
-                    };
-                    sign = getSignature(params,apiSecretKey);
-                    axios({
-                        method: 'post',
-                        url: base_url+place_order,
-                        data: data,
-                        headers: {
-                            'content-type': 'application/json',
-                         }
-                    }).then((result)=>{
-                        console.log(result.data)
-                    }).catch((err)=>{
-                        res.send(err);
+               var side = req.body.side;
+               var symbol = req.body.symbol;
+               var order_type = "Market";
+               var qty = req.body.qty;
+               var time_in_force = "GoodTillCancel";
+               var reduce_only = false;
+               var close_on_trigger = false;
+               if(req.body.position_idx == undefined){
+                axios.get(base_url+public_time)
+                .then((result)=>{
+                     params = {
+                         "timestamp": (result.data.time_now*1000).toString().substring(0,13),
+                         "symbol" : symbol,
+                         "api_key" : apiKey,
+                         "side" : side,
+                         "order_type" : order_type,
+                         "qty" : qty,
+                         "time_in_force"  : time_in_force,
+                         "reduce_only" : reduce_only,
+                         "close_on_trigger" : close_on_trigger
+                     };
+                     sign = getSignature(params,apiSecretKey);
+                     axios({
+                         method: 'post',
+                         url: base_url+place_order,
+                         data: {
+                             "api_key":apiKey,
+                             "side" :side,
+                             "symbol" : symbol,
+                             "order_type" : order_type,
+                             "qty" : qty,
+                             "time_in_force" : time_in_force,
+                             "reduce_only" : reduce_only,
+                             "close_on_trigger":close_on_trigger,
+                             "timestamp" : (result.data.time_now*1000).toString().substring(0,13),
+                             "sign" : sign
+                         },
+                         headers: {
+                             'content-type': 'application/json',
+                          }
+                     }).then((result)=>{
+                         res.send(result.data);
+                     }).catch((err)=>{
+                         console.log(err);
+                         res.send(err);
+                     })
                     })
                 }
-               )
+                else{
+                    axios.get(base_url+public_time)
+                    .then((result)=>{
+                         params = {
+                             "timestamp": (result.data.time_now*1000).toString().substring(0,13),
+                             "symbol" : symbol,
+                             "api_key" : apiKey,
+                             "side" : side,
+                             "order_type" : order_type,
+                             "qty" : qty,
+                             "time_in_force"  : time_in_force,
+                             "reduce_only" : reduce_only,
+                             "close_on_trigger" : close_on_trigger,
+                             "position_idx" : req.body.position_idx
+                         };
+                         sign = getSignature(params,apiSecretKey);
+                         axios({
+                             method: 'post',
+                             url: base_url+place_order,
+                             data: {
+                                 "api_key":apiKey,
+                                 "side" :side,
+                                 "symbol" : symbol,
+                                 "order_type" : order_type,
+                                 "qty" : qty,
+                                 "time_in_force" : time_in_force,
+                                 "reduce_only" : reduce_only,
+                                 "close_on_trigger":close_on_trigger,
+                                 "timestamp" : (result.data.time_now*1000).toString().substring(0,13),
+                                 "position_idx" : req.body.position_idx,
+                                 "sign" : sign
+                             },
+                             headers: {
+                                 'content-type': 'application/json',
+                              }
+                         }).then((result)=>{
+                             res.send(result.data);
+                         }).catch((err)=>{
+                             console.log(err);
+                             res.send(err);
+                         })
+                        })
+                }
 
             }
         

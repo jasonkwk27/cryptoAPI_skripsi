@@ -127,6 +127,7 @@
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Entry Price</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Liquidation Price</th>
                         <th class = "px-5 py-3 text-left text-[#3282B8]">Unrealised PnL</th>
+                        <th class = "px-5 py-3 text-left text-[#3282B8]">Action</th>
                     </tr>
 
                     <tr  v-for="(user,index) in position_list" :key="index" class = "">
@@ -138,7 +139,8 @@
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{position_list[index].entry_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{position_list[index].liq_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "position_list[index].unrealised_pnl > 0 ">$ {{(position_list[index].unrealised_pnl).toFixed(3)}} (+ {{(position_list[index].unrealised_pnl/position_list[index].position_value*100).toFixed(2)}} %)</td>
-                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{(position_list[index].unrealised_pnl).toFixed(3)}} -({{(position_list[index].unrealised_pnl/position_list[index].position_value*100).toFixed(2)}} %)</td>
+                            <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{(position_list[index].unrealised_pnl).toFixed(3)}} ({{(position_list[index].unrealised_pnl/position_list[index].position_value*100).toFixed(2)}} %)</td>
+                            <button class = "p-2 bg-[#3282B8]  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click="closePosition(index)">Close Position</button>    
                         </tr>
 
                     </table>
@@ -146,8 +148,32 @@
             </div>
 
             <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3">
-                <h1 class = "text-[#BBE1FA] text-2xl px-6 pt-6 ">Open a Position</h1>
-
+                <h1 class = "text-[#BBE1FA] text-2xl px-5 pt-5 ">Open a Position</h1>
+                <form @submit.prevent = "executeOrder" class = "">
+                <div  class = "mx-5 my-3 rounded-lg flex" >
+                        <h1 class = "text-[#BBE1FA] text-lg mr-3">Contract Type : </h1>      
+                        <select class = "py-1 pl-1  bg-[#0F4C75] text-[#BBE1FA] rounded-lg focus:outline-none" v-model="contract_type" required>
+                            <option>Buy</option>
+                            <option>Sell</option>
+                        </select>
+                </div>
+                <div  class = "mx-5 my-3 rounded-lg flex" >
+                        <h1 class = "text-[#BBE1FA] text-lg mr-3">Symbol : </h1>      
+                        <select class = "py-1 pl-1  bg-[#0F4C75] text-[#BBE1FA] rounded-lg focus:outline-none" v-model="symbol">
+                            <option v-for="(coin,index) in coin_symbols" :key="index" class = "list-none p-2 hover:bg-[#3282B8] text-[#BBE1FA]" required>
+                                {{ coin_symbols[index].symbol }}
+                            </option>
+                        </select>
+                </div>
+                <div  class = "mx-5 my-3 rounded-lg flex" >
+                        <h1 class = "text-[#BBE1FA] text-lg mr-3">Quantity : </h1>      
+                        <input type="text"  class = "p-1 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder = "Select quantity.." name="name" v-model="coin_qty" required>
+                </div>
+                <h1 v-if = "order_msg != '' " class = "mx-5 mb-5 text-[#BBE1FA]">{{order_msg}}</h1>
+                <div  class = "mx-5 my-3 rounded-lg flex" >
+                    <button type = "submit" class = "p-3 bg-[#3282B8] mb-5  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]">Execute Order</button>      
+                </div>
+                </form>
             </div>
 
         </div>
@@ -163,14 +189,21 @@
 
 <script>
 import axios from 'axios';
-
+import qs from 'qs';
 export default{
     data(){
         return{
             api_clicked : false,
             ts_clicked : false,
-            position_list :{},
-            position_list_length :0
+            position_list :[],
+            position_list_length :0,
+            contract_type : "",
+            symbol : "",
+            coin_symbols : {},
+            coin_qty : 0,
+            order_msg : "",
+            position_idx : "",
+            closing_side : ""
         }
     },
     methods:{
@@ -200,7 +233,68 @@ export default{
                 }
             }
             return "";
+        },
+        executeOrder(){
+            if(this.coin_qty > 0){
+                const data = qs.stringify({
+                    side : this.contract_type,
+                    symbol : this.symbol,
+                    qty : this.coin_qty
+                });
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:3000/api/bybit/create-position',
+                    data: data,
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                        'authorization' : 'Bearer '+this.getCookie("apiToken")
+                    }
+                })
+                .then((result)=>{
+                    if(result.data.ret_code == 0){
+                        this.order_msg = "Order executed successfully !";
+                    }
+                    else{
+                        this.order_msg = result.data.ret_msg;
+                    }
+
+                })
+            }
+            else{
+                this.order_msg = "Quantity must be > 0 !"
+            }
+
+        },
+        closePosition(index){
+            if(this.position_list[index].side == "Buy"){
+                this.position_idx = 1;
+                this.closing_side = "Sell";
+            }
+            else {
+                this.closing_side = "Buy";
+                this.position_idx = 2;
+            }
+            const data = qs.stringify({
+                    side : this.closing_side,
+                    symbol : this.position_list[index].symbol,
+                    qty : this.position_list[index].size,
+                    position_idx : this.position_idx
+            });
+            axios({
+                    method: 'post',
+                    url: 'http://localhost:3000/api/bybit/create-position',
+                    data: data,
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                        'authorization' : 'Bearer '+this.getCookie("apiToken")
+                    }
+            })
+            .then(()=>{
+                this.position_list.splice(index,1);
+            })
+            
         }
+
     },
     created(){
         if(this.getCookie("userToken") == ""){
@@ -228,6 +322,22 @@ export default{
                     }
                 );
             }, 2000);
+
+            axios({
+                        method: 'get',
+                        url: 'http://localhost:3000/api/bybit/coin-tickers',
+                        headers: {
+                            'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                        }
+            }).then(
+                (result)=>{
+                    for(let i = 0;i<result.data.length ;i++){
+                        if(result.data[i].symbol.includes("USDT")){
+                            this.coin_symbols[i] = result.data[i];
+                        }
+                    }
+                }
+            )
 
         }
        

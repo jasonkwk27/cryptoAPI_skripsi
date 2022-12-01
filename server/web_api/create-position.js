@@ -113,7 +113,6 @@ app.post('/api/bybit/create-position',urlencodedParser,(req,res)=>{
                          }).then((result)=>{
                              res.send(result.data);
                          }).catch((err)=>{
-                             console.log(err);
                              res.send(err);
                          })
                         })

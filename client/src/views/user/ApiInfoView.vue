@@ -233,7 +233,7 @@ export default{
             if(this.getCookie("apiToken")!= ""){
                 axios({
                         method: 'get',
-                        url: 'http://localhost:3000/api/user/bybit-api/api-info',
+                        url: 'http://localhost:3000/api/user/bybit-api',
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
                             'authorization' : 'Bearer '+this.getCookie("apiToken")
@@ -245,7 +245,7 @@ export default{
 
             axios({
                 method: 'get',
-                url: 'http://localhost:3000/api/user/bybit-api',
+                url: 'http://localhost:3000/api/user/bybit-api/api-list',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
                     'authorization' : 'Bearer '+this.getCookie("userToken")
@@ -331,7 +331,7 @@ export default{
                     document.cookie = `apiToken=${result.data.token}`;
                     axios({
                         method: 'get',
-                        url: 'http://localhost:3000/api/user/bybit-api/api-info',
+                        url: 'http://localhost:3000/api/user/bybit-api',
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
                             'authorization' : 'Bearer '+this.getCookie("apiToken")

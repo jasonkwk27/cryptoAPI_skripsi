@@ -26,7 +26,7 @@ app.delete('/api/user/bybit-api',urlencodedParser,(req,res)=>{
                         console.log(err);
                     }
                 
-                    res.send(JSON.stringify(result));
+                    res.send(JSON.stringify(result.affectedRows));
                 })
             }
         

@@ -25,7 +25,7 @@ app.put('/api/user',urlencodedParser,(req,res)=>{
                             if(err){
                                 console.log(err);
                             }
-                            res.send(JSON.stringify(result));
+                            res.send(JSON.stringify(result.affectedRows));
                         })
                 
             }

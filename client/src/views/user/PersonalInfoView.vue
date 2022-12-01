@@ -191,7 +191,7 @@ export default{
         else {
             axios({
                 method: 'get',
-                url: 'http://localhost:3000/api/user/user-info',
+                url: 'http://localhost:3000/api/user',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
                     'authorization' : 'Bearer '+this.getCookie("userToken")

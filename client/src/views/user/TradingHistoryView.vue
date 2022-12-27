@@ -116,6 +116,7 @@
                 </a> 
             </div>
 
+            
             <div class = "flex items-center bg-[#1B262C] text-center rounded-lg shadow-xl  w-fit h-fit mt-3 mr-3 mb-3 ">
                 <form  @submit.prevent = "handleSubmit">
                 <div class = "flex rounded-lg">  
@@ -140,7 +141,6 @@
                         <button type="submit" class = "py-3 px-5 bg-[#3282B8] text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click="search_clicked = true">Search</button>
                     </div>
 
-                    <template v-if ="api_validity">
                     <div class="bg-[#1B262C] w-fit flex items-center rounded-lg" v-if="search_clicked">
                     <nav aria-label="Page navigation example">
                         <ul class="flex list-style-none">
@@ -160,7 +160,6 @@
                         </ul>
                     </nav>
                     </div>
-                    </template>
 
                 </div>
                 </form>
@@ -251,8 +250,8 @@
             </template>
 
             <template v-else>
-                <div class = " flex-auto p-3 h-full w-full text-center">
-                        <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">{{msg}}</h1> 
+                <div class = " flex-auto p-3 text-center">
+                        <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">{{this.msg}}</h1> 
                     </div>
             </template>
 
@@ -281,6 +280,7 @@ export default{
         return{
             api_clicked : false,
             ts_clicked : false,
+            search_clicked :false,
             trade_list : {},
             sliced_tradelist : {},
             date_from: new Date(),
@@ -344,6 +344,12 @@ export default{
                  }
             }).then(
                 (result)=>{
+                    if(result.data.ret_code != 0 && result.data.ret_msg != undefined){
+                        this.msg = result.data.ret_msg;
+                    }
+                    else if (result.data.result == null){
+                        this.msg = 'Must select API Info to see content !'
+                    }
                     if(result.data.result != null && result.data.result.data !=null){
                         this.trade_list = result.data.result.data;
                         var temp_pnlArray = [],temp_dateArray = [];

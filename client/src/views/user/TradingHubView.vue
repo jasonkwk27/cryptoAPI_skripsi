@@ -140,16 +140,31 @@
                             <td class = "px-5 py-3 text-left text-[#BBE1FA] ">{{position_list[index].liq_price}}</td>
                             <td class = "px-5 py-3 text-left text-[#16a34a]" v-if = "position_list[index].unrealised_pnl > 0 ">$ {{(position_list[index].unrealised_pnl).toFixed(3)}} (+ {{(position_list[index].unrealised_pnl/position_list[index].position_value*100).toFixed(2)}} %)</td>
                             <td class = "px-5 py-3 text-left text-[#b91c1c]" v-else>$ {{(position_list[index].unrealised_pnl).toFixed(3)}} ({{(position_list[index].unrealised_pnl/position_list[index].position_value*100).toFixed(2)}} %)</td>
-                            <button class = "p-2 bg-[#3282B8]  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click="closePosition(index)">Close Position</button>    
+                            <button class = "p-2 bg-[#3282B8]  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click="close_clicked = true,this.index = index">Close Position</button>    
                         </tr>
 
                     </table>
                 </div>
+
+                <div  class="bg-slate-600 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 "  v-if="close_clicked">
+                <div v-auto-animate class=" w-1/3 bg-[#1B262C] m-auto text-center rounded-lg shadow-xl">
+                    <a href="#">
+                        <h1 class = "text-right text-[#BBE1FA] text-2xl p-5" @click = "close_clicked = false,order_msg = ''">X</h1>
+                    </a>
+                    <h1 class = "text-[#BBE1FA] font-bold text-2xl">Are you sure you want to close this order?</h1>
+                    <h1 class = "text-[#BBE1FA] mt-10 text-md">Contract Type : {{position_list[index].side}}</h1>
+                    <h1 class = "text-[#BBE1FA] text-md">Symbol : {{position_list[index].symbol}}</h1>
+                    <h1 class = "text-[#BBE1FA] mb-10 text-md">Coin Quantity : {{position_list[index].size}}</h1>
+                    <h1 class = "text-[#BBE1FA] font-bold text-2xl">This action cannot be undone.</h1>
+                    <h1 v-if = "order_msg != '' " class = "mx-5 mb-5 mt- text-[#BBE1FA]">{{order_msg}}</h1>
+                    <button class = "p-3 w-1/4 bg-[#3282B8] mb-5 mt-5  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click = "closePosition(this.index)" >Confirm Order</button>
+                </div>
+                </div>
+
             </div>
 
             <div class = "bg-[#1B262C] rounded-lg shadow-xl mt-3 mr-3">
                 <h1 class = "text-[#BBE1FA] text-2xl px-5 pt-5 ">Open a Position</h1>
-                <form @submit.prevent = "executeOrder" class = "">
                 <div  class = "mx-5 my-3 rounded-lg flex" >
                         <h1 class = "text-[#BBE1FA] text-lg mr-3">Contract Type : </h1>      
                         <select class = "py-1 pl-1  bg-[#0F4C75] text-[#BBE1FA] rounded-lg focus:outline-none" v-model="contract_type" required>
@@ -169,11 +184,25 @@
                         <h1 class = "text-[#BBE1FA] text-lg mr-3">Quantity : </h1>      
                         <input type="text"  class = "p-1 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder = "Select quantity.." name="name" v-model="coin_qty" required>
                 </div>
-                <h1 v-if = "order_msg != '' " class = "mx-5 mb-5 text-[#BBE1FA]">{{order_msg}}</h1>
+
                 <div  class = "mx-5 my-3 rounded-lg flex" >
-                    <button type = "submit" class = "p-3 bg-[#3282B8] mb-5  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]">Execute Order</button>      
+                    <button class = "p-3 bg-[#3282B8] mb-5  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click = "open_clicked = true">Execute Order</button>      
                 </div>
-                </form>
+            </div>
+
+            <div  class="bg-slate-600 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 "  v-if="open_clicked">
+            <div v-auto-animate class=" w-1/3 bg-[#1B262C] m-auto text-center rounded-lg shadow-xl">
+                <a href="#">
+                    <h1 class = "text-right text-[#BBE1FA] text-2xl p-5" @click = "open_clicked = false,order_msg = ''">X</h1>
+                </a>
+                <h1 class = "text-[#BBE1FA] font-bold text-2xl">Are you sure you want to open this order?</h1>
+                <h1 class = "text-[#BBE1FA] mt-10 text-md">Contract Type : {{this.contract_type}}</h1>
+                <h1 class = "text-[#BBE1FA] text-md">Symbol : {{this.symbol}}</h1>
+                <h1 class = "text-[#BBE1FA] mb-10 text-md">Coin Quantity : {{this.coin_qty}}</h1>
+                <h1 class = "text-[#BBE1FA] font-bold text-2xl">This action cannot be undone.</h1>
+                <h1 v-if = "order_msg != '' " class = "mx-5 mb-5 mt-5 text-[#BBE1FA]">{{order_msg}}</h1>
+                <button class = "p-3 w-1/4 bg-[#3282B8] mb-5 mt-5  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click = "executeOrder()" >Confirm Order</button>
+            </div>
             </div>
 
         </div>
@@ -195,6 +224,8 @@ export default{
         return{
             api_clicked : false,
             ts_clicked : false,
+            open_clicked : false,
+            close_clicked : false,
             position_list :[],
             position_list_length :0,
             contract_type : "",
@@ -203,7 +234,8 @@ export default{
             coin_qty : 0,
             order_msg : "",
             position_idx : "",
-            closing_side : ""
+            closing_side : "",
+            index : 0
         }
     },
     methods:{
@@ -289,7 +321,14 @@ export default{
                         'authorization' : 'Bearer '+this.getCookie("apiToken")
                     }
             })
-            .then(()=>{
+            .then((result)=>{
+                if(result.data.ret_code == 0){
+                        this.order_msg = "Order executed successfully !";
+                    }
+                else{
+                        this.order_msg = result.data.ret_msg;
+                }
+                console.log(result.data);
                 this.position_list.splice(index,1);
             })
             

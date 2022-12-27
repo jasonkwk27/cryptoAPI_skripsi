@@ -201,7 +201,7 @@ export default{
                 this.result_loaded = true;
                 axios({
                 method: 'get',
-                url: 'http://localhost:3000/api/user/bybit-api',
+                url: 'http://localhost:3000/api/user/bybit-api/api-list',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
                     'authorization' : 'Bearer '+this.getCookie("userToken")

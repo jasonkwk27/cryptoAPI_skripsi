@@ -348,8 +348,8 @@
             </template>
 
             <template v-else>
-                <div class = " flex-auto p-3 h-full w-full text-center">
-                        <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">{{msg}}</h1> 
+                <div class = " flex-auto p-3 text-center">
+                        <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">{{this.msg}}</h1> 
                     </div>
             </template>
 
@@ -411,8 +411,13 @@ export default{
                  }
             }).then(
                 (result)=>{
-                    console.log(result.data);
-                    if(result.data.ret_code == 0){
+                    if(result.data.ret_code != 0 && result.data.ret_msg != undefined){
+                        this.msg = result.data.ret_msg;
+                    }
+                    else if (result.data.result == null){
+                        this.msg = 'Must select API Info to see content !'
+                    }
+                    else if(result.data.ret_code == 0){
                         this.trade_list = result.data.result.data;
                         let best_long = Number.MIN_VALUE,worst_long = Number.MAX_VALUE,best_short = Number.MIN_VALUE,worst_short = Number.MAX_VALUE;
                         for(let i = 0;i<7;i++){
@@ -457,9 +462,6 @@ export default{
                         this.short_winrate = this.short_win / this.total_short * 100;
                         this.bg_height = 'h-fit';
                         this.api_validity = true;
-                        }
-                        else{
-                            this.msg = result.data.ret_msg;
                         }
    
                 }

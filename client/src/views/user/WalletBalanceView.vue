@@ -1,7 +1,7 @@
 <template>
-    <div :class = "[bg_height]" class = " bg-[#0F4C75] w-full flex ">
+    <div :class = "[bg_height]" class = "bg-[#0F4C75] w-full flex ">
         <div class = "basis-2/12 m-3"></div>
-        <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-screen m-3  flex-auto w-2/12">
+        <div class = "fixed bg-[#1B262C] text-center rounded-lg shadow-xl h-full m-3  flex-auto w-2/12">
             <a href = "/personal-info">
             <div class = "flex items-center hover:bg-[#0F4C75] w-11/12 mt-20  m-auto rounded-md">
                 <div class = "mr-1 p-3">
@@ -157,8 +157,8 @@
             </template>
             
             <template v-else>
-                <div class = " flex-auto p-3 h-full w-full text-center">
-                        <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">Must select API Info to see content !</h1> 
+                <div class = " flex-auto text-center">
+                        <h1 class = "text-[#3282B8] text-3xl p-10 m-3 ">{{this.msg}}</h1> 
                     </div>
             </template>
 
@@ -186,7 +186,8 @@ export default{
             asset_value : [],
             total_networth : 0,
             api_validity : false,
-            bg_height :'h-screen'
+            msg : '',
+            bg_height : ' h-screen '
         }
     },
     created(){
@@ -203,7 +204,13 @@ export default{
                 }
             })
             .then((res)=>{
-                if(res.data.result != null){
+                if(res.data.ret_code != 0 && res.data.ret_msg != undefined){
+                    this.msg = res.data.ret_msg;
+                }
+                else if (res.data.result == null){
+                    this.msg = 'Must select API Info to see content !'
+                }
+                else if(res.data.result != null){
                     this.api_validity = true;
                     this.bg_height = 'h-fit';
                     this.coin_list = res.data.result;

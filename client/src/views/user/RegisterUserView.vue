@@ -35,7 +35,7 @@
         },
         created(){
             if(this.getCookie("userToken") != ""){
-                this.$router.push('/home');
+                this.$router.push('/personal-info');
             }
         },
         methods:{

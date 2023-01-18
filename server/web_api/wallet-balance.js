@@ -38,6 +38,8 @@ app.get('/api/bybit/wallet-balance',(req,res)=>{
                     url.searchParams.append('sign',sign);
                     axios.get(url.href)
                     .then((result)=> {
+                        console.log(result.data.time_now);
+                        console.log(result.data.time_now*1000);
                         res.send(JSON.stringify(result.data));
                     })
                     .catch((err)=>{
@@ -63,7 +65,6 @@ function getSignature(parameters, secret) {
 
   //remove '&' symbol on last index of string
 	orderedParams = orderedParams.substring(0, orderedParams.length - 1);
-
 	return crypto.createHmac('sha256', secret).update(orderedParams).digest('hex');
 }
 

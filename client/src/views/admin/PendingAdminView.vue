@@ -136,7 +136,6 @@ import qs from 'qs'
 export default{
     data(){
         return{
-            admin_username : null,
             user_list : {},
             sliced_userlist :{},
             total_page : 1,

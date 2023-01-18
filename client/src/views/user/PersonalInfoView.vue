@@ -148,7 +148,7 @@
                     <input type="text"  class = "w-3/4 mt-8 p-3 bg-[#0F4C75] text-[#BBE1FA] placeholder-[#BBE1FA] rounded-md hover:shadow-xl outline-white outline-1 hover:outline focus:outline" placeholder = "New Name.." name="name" v-model="modal_obj.name" required>
                 </div>
                 <h1 v-if = "update_status" class = " mt-5 text-[#BBE1FA]">User Info updated successfully !</h1>
-                <button class = "p-3 w-1/4 bg-[#3282B8] mb-5 mt-5  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click = "update_api()">Update</button>
+                <button class = "p-3 w-1/4 bg-[#3282B8] mb-5 mt-5  text-[#1B262C] font-bold rounded-full hover:bg-[#0F4C75] hover:text-[#BBE1FA]" @click = "update_user()">Update</button>
             </div>
             </div>
 
@@ -219,7 +219,7 @@ export default{
 
     },
     methods: {
-        update_api(){
+        update_user(){
             const data = qs.stringify({
                     username : this.modal_obj.username,
                     password : this.modal_obj.password,

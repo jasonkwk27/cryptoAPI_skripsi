@@ -82,7 +82,6 @@ import qs from 'qs';
 export default{
     data(){
         return{
-            admin_username : null,
             user_list : {},
             pending_approval : 0,
             granted_approval : 0,
